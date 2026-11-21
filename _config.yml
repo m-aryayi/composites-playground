@@ -1,0 +1,4 @@
+# GitHub Pages: publish the website only.
+exclude:
+  - tests
+  - README.md
