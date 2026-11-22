@@ -18,6 +18,20 @@ export function numberField(fallback, min, max) {
     });
 }
 
+/** Return a query field for a list of 1 to maxCount numbers ("0,45,90"). */
+export function numberListField(fallback, maxCount) {
+    return Object.freeze({
+        fallback,
+        parse(text) {
+            const values = text.split(",").map((part) => Number(part));
+            const valid = text.trim() !== "" && values.length <= maxCount
+                && values.every((value) => Number.isFinite(value));
+            return valid ? values : undefined;
+        },
+        format: (values) => values.map(String).join(","),
+    });
+}
+
 /** Return a query field for one text of a fixed list. */
 export function choiceField(fallback, choices) {
     return Object.freeze({

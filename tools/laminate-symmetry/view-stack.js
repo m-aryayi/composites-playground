@@ -132,9 +132,10 @@ function disposeGroup(group) {
  *
  * update({ angles, selected }) redraws the stack. onSelect(index) is called
  * when the user clicks or taps a ply or its label, or moves the selection
- * with the up and down arrow keys on a label.
+ * with the up and down arrow keys on a label. onTurn(index, step) is called
+ * with step -1 or +1 for the left and right arrow keys on a label.
  */
-export function createStackView(container, { onSelect }) {
+export function createStackView(container, { onSelect, onTurn = null }) {
     const right = rightVector();
     const shift = STACK_VIEW.centerShift;
     const view = createView(container, {
@@ -167,10 +168,14 @@ export function createStackView(container, { onSelect }) {
         });
         button.addEventListener("click", () => onSelect(k));
         button.addEventListener("keydown", (event) => {
-            const step = { ArrowUp: -1, ArrowDown: 1 }[event.key];
-            if (step) {
+            const move = { ArrowUp: -1, ArrowDown: 1 }[event.key];
+            const turn = { ArrowLeft: -1, ArrowRight: 1 }[event.key];
+            if (move) {
                 event.preventDefault();
-                onSelect(Math.min(Math.max(k + step, 0), angles.length - 1));
+                onSelect(Math.min(Math.max(k + move, 0), angles.length - 1));
+            } else if (turn && onTurn) {
+                event.preventDefault();
+                onTurn(k, turn);
             }
         });
         return button;

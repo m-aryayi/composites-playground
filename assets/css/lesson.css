@@ -236,6 +236,124 @@
     border-top: var(--border);
 }
 
+/* Two views: side by side in a wide stage; one at a time, with a switch,
+   in a narrow stage. */
+
+.stage {
+    container: stage / inline-size;
+}
+
+.stage__views--two {
+    --view-count: 2;
+}
+
+.stage__views--two > .stage__view + .stage__view {
+    border-left: var(--border);
+}
+
+.stage__switch {
+    display: none;
+}
+
+.stage__group {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+@container stage (max-width: 40rem) {
+    .stage__views--two {
+        --view-count: 1;
+    }
+
+    .stage__views--two > .stage__view + .stage__view {
+        border-left: 0;
+    }
+
+    .stage__views--two > .stage__view:not(.is-shown) {
+        display: none;
+    }
+
+    .stage__switch {
+        display: inline-flex;
+    }
+
+    /* Icon-only buttons: the text stays as the accessible name (aria-label). */
+    .stage__controls .btn__text {
+        display: none;
+    }
+
+    .stage__controls .btn:not(.btn--icon) {
+        padding: 0 var(--space-3);
+    }
+
+    .stage__say {
+        font-size: var(--text-xs);
+    }
+}
+
+/* Numbers panel: opens below the controls and scrolls inside the stage. */
+
+.stage__numbers {
+    border: 0;
+    border-top: var(--border);
+    border-radius: 0;
+}
+
+.stage__numbers > .disclosure__body {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+    gap: var(--space-4) var(--space-5);
+    max-height: 45vh;
+    overflow: auto;
+}
+
+.numbers-block > * + * {
+    margin-top: var(--space-2);
+}
+
+.numbers-result {
+    display: flex;
+    gap: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+}
+
+.numbers-result .icon {
+    margin-top: 0.15em;
+    stroke-width: 2.5;
+}
+
+.numbers-result.is-yes {
+    color: var(--yes-ink);
+}
+
+.numbers-result.is-no {
+    color: var(--no-ink);
+}
+
+.input-list {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: var(--space-1) var(--space-3);
+    margin: 0;
+    font-size: var(--text-sm);
+}
+
+.input-list dt {
+    color: var(--muted);
+}
+
+.input-list dd {
+    margin: 0;
+    font-weight: 600;
+}
+
+.numbers-note {
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
 /* Fold button: only on a phone. */
 
 .stage__fold {
@@ -254,8 +372,8 @@
         position: sticky;
         top: 0;
         z-index: 3;
-        height: 55vh;
-        height: 55svh;
+        height: 62vh;
+        height: 62svh;
         margin-inline: calc(-1 * var(--space-4));
         border-inline: 0;
         border-radius: 0;
@@ -280,6 +398,8 @@
 
     .stage.is-folded .stage__views,
     .stage.is-folded .stage__controls,
+    .stage.is-folded .stage__numbers,
+    .stage.is-folded .stage__switch,
     .stage.is-folded .stage__say {
         display: none;
     }

@@ -8,6 +8,14 @@
           content="Interactive lessons on the mechanics of fiber composites: stack plies, move sliders, and see the physics.">
     <meta name="author" content="Mohammad Aryayi">
     <meta name="theme-color" content="#00785A">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Composites Playground">
+    <meta property="og:description"
+          content="Interactive lessons on the mechanics of fiber composites.">
+    <meta property="og:url" content="https://m-aryayi.github.io/composites-playground/">
+    <meta property="og:image"
+          content="https://m-aryayi.github.io/composites-playground/assets/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="assets/css/tokens.css">
     <link rel="stylesheet" href="assets/css/base.css">
@@ -42,9 +50,8 @@
         <h2 id="lessons-title" class="visually-hidden">Lessons</h2>
         <ul class="lesson-grid">
 
-            <!-- Lesson card. In T1.9 it becomes <a class="card card--link ..."> -->
             <li>
-                <article class="card lesson-card">
+                <a class="card card--link lesson-card" href="tools/laminate-symmetry/">
                     <div class="lesson-card__art">
                         <img src="assets/img/cards/laminate-symmetry.svg" alt=""
                              width="320" height="180">
@@ -54,10 +61,13 @@
                         <h3>Is it symmetric?</h3>
                         <p>Why some laminates curl when you pull them.</p>
                         <div class="lesson-card__foot">
-                            <span class="pill">Coming soon</span>
+                            <span class="lesson-card__open">Open the lesson
+                                <svg class="icon" aria-hidden="true">
+                                    <use href="assets/img/icons.svg#chevron"></use></svg>
+                            </span>
                         </div>
                     </div>
-                </article>
+                </a>
             </li>
 
             <li>

@@ -1,0 +1,514 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Is it symmetric? · Composites Playground</title>
+    <meta name="description"
+          content="Stack fiber plies, pull the laminate, and see why some laminates curl, twist, or shear. An interactive lesson on symmetric and balanced laminates.">
+    <meta name="author" content="Mohammad Aryayi">
+    <meta name="theme-color" content="#00785A">
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="Is it symmetric? · Composites Playground">
+    <meta property="og:description"
+          content="Stack fiber plies, pull the laminate, and see why some laminates curl, twist, or shear.">
+    <meta property="og:url"
+          content="https://m-aryayi.github.io/composites-playground/tools/laminate-symmetry/">
+    <meta property="og:image"
+          content="https://m-aryayi.github.io/composites-playground/assets/img/og-image.png">
+    <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
+    <link rel="stylesheet" href="../../assets/css/tokens.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/site.css">
+    <link rel="stylesheet" href="../../assets/css/lesson.css">
+    <link rel="stylesheet" href="../../assets/css/exercises.css">
+    <!-- Library versions: the same block in each lesson page. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/",
+            "katex": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.mjs",
+            "katex/auto-render": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/contrib/auto-render.mjs"
+        }
+    }
+    </script>
+</head>
+<body class="site">
+<a class="skip-link" href="#main">Skip to the lesson</a>
+
+<header class="site-header">
+    <div class="container container--wide site-header__inner">
+        <a class="brand" href="../../">
+            <img src="../../assets/img/favicon.svg" alt="" width="28" height="28">
+            <span>Composites Playground</span>
+        </a>
+        <nav class="site-header__nav" aria-label="Site">
+            <a class="site-header__link" href="../../">
+                <svg class="icon icon--back" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                All lessons
+            </a>
+            <a class="site-header__link site-header__link--wide"
+               href="https://github.com/m-aryayi/composites-playground">
+                GitHub
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#external"></use></svg>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<main id="main" class="lesson container container--wide">
+
+    <header class="lesson__head">
+        <span class="tag">Laminates · CLT</span>
+        <h1>Is it symmetric?</h1>
+        <p class="lesson__lead">A laminate is a stack of thin fiber plies. Pull it,
+            and the order of the plies decides if it stays flat, curls, twists, or
+            shears.</p>
+    </header>
+
+    <!-- ===================================================== the stage -->
+    <aside class="stage" id="stage" aria-label="Laminate model">
+        <div class="stage__bar">
+            <div class="stage__status" id="status"></div>
+            <div class="segmented stage__switch" id="view-switch" role="radiogroup"
+                 aria-label="View">
+                <button type="button" role="radio" aria-checked="true"
+                        data-view="stack">Stack</button>
+                <button type="button" role="radio" aria-checked="false"
+                        data-view="plate">Plate</button>
+            </div>
+            <div class="stage__actions">
+                <button class="btn btn--icon btn--quiet" type="button"
+                        data-action="share" aria-label="Copy share link"
+                        title="Copy share link">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#link"></use></svg>
+                </button>
+                <button class="btn btn--icon btn--quiet stage__fold" type="button"
+                        aria-expanded="true"
+                        aria-controls="stage-views stage-controls numbers"
+                        aria-label="Hide the model">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                </button>
+            </div>
+            <p class="stage__say" id="say" aria-live="polite"></p>
+        </div>
+
+        <div class="stage__views stage__views--two" id="stage-views">
+            <div class="stage__view is-shown" id="view-stack" data-view="stack">
+                <span class="stage__view-caption tag">Ply stack · top to bottom</span>
+            </div>
+            <div class="stage__view" id="view-plate" data-view="plate">
+                <span class="stage__view-caption tag">Pulled plate</span>
+                <span class="stage__hint">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#rotate"></use></svg>
+                    Drag to rotate
+                </span>
+            </div>
+        </div>
+
+        <div class="stage__controls" id="stage-controls">
+            <div class="stage__group">
+                <span class="field__label" id="angle-label">Ply 1 of 3</span>
+                <div class="stepper" role="group" aria-labelledby="angle-label">
+                    <button class="stepper__btn" id="angle-down" type="button"
+                            aria-label="Turn the ply by −15°">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#minus"></use></svg>
+                    </button>
+                    <span class="stepper__value">
+                        <input class="stepper__input" id="angle-input"
+                               inputmode="decimal" autocomplete="off">
+                        <span class="stepper__unit">°</span>
+                    </span>
+                    <button class="stepper__btn" id="angle-up" type="button"
+                            aria-label="Turn the ply by +15°">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#plus"></use></svg>
+                    </button>
+                </div>
+            </div>
+            <button class="btn" id="add-ply" type="button" aria-label="Add ply"
+                    title="Add a copy of the selected ply at the bottom">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#plus"></use></svg>
+                <span class="btn__text">Add ply</span>
+            </button>
+            <button class="btn" id="delete-ply" type="button" aria-label="Delete ply"
+                    title="Delete the selected ply">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#trash"></use></svg>
+                <span class="btn__text">Delete</span>
+            </button>
+            <button class="btn btn--primary" id="mirror" type="button"
+                    aria-label="Mirror it"
+                    title="Add the mirror image of the stack below it">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#mirror"></use></svg>
+                <span class="btn__text">Mirror it</span>
+            </button>
+            <div class="stage__group">
+                <span class="field__label" id="show-label">Show</span>
+                <div class="segmented" id="modes" role="radiogroup"
+                     aria-labelledby="show-label">
+                    <button type="button" role="radio" data-show="bend">Bend</button>
+                    <button type="button" role="radio" data-show="shear">Shear</button>
+                    <button type="button" role="radio" data-show="both">Both</button>
+                </div>
+            </div>
+        </div>
+
+        <details class="disclosure stage__numbers" id="numbers">
+            <summary>
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                Numbers: [B], A16, A26
+            </summary>
+            <div class="disclosure__body">
+                <div class="numbers-block">
+                    <span class="tag">[B] in N</span>
+                    <p>\( [B] = \tfrac{1}{2} \sum_k [\bar{Q}]_k \,(h_k^2 - h_{k-1}^2) \)</p>
+                    <div id="b-matrix"></div>
+                </div>
+                <div class="numbers-block">
+                    <span class="tag">Balance: A16, A26 in N/mm</span>
+                    <p>\( [A] = \sum_k [\bar{Q}]_k \,(h_k - h_{k-1}) \)</p>
+                    <div id="a-matrix"></div>
+                </div>
+                <div class="numbers-block">
+                    <span class="tag">Inputs</span>
+                    <dl class="input-list" id="inputs"></dl>
+                    <p class="numbers-note">h is measured from the mid-plane; ply 1
+                        is the top ply. Formulas and material: Kaw (2005).</p>
+                </div>
+            </div>
+        </details>
+    </aside>
+
+    <!-- ===================================================== the text -->
+    <div class="lesson__body">
+        <nav class="section-nav" aria-label="Lesson sections">
+            <a href="#start">Start</a>
+            <a href="#learn">Learn</a>
+            <a href="#practice">Practice</a>
+            <a href="#python">Python</a>
+            <a href="#references">References</a>
+        </nav>
+
+        <!-- ------------------------------------------------------ Start -->
+        <section class="lesson-section flow" id="start">
+            <h2>Start</h2>
+            <p>The model shows a stack of graphite/epoxy plies. The lines on each ply
+                show its fiber direction. Next to the stack, a square plate of the
+                same laminate is pulled along x.</p>
+            <p>Try this first: the stack [0/+45/90] curls and shears when it is
+                pulled. Click <strong>Mirror it</strong>. The stack becomes
+                symmetric, and the plate stops curling.</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"plies": [0, 90]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [0/90]
+                </button>
+                <button class="chip" type="button" data-try='{"plies": [0, 90, 90, 0]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [0/90]<sub>s</sub>
+                </button>
+            </div>
+            <h3>How to use the model</h3>
+            <ul>
+                <li><strong>Select a ply:</strong> click it or its angle.</li>
+                <li><strong>Turn it:</strong> use − and + (15° steps), or type an
+                    angle. On a selected angle, the arrow keys ← and → turn the ply,
+                    and ↑ and ↓ select the next ply.</li>
+                <li><strong>Add ply</strong> adds a copy of the selected ply at the
+                    bottom. <strong>Delete</strong> removes it.</li>
+                <li><strong>Mirror it</strong> adds the mirror image of the stack
+                    below it.</li>
+                <li><strong>Show</strong> lets you see only the bend, only the shear,
+                    or both.</li>
+                <li>Drag a view to rotate it. The link button copies a link to this
+                    exact laminate.</li>
+            </ul>
+        </section>
+
+        <!-- ------------------------------------------------------ Learn -->
+        <section class="lesson-section flow" id="learn">
+            <h2>Learn</h2>
+
+            <h3>1. Plies and fiber angles</h3>
+            <p>Each ply has its fibers in one direction. The angle \(\theta\) goes
+                from the x axis (the pull) to the fibers. A ply at −90° is the same
+                as a ply at +90°, because a fiber has no front and back.</p>
+            <p>A laminate code lists the plies from the top to the bottom:
+                [0/+45/90] has a 0° ply on top. A subscript s means "mirrored":
+                [0/+45/90]<sub>s</sub> is [0/+45/90/90/+45/0].</p>
+            <div class="try-row">
+                <button class="chip" type="button"
+                        data-try='{"plies": [0, 45, 90, 90, 45, 0]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [0/+45/90]<sub>s</sub>
+                </button>
+            </div>
+
+            <h3>2. The stiffness of one ply</h3>
+            <p>In its own axes (1 along the fibers, 2 across them), a thin ply
+                follows Hooke's law with the reduced stiffness matrix
+                \([Q]\) (Kaw Eq. 2.93):</p>
+            <p>\[ [Q] = \begin{bmatrix} Q_{11} & Q_{12} & 0 \\ Q_{12} & Q_{22} & 0 \\
+                0 & 0 & Q_{66} \end{bmatrix} \]</p>
+            <p>\[ Q_{11} = \frac{E_1}{1 - \nu_{12}\nu_{21}}, \qquad
+                Q_{22} = \frac{E_2}{1 - \nu_{12}\nu_{21}} \]</p>
+            <p>\[ Q_{12} = \frac{\nu_{12} E_2}{1 - \nu_{12}\nu_{21}}, \qquad
+                Q_{66} = G_{12} \]</p>
+            <p>\[ \nu_{21} = \nu_{12}\,\frac{E_2}{E_1} \]</p>
+            <p>Graphite/epoxy (Kaw Table 2.1) has \(E_1 = 181\) GPa,
+                \(E_2 = 10.3\) GPa, \(\nu_{12} = 0.28\), and \(G_{12} = 7.17\) GPa.
+                Along the fibers, the ply is about 18 times stiffer than across
+                them.</p>
+            <p>In the x-y axes of the laminate, a ply at the angle \(\theta\) has
+                the transformed stiffness \([\bar{Q}]\) (Kaw Eq. 2.104, here in
+                matrix form, with \(c = \cos\theta\) and \(s = \sin\theta\)):</p>
+            <p>\[ [\bar{Q}] = [T_\varepsilon]^{\mathsf{T}} \, [Q] \, [T_\varepsilon] \]</p>
+            <p>\[ [T_\varepsilon] = \begin{bmatrix} c^2 & s^2 & cs \\
+                s^2 & c^2 & -cs \\ -2cs & 2cs & c^2 - s^2 \end{bmatrix} \]</p>
+            <p>At 0° and 90°, \(\bar{Q}_{16} = \bar{Q}_{26} = 0\). At any other
+                angle they are not zero: a pull along x also shears the ply.</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"plies": [30]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try one ply at +30°
+                </button>
+            </div>
+
+            <h3>3. From plies to a laminate</h3>
+            <p>Each ply k lies between the heights \(h_{k-1}\) (top) and \(h_k\)
+                (bottom), measured from the mid-plane (Kaw Eq. 4.20). The plies add
+                up to three matrices (Kaw Eq. 4.28):</p>
+            <p>\[ \begin{aligned}
+                A_{ij} &= \sum_k (\bar{Q}_{ij})_k \,(h_k - h_{k-1}) \\
+                B_{ij} &= \frac{1}{2} \sum_k (\bar{Q}_{ij})_k \,(h_k^2 - h_{k-1}^2) \\
+                D_{ij} &= \frac{1}{3} \sum_k (\bar{Q}_{ij})_k \,(h_k^3 - h_{k-1}^3)
+                \end{aligned} \]</p>
+            <p>They connect the forces \(N\) and the moments \(M\) per unit width
+                with the mid-plane strains \(\varepsilon^0\) and the curvatures
+                \(\kappa\) (Kaw Eq. 4.29):</p>
+            <p>\[ \begin{bmatrix} N \\ M \end{bmatrix} = \begin{bmatrix} A & B \\
+                B & D \end{bmatrix} \begin{bmatrix} \varepsilon^0 \\ \kappa
+                \end{bmatrix} \]</p>
+            <p>\([A]\) is the stretch stiffness, \([D]\) is the bend stiffness, and
+                \([B]\) couples them. In this lesson the load is only a pull,
+                \(N_x = 100\) N/mm, with no moment. The model solves the 6 equations
+                for \(\varepsilon^0\) and \(\kappa\).</p>
+
+            <h3>4. Symmetry and [B]</h3>
+            <p>A laminate is symmetric if the plies above the mid-plane are the
+                mirror image of the plies below it: the same material, angle, and
+                thickness (Kaw Section 5.2.1).</p>
+            <p>In \([B]\), the term \((h_k^2 - h_{k-1}^2)\) of a ply above the
+                mid-plane has the opposite sign of the term of its mirror ply below
+                it. In a symmetric stack the terms cancel, so \([B] = 0\). Then a
+                pull gives no curvature: the plate stays flat.</p>
+            <p>If the stack is not symmetric, \([B] \neq 0\). A pull then also
+                bends or twists the plate. In the stack view, the brackets on the
+                right compare each ply with its mirror ply: solid if they match,
+                dashed if they do not.</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"plies": [0, 90]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [0/90]: it curls
+                </button>
+                <button class="chip" type="button" data-try='{"plies": [0, 90, 90, 0]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [0/90]<sub>s</sub>: it stays flat
+                </button>
+            </div>
+
+            <h3>5. Balance and A16, A26</h3>
+            <p>A laminate is balanced if each ply at +θ has a ply at −θ of the same
+                material and thickness. The two plies do not need to be next to each
+                other. 0° and 90° plies need no partner (Kaw Section 5.2.5).</p>
+            <p>\(\bar{Q}_{16}\) and \(\bar{Q}_{26}\) change sign with the angle:
+                \(\bar{Q}_{16}(-\theta) = -\bar{Q}_{16}(\theta)\). In \([A]\) the
+                height term \((h_k - h_{k-1})\) is only the ply thickness, so the
+                position does not matter, and each ±θ pair cancels. A balanced
+                laminate has \(A_{16} = A_{26} = 0\): a pull does not shear it.</p>
+            <p>Balance and symmetry are different. [+45/−45] is balanced but not
+                symmetric: it twists. [+45/−45]<sub>s</sub> is both: it stays
+                flat.</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"plies": [45, -45]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [+45/−45]
+                </button>
+                <button class="chip" type="button"
+                        data-try='{"plies": [45, -45, -45, 45]}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try [+45/−45]<sub>s</sub>
+                </button>
+            </div>
+
+            <h3>6. What a pull does</h3>
+            <div class="note">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#info"></use></svg>
+                <p>The plate does not show its small stretch. It shows the bend
+                    and the shear, much larger than they are, so you can see them.
+                    A darker color means that a point moves more.</p>
+            </div>
+            <table class="data-table">
+                <thead>
+                <tr><th scope="col">The stack is</th><th scope="col">Pulled, it</th>
+                    <th scope="col">Example</th></tr>
+                </thead>
+                <tbody>
+                <tr><th scope="row">Symmetric and balanced</th><td>stays flat</td>
+                    <td>[0/90]<sub>s</sub></td></tr>
+                <tr><th scope="row">Symmetric, not balanced</th>
+                    <td>stays flat but shears</td><td>[0/+45/90]<sub>s</sub></td></tr>
+                <tr><th scope="row">Not symmetric</th><td>curls or twists</td>
+                    <td>[0/90], [+45/−45]</td></tr>
+                </tbody>
+            </table>
+            <p>The curvatures \(\kappa_x\) and \(\kappa_y\) make the plate curl.
+                The twist curvature \(\kappa_{xy}\) turns it into a saddle. Use
+                <strong>Show</strong> to see the bend and the shear apart.</p>
+        </section>
+
+        <!-- ---------------------------------------------------- Practice -->
+        <section class="lesson-section flow" id="practice">
+            <h2>Practice</h2>
+            <p>Predict first, then check in the model. A challenge watches the model
+                while you build.</p>
+            <div class="exercise-list" id="exercises"></div>
+        </section>
+
+        <!-- ------------------------------------------------------ Python -->
+        <section class="lesson-section flow" id="python">
+            <h2>Python</h2>
+            <p>The same calculation runs in Python, on your computer.</p>
+            <h3>The app</h3>
+            <p>A desktop version of this model, with a window. It needs Python 3.10
+                or newer, numpy, and matplotlib.</p>
+<pre class="code-block"><code>pip install -r requirements.txt
+python laminate_symmetry.py</code></pre>
+            <h3>The notebook</h3>
+            <p>A Jupyter notebook that follows the Learn part step by step, with the
+                code of each step. Open it in VS Code, in JupyterLab, or in Google
+                Colab.</p>
+            <div class="try-row">
+                <a class="btn" href="../../python/laminate_symmetry.py" download>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#download"></use></svg>
+                    App (.py)
+                </a>
+                <a class="btn" href="../../python/laminate_symmetry.ipynb" download>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#download"></use></svg>
+                    Notebook (.ipynb)
+                </a>
+                <a class="btn" href="../../python/requirements.txt" download>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#download"></use></svg>
+                    requirements.txt
+                </a>
+                <a class="btn btn--quiet"
+                   href="https://colab.research.google.com/github/m-aryayi/composites-playground/blob/main/python/laminate_symmetry.ipynb">
+                    Open in Colab
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#external"></use></svg>
+                </a>
+            </div>
+            <p>The heart of the calculation, the ABD matrix:</p>
+<pre class="code-block"><code>def abd_matrix(angles: list[float], thickness: float) -> np.ndarray:
+    """Return the 6x6 ABD matrix. Ply 1 is the top ply (z = -h/2)."""
+    n_plies = len(angles)
+    z = thickness * (np.arange(n_plies + 1) - n_plies / 2.0)
+    q = reduced_stiffness(MATERIAL)
+    a = np.zeros((3, 3))
+    b = np.zeros((3, 3))
+    d = np.zeros((3, 3))
+    for k in range(n_plies):
+        te = strain_transform(angles[k])
+        qbar = te.T @ q @ te
+        a = a + qbar * (z[k + 1] - z[k])
+        b = b + qbar * (z[k + 1] ** 2 - z[k] ** 2) / 2.0
+        d = d + qbar * (z[k + 1] ** 3 - z[k] ** 3) / 3.0
+    return np.block([[a, b], [b, d]])</code></pre>
+        </section>
+
+        <!-- -------------------------------------------------- References -->
+        <section class="lesson-section flow" id="references">
+            <h2>References</h2>
+            <ol>
+                <li>Kaw, A. K. (2005). <i>Mechanics of Composite Materials</i>
+                    (2nd ed.). CRC Press, Boca Raton.
+                    <ul>
+                        <li>Eq. 2.93: reduced stiffness \([Q]\); Eq. 2.104:
+                            transformed stiffness \([\bar{Q}]\).</li>
+                        <li>Table 2.1: graphite/epoxy ply data.</li>
+                        <li>Eq. 4.20, 4.28, 4.29: ply heights and the ABD
+                            matrix.</li>
+                        <li>Section 5.2.1: symmetric laminates; Section 5.2.5:
+                            balanced laminates.</li>
+                        <li>Example 4.2: the check case of the code
+                            ([0/30/−45], 5 mm plies).</li>
+                    </ul>
+                </li>
+            </ol>
+            <p class="numbers-note">The model is tested against the Python app and
+                against Kaw Example 4.2. The figures on this page are drawn by the
+                model, not copied from the book.</p>
+        </section>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container container--wide">
+        <ul class="inline-list">
+            <li>© 2026 Mohammad Aryayi</li>
+            <li>Code: <a href="../../LICENSE">MIT</a></li>
+            <li>Text: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+            <li><a href="https://github.com/m-aryayi/composites-playground">Source on
+                GitHub</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script type="module">
+    // Start the lesson: the stage, the lesson frame, the exercises, the equations.
+    import { qs } from "../../assets/js/core/dom.js";
+    import { mountExercises } from "../../assets/js/core/exercises.js";
+    import { initLesson } from "../../assets/js/core/lesson.js";
+    import { renderMath } from "../../assets/js/core/math-render.js";
+    import { EXERCISES } from "./exercises.js";
+    import { createStage } from "./stage.js";
+
+    const stage = createStage(document);
+    const lesson = initLesson({
+        stage: qs("#stage"),
+        onTry: stage.apply,
+        getShareUrl: stage.shareUrl,
+    });
+    mountExercises(qs("#exercises"), EXERCISES,
+                   { store: stage.store, apply: lesson.tryChange });
+    renderMath(qs(".lesson__body"));
+    renderMath(qs("#numbers"));
+</script>
+</body>
+</html>

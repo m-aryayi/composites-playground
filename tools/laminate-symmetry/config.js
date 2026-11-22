@@ -40,7 +40,7 @@ export const STACK_VIEW = Object.freeze({
     elevation: 24.0,
     azimuth: -58.0,
     viewSize: 2.5,                  // world units that always fit up and down
-    viewWidth: 3.4,                 // and across: the labels and the brackets
+    viewWidth: 2.6,                 // and across: the labels and the brackets
     centerShift: 0.2,
 });
 export const STACK_STYLE = Object.freeze({
@@ -74,7 +74,7 @@ export const PLATE_VIEW = Object.freeze({
     elevation: 24.0,
     azimuth: -58.0,
     viewSize: 1.6,                  // world units that fit up and down
-    viewWidth: 2.3,                 // and across: the plate and the arrows
+    viewWidth: 2.0,                 // and across: the plate and the arrows
 });
 // The Python app draws z with the matplotlib box aspect (1, 1, 0.55) over
 // the limits x: ±0.75 and z: ±0.45, so a plate height shows 0.917 times.
@@ -98,3 +98,25 @@ export const PLATE_STYLE = Object.freeze({
     arrowHeadRadius: 0.035,
 });
 export const SHAPE_CHANGE_MS = 350;     // 14 frames of 25 ms in the Python app
+
+// ------------------------------------------------------- texts of the stage
+
+export const TEXTS = Object.freeze({
+    symmetric: "Symmetric",
+    notSymmetric: "Not symmetric",
+    balanced: "Balanced",
+    notBalanced: "Not balanced",
+    bZero: "[B] = 0",
+    bNonZero: "[B] ≠ 0",
+    aZero: "A16 = A26 = 0",
+    aNonZero: "A16, A26 ≠ 0",
+    bZeroResult: "[B] = 0: a pull does not bend or twist it.",
+    bNonZeroResult: "[B] ≠ 0: a pull also bends or twists it.",
+    aZeroResult: "A16 = A26 = 0: balanced. No shear if [B] = 0 too.",
+    aNonZeroResult: "A16, A26 ≠ 0: not balanced, a pull also shears it.",
+    minPly: "A laminate needs at least one ply.",
+    maxPly: `This lesson allows up to ${MAX_PLIES} plies.`,
+    mirrorLimit: (count) => `Mirror needs ${count} plies. `
+        + `This lesson allows up to ${MAX_PLIES} plies.`,
+    notNumber: (text) => `"${text}" is not a number.`,
+});

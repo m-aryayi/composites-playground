@@ -98,6 +98,18 @@
     height: 1em;
 }
 
+.brand,
+.site-header__link {
+    white-space: nowrap;
+}
+
+/* A narrow screen: links that the footer also has go out of the header. */
+@media (max-width: 479px) {
+    .site-header__link--wide {
+        display: none;
+    }
+}
+
 /* Footer. */
 
 .site-footer {
@@ -201,4 +213,23 @@
     justify-content: flex-end;
     margin-top: auto;
     padding-top: var(--space-2);
+}
+
+.lesson-card__open {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--accent);
+    font-size: var(--text-sm);
+    font-weight: 700;
+}
+
+.lesson-card__open .icon {
+    width: 1em;
+    height: 1em;
+    transition: transform var(--duration) var(--ease);
+}
+
+.card--link:hover .lesson-card__open .icon {
+    transform: translateX(3px);
 }
