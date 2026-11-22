@@ -19,13 +19,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
-    <link rel="stylesheet" href="../../assets/css/tokens.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/base.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/components.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/site.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/lesson.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/charts.css?v=2026-11-22">
-    <link rel="stylesheet" href="../../assets/css/exercises.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/tokens.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/base.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/components.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/site.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/charts.css?v=2026-11-22b">
+    <link rel="stylesheet" href="../../assets/css/exercises.css?v=2026-11-22b">
     <!-- Library versions: the same block in each lesson page. -->
     <script type="importmap">
     {
@@ -203,8 +203,18 @@
 
             <!-- The four models. -->
             <div class="tool-cell tool-cell--table">
+                <span class="tag">Homogenized properties</span>
+                <table class="data-table" id="results-table"
+                       aria-label="Homogenized properties, moduli in GPa"></table>
+                <p class="panel-note">Moduli in GPa. ROM: rule of mixtures · CCA:
+                    composite cylinders · MT: Mori-Tanaka. "–": the model gives no
+                    value.</p>
+            </div>
+
+            <!-- E1 and E2 against Vf. -->
+            <div class="tool-cell tool-cell--chart">
                 <div class="panel-row">
-                    <span class="tag">Homogenized properties</span>
+                    <span class="tag">E<sub>1</sub> and E<sub>2</sub> against V<sub>f</sub></span>
                     <div class="segmented" role="radiogroup" aria-label="Model">
                         <button type="button" role="radio" data-model="rom"
                                 title="Rule of mixtures">ROM</button>
@@ -216,16 +226,6 @@
                                 title="Mori-Tanaka">MT</button>
                     </div>
                 </div>
-                <table class="data-table" id="results-table"
-                       aria-label="Homogenized properties, moduli in GPa"></table>
-                <p class="panel-note">Moduli in GPa. ROM: rule of mixtures · CCA:
-                    composite cylinders · MT: Mori-Tanaka. "–": the model gives no
-                    value.</p>
-            </div>
-
-            <!-- E1 and E2 against Vf. -->
-            <div class="tool-cell tool-cell--chart">
-                <span class="tag">E<sub>1</sub> and E<sub>2</sub> against V<sub>f</sub></span>
                 <p class="panel-note">The chosen model: E1 solid, E2 dashed; the circles
                     show the present V<sub>f</sub>.</p>
                 <div class="chart-box" id="curves-chart"></div>
@@ -317,9 +317,9 @@
                     your own material.</li>
                 <li><strong>V<sub>f</sub></strong>: the fiber volume fraction, from
                     0.05 to 0.90. Move the slider or type a value.</li>
-                <li><strong>Model</strong> (above the table): the model of the
-                    charts and the marked column of the table. The table always shows
-                    all four.</li>
+                <li><strong>Model</strong> (above the charts): the model of the two
+                    charts and of the values at the top. The table always shows all
+                    four.</li>
                 <li><strong>Results</strong>: the table of the four models, E against
                     V<sub>f</sub>, and <strong>Compare</strong>: bars of the fiber,
                     the composite, the matrix, aluminum, and steel.</li>
@@ -510,9 +510,7 @@ python rve_homogenization.py</code></pre>
                 <li>Laheri, V. (2024). <i>Advanced development and integration of
                     constitutive polymer models within a directly embedded multiscale
                     framework for virtual investigation of damage in unidirectional
-                    composites</i> [PhD thesis]. Ghent University.
-                    <a href="https://hdl.handle.net/1854/LU-01J7G9S7ZJK2G2HPS2ZZKNVNGZ"
-                    >hdl.handle.net/1854/LU-01J7G9S7ZJK2G2HPS2ZZKNVNGZ</a></li>
+                    composites</i> [PhD thesis]. Ghent University.</li>
             </ol>
             <p class="panel-note">The model is tested against the Python app and
                 against the worked examples in Kaw. The figures on this page are

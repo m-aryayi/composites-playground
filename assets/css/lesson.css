@@ -515,7 +515,7 @@
     container: materials / inline-size;
 }
 
-@container materials (max-width: 26rem) {
+@container materials (max-width: 24rem) {
     .materials {
         gap: var(--space-3);
     }
@@ -552,42 +552,75 @@
     }
 }
 
-/* Reading layout under a full tool (wide screens): the section list on the
-   left, the text in the middle, and a small live card on the right. The
-   card has the main controls, so a reader can try the text without a scroll
-   back to the tool. */
+/* Reading layout under a full tool. Medium-wide windows: the text and a
+   small live card on its right. Wide windows: also the section list on the
+   left. The card has the main controls, so a reader can try what the text
+   says without a scroll back to the tool. Narrow windows: no card. */
 
-.reading-card {
+.lesson--full .reading-card {
+    position: sticky;
+    top: var(--space-5);
+    z-index: 1;
     display: none;
+    flex-direction: column;
+    grid-row: 1 / span 12;
+    align-self: start;
+    gap: var(--space-3);
+    margin-top: var(--space-6);
+    padding: var(--space-4);
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+@media (min-width: 900px) {
+    .lesson--full .lesson__body {
+        display: grid;
+        grid-template-columns: minmax(0, var(--measure)) 17rem;
+        justify-content: space-between;
+        column-gap: var(--space-6);
+        row-gap: 0;
+        max-width: none;
+    }
+
+    .lesson--full .lesson__body > * {
+        grid-column: 1;
+    }
+
+    /* A grid item sticks only inside its own row, so the bar stays in place. */
+    .lesson--full .section-nav {
+        position: static;
+    }
+
+    .lesson--full .reading-card {
+        display: flex;
+        grid-column: 2;
+    }
 }
 
 @media (min-width: 1200px) {
     .lesson--full .lesson__body {
-        display: grid;
         grid-template-columns: 10rem minmax(0, var(--measure)) 18rem;
-        justify-content: space-between;
         column-gap: var(--space-7);
-        row-gap: 0;
-        max-width: none;
     }
 
     .lesson--full .lesson__body > * {
         grid-column: 2;
     }
 
-    .lesson--full .section-nav,
-    .reading-card {
-        position: sticky;
-        top: var(--space-5);
-        grid-row: 1 / span 12;
-        align-self: start;
-        margin-top: var(--space-6);
+    .lesson--full .reading-card {
+        grid-column: 3;
     }
 
     .lesson--full .section-nav {
+        position: sticky;
+        top: var(--space-5);
+        grid-row: 1 / span 12;
         grid-column: 1;
         flex-direction: column;
+        align-self: start;
         align-items: flex-start;
+        margin-top: var(--space-6);
         margin-bottom: 0;
         padding: 0;
         overflow: visible;
@@ -604,18 +637,6 @@
         font-weight: 600;
         letter-spacing: 0.08em;
         text-transform: uppercase;
-    }
-
-    .lesson--full .reading-card {
-        z-index: 1;
-        display: flex;
-        grid-column: 3;
-        flex-direction: column;
-        gap: var(--space-3);
-        padding: var(--space-4);
-        border: var(--border);
-        border-radius: var(--radius);
-        background: var(--surface);
     }
 }
 

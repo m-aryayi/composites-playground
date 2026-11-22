@@ -230,21 +230,17 @@ export function createStage(root = document) {
         qs("#gm-value", root).textContent = pyFixed(gm, 2);
     }
 
-    /** Write the table of the four models; the selected column is marked. */
-    function showTable(models, selected) {
+    /** Write the table of the four models, all alike: it compares them. */
+    function showTable(models) {
         const corner = el("th", { text: "Property", attrs: { scope: "col" } });
         const head = el("tr", {}, [corner,
-            ...MODEL_NAMES.map((name, m) => el("th", {
+            ...MODEL_NAMES.map((name) => el("th", {
                 text: name,
-                className: m === selected ? "is-selected" : "",
                 attrs: { scope: "col" },
             }))]);
         const rows = PROPERTY_NAMES.map((name, j) => el("tr", {}, [
             el("th", { text: name, attrs: { scope: "row" } }),
-            ...models.map((row, m) => el("td", {
-                text: propertyText(j, row[j]),
-                className: m === selected ? "is-selected" : "",
-            }))]));
+            ...models.map((row) => el("td", { text: propertyText(j, row[j]) }))]));
         qs("#results-table", root).replaceChildren(el("thead", {}, [head]),
                                                    el("tbody", {}, rows));
     }
@@ -301,7 +297,7 @@ export function createStage(root = document) {
             + `the fibers the composite is ${pyFixed(props[0] / em, 1)} × `
             + "as stiff as the matrix, "
             + `across them ${pyFixed(props[1] / em, 1)} ×.`;
-        showTable(models, selected);
+        showTable(models);
         showCurves(state, props, selected);
         showBars(state, props);
         for (const key of ["model", "bars"]) {
