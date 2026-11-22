@@ -39,7 +39,8 @@ export const FIBER_SPACING = 0.07;
 export const STACK_VIEW = Object.freeze({
     elevation: 24.0,
     azimuth: -58.0,
-    viewSize: 2.5,                  // world units that always fit in the view
+    viewSize: 2.5,                  // world units that always fit up and down
+    viewWidth: 3.4,                 // and across: the labels and the brackets
     centerShift: 0.2,
 });
 export const STACK_STYLE = Object.freeze({

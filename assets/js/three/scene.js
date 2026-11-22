@@ -16,6 +16,7 @@ const DEFAULTS = Object.freeze({
     elevation: 24,          // degrees above the x-y plane
     azimuth: -58,           // degrees from the x axis
     viewSize: 2,            // world units that always fit in the view
+    viewWidth: null,        // world units that fit across (null: viewSize)
     target: [0, 0, 0],
     minZoom: 0.6,
     maxZoom: 3,
@@ -94,9 +95,10 @@ export function createView(container, options = {}) {
         }
         size = [width, height];
         renderer.setSize(width, height);
-        // viewSize fits in both directions, also in a narrow view.
+        // viewSize fits up and down, viewWidth across, also in a narrow view.
         const aspect = width / height;
-        const halfHeight = (settings.viewSize / 2) * Math.max(1, 1 / aspect);
+        const across = settings.viewWidth ?? settings.viewSize;
+        const halfHeight = Math.max(settings.viewSize / 2, across / 2 / aspect);
         camera.left = -halfHeight * aspect;
         camera.right = halfHeight * aspect;
         camera.top = halfHeight;

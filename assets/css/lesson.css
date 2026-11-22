@@ -183,6 +183,7 @@
     min-width: 0;
     min-height: 0;
     overflow: hidden;
+    container-type: inline-size;
 }
 
 /* The canvas and the label layer fill the view, outside the layout flow. */
@@ -318,6 +319,18 @@
     color: var(--accent);
     text-decoration: underline 2px;
     text-underline-offset: 3px;
+}
+
+/* A narrow 3D view: smaller labels, and no names that need much width. */
+@container (max-width: 30rem) {
+    .label3d {
+        padding: 0 4px;
+        font-size: var(--text-xs);
+    }
+
+    .label3d--wide {
+        display: none;
+    }
 }
 
 /* Toast region: fixed at the bottom center of the screen. */

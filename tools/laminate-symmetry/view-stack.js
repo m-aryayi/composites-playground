@@ -148,6 +148,7 @@ export function createStackView(container, { onSelect }) {
         elevation: STACK_VIEW.elevation,
         azimuth: STACK_VIEW.azimuth,
         viewSize: STACK_VIEW.viewSize,
+        viewWidth: STACK_VIEW.viewWidth,
         target: [shift * right[0], shift * right[1], 0],
     });
     const labels = createLabelLayer(view, container);
@@ -230,7 +231,7 @@ export function createStackView(container, { onSelect }) {
             STACK_STYLE.bracketStart + STACK_STYLE.bracketStep * (pairCount + 2),
             (STACK_STYLE.midPlaneSize - HALF) * (right[0] + right[1]) + gap);
         const name = el("span", {
-            className: "tag",
+            className: "tag label3d--wide",
             text: "mid-plane",
             attrs: {
                 style: `color: ${STACK_STYLE.midPlaneColor}`,
