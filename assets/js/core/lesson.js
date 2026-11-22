@@ -55,6 +55,9 @@ function watchStageHeight(stage) {
  * stage: the stage element.
  * onTry(change): applies the change of a "Try it" button (data-try JSON).
  * getShareUrl(): returns the share link of the current state.
+ *
+ * Returns { tryChange(change) }: it applies a change and opens the stage,
+ * as a "Try it" button does. The exercises use it for "Build it".
  */
 export function initLesson({ stage, onTry, getShareUrl }) {
     prepareToasts();
@@ -62,10 +65,13 @@ export function initLesson({ stage, onTry, getShareUrl }) {
     if (nav) {
         watchSections(nav);
     }
+    const tryChange = (change) => {
+        onTry(change);
+        setFolded(stage, false);
+    };
     for (const button of qsa("[data-try]")) {
         button.addEventListener("click", () => {
-            onTry(JSON.parse(button.dataset.try));
-            setFolded(stage, false);
+            tryChange(JSON.parse(button.dataset.try));
         });
     }
     qs(".stage__fold", stage)?.addEventListener("click", () => {
@@ -88,4 +94,5 @@ export function initLesson({ stage, onTry, getShareUrl }) {
         });
     }
     watchStageHeight(stage);
+    return Object.freeze({ tryChange });
 }

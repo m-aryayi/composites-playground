@@ -151,6 +151,11 @@ table {
 
 /* Helpers. */
 
+/* The hidden attribute always hides, also when a class sets display. */
+[hidden] {
+    display: none !important;
+}
+
 /* Space between the children of a text block. */
 .flow > * + * {
     margin-top: var(--flow-space, var(--space-4));

@@ -1,0 +1,197 @@
+/* Exercise cards: answer options, feedback, hints, and solutions. */
+
+.exercise-list {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.exercise {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.exercise__prompt > * + * {
+    margin-top: var(--space-2);
+}
+
+.exercise__body {
+    display: grid;
+    gap: var(--space-3);
+}
+
+/* Answer options: radio buttons shown as small cards. */
+
+.exercise__options {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    border: 0;
+}
+
+.option {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--control-h);
+    padding: var(--space-2) var(--space-3);
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-size: var(--text-sm);
+    cursor: pointer;
+    transition:
+        background-color var(--duration) var(--ease),
+        border-color var(--duration) var(--ease);
+}
+
+.option:hover {
+    background: var(--surface-2);
+}
+
+.option input {
+    flex: none;
+    width: 1rem;
+    height: 1rem;
+    margin: 0;
+    accent-color: var(--accent);
+}
+
+/* The chosen option: border and bold, not only a color. */
+.option:has(input:checked) {
+    border-color: var(--accent);
+    box-shadow: 0 0 0 1px var(--accent);
+    font-weight: 700;
+}
+
+.option:has(input:focus-visible) {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+.option:has(input:disabled) {
+    cursor: default;
+}
+
+.option:has(input:disabled):hover {
+    background: var(--surface);
+}
+
+.option__mark {
+    display: none;
+}
+
+/* After a check: an icon, a background, and a color. */
+.option.is-right,
+.option.is-right:hover {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+    color: var(--yes-ink);
+}
+
+.option.is-wrong,
+.option.is-wrong:hover {
+    border-color: var(--no);
+    background: var(--no-soft);
+    color: var(--no-ink);
+}
+
+.option.is-right .option__mark,
+.option.is-wrong .option__mark {
+    display: inline-flex;
+}
+
+.option__mark .icon {
+    stroke-width: 2.5;
+}
+
+/* Numeric answer. */
+
+.exercise__answer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.exercise__value {
+    width: 12ch;
+}
+
+/* Buttons and status row. */
+
+.exercise__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+}
+
+.exercise__actions .push {
+    margin-left: auto;
+}
+
+.exercise__actions .btn[aria-expanded="true"] .icon {
+    transform: rotate(90deg);
+}
+
+.exercise__actions .btn .icon {
+    transition: transform var(--duration) var(--ease);
+}
+
+/* Feedback. */
+
+.exercise__feedback {
+    display: flex;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+}
+
+.exercise__feedback > .icon {
+    margin-top: 0.15em;
+    stroke-width: 2.5;
+}
+
+.exercise__feedback.is-right {
+    background: var(--accent-soft);
+}
+
+.exercise__feedback.is-right > .icon,
+.exercise__feedback.is-right strong {
+    color: var(--yes-ink);
+}
+
+.exercise__feedback.is-wrong {
+    background: var(--no-soft);
+}
+
+.exercise__feedback.is-wrong > .icon,
+.exercise__feedback.is-wrong strong {
+    color: var(--no-ink);
+}
+
+.exercise__feedback.is-neutral {
+    background: var(--surface-2);
+}
+
+.exercise__feedback.is-neutral > .icon {
+    color: var(--muted);
+}
+
+/* Worked solution. */
+
+.exercise__solution {
+    padding: var(--space-3) var(--space-4);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+    background: var(--surface-2);
+    font-size: var(--text-sm);
+}
+
+.exercise__solution > * + * {
+    margin-top: var(--space-2);
+}

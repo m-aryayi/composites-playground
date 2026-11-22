@@ -1,0 +1,259 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Exercise demo · Composites Playground</title>
+    <meta name="theme-color" content="#00785A">
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
+    <link rel="stylesheet" href="../../assets/css/tokens.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/site.css">
+    <link rel="stylesheet" href="../../assets/css/lesson.css">
+    <link rel="stylesheet" href="../../assets/css/exercises.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "katex": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.mjs",
+            "katex/auto-render": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/contrib/auto-render.mjs"
+        }
+    }
+    </script>
+    <style>
+        /* The small stage of this test page: a large angle, no 3D. */
+        .demo-angle {
+            display: grid;
+            place-items: center;
+            color: var(--ink);
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-variant-numeric: tabular-nums;
+            font-weight: 700;
+        }
+    </style>
+</head>
+<body class="site">
+<a class="skip-link" href="#main">Skip to the exercises</a>
+
+<header class="site-header">
+    <div class="container container--wide site-header__inner">
+        <a class="brand" href="../../">
+            <img src="../../assets/img/favicon.svg" alt="" width="28" height="28">
+            <span>Composites Playground</span>
+        </a>
+    </div>
+</header>
+
+<main id="main" class="lesson container container--wide">
+
+    <header class="lesson__head">
+        <span class="tag">Demo · test page of the exercise engine</span>
+        <h1>Exercises on one ply</h1>
+        <p class="lesson__lead">Two exercises of each type. The stage holds only
+            an angle, so the test checks the engine, not the 3D.</p>
+    </header>
+
+    <aside class="stage" id="stage" aria-label="Model">
+        <div class="stage__bar">
+            <div class="stage__status" id="status"></div>
+            <div class="stage__actions">
+                <button class="btn btn--icon btn--quiet stage__fold" type="button"
+                        aria-expanded="true" aria-controls="stage-views stage-controls"
+                        aria-label="Hide the model">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                </button>
+            </div>
+        </div>
+        <div class="stage__views" id="stage-views">
+            <div class="stage__view demo-angle" id="angle-view" aria-live="polite"></div>
+        </div>
+        <div class="stage__controls" id="stage-controls">
+            <span class="field__label" id="angle-label">Angle</span>
+            <div class="stepper" role="group" aria-labelledby="angle-label">
+                <button class="stepper__btn" id="angle-down" type="button"
+                        aria-label="Decrease the angle by 15°">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#minus"></use></svg>
+                </button>
+                <span class="stepper__value">
+                    <span class="stepper__input" id="angle-value"></span>
+                    <span class="stepper__unit">°</span>
+                </span>
+                <button class="stepper__btn" id="angle-up" type="button"
+                        aria-label="Increase the angle by 15°">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#plus"></use></svg>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="lesson__body">
+        <section class="lesson-section flow" id="practice">
+            <h2>Practice</h2>
+            <p>Test each card with the mouse, then with the keyboard only
+                (<kbd>Tab</kbd>, the arrow keys, <kbd>Space</kbd>, and
+                <kbd>Enter</kbd>).</p>
+            <div class="exercise-list" id="exercises"></div>
+        </section>
+    </div>
+</main>
+
+<script type="module">
+    // Exercise demo: a one-ply model with only an angle, and 8 exercises.
+    import { el, icon, qs } from "../../assets/js/core/dom.js";
+    import { mountExercises } from "../../assets/js/core/exercises.js";
+    import { initLesson } from "../../assets/js/core/lesson.js";
+    import { createStore } from "../../assets/js/core/store.js";
+
+    const ANGLE_STEP = 15;
+    const START_ANGLE = 0;
+
+    /** Return the same fiber angle in [-90, 90] degrees. */
+    function normalizeAngle(angle) {
+        if (angle >= -90 && angle <= 90) {
+            return angle;
+        }
+        return ((((angle + 90) % 180) + 180) % 180) - 90;
+    }
+
+    /** Return a ply angle as text, with a sign except for 0 and 90. */
+    function formatAngle(angle) {
+        if (angle === 0 || angle === 90) {
+            return `${angle}°`;
+        }
+        return `${angle > 0 ? "+" : "−"}${Math.abs(angle)}°`;
+    }
+
+    /** Return true if one ply at this angle is balanced (0° or ±90°). */
+    function isBalanced(angle) {
+        return angle % 90 === 0;
+    }
+
+    const EXERCISES = [
+        {
+            id: "predict-60",
+            type: "predict",
+            prompt: "<p>One ply at +60°. Is it balanced?</p>",
+            options: [
+                { id: "yes", label: "Yes, A16 = A26 = 0" },
+                { id: "no", label: "No, A16 and A26 are not 0" },
+            ],
+            setup: { angle: 60 },
+            answer: (state) => (isBalanced(state.angle) ? "yes" : "no"),
+            explain: (state) => `At ${formatAngle(state.angle)}, \\(\\bar{Q}_{16}
+                \\neq 0\\), so a pull along x also shears the ply.`,
+        },
+        {
+            id: "predict-90",
+            type: "predict",
+            prompt: "<p>One ply at 90°. Does a pull along x shear it?</p>",
+            options: [
+                { id: "shears", label: "Yes, it shears" },
+                { id: "stretches", label: "No, it only stretches" },
+            ],
+            setup: { angle: 90 },
+            answer: (state) => (isBalanced(state.angle) ? "stretches" : "shears"),
+            explain: "At 90° the fibers are across the pull. The ply is soft, but "
+                + "symmetric about the pull, so it does not shear.",
+        },
+        {
+            id: "numeric-cos",
+            type: "numeric",
+            prompt: "<p>A ply at \\(\\theta = 30°\\). Calculate \\(\\cos^2\\theta\\).</p>",
+            answer: 0.75,
+            solution: "<p>\\(\\cos 30° = \\sqrt{3}/2\\), so "
+                + "\\(\\cos^2 30° = 3/4 = 0.75\\).</p>",
+        },
+        {
+            id: "numeric-live",
+            type: "numeric",
+            prompt: "<p>Calculate \\(\\sin^2\\theta\\) for the angle that the model "
+                + "shows <em>now</em>. Change the angle and check again.</p>",
+            answer: (state) => Math.sin((state.angle * Math.PI) / 180) ** 2,
+            tolerance: 0.02,
+            solution: (state) => {
+                const value = Math.sin((state.angle * Math.PI) / 180) ** 2;
+                return `<p>\\(\\sin^2(${state.angle}°) = ${value.toFixed(4)}\\).</p>`;
+            },
+        },
+        {
+            id: "choice-balanced",
+            type: "choice",
+            prompt: "<p>Which single ply is balanced?</p>",
+            options: [
+                { label: "+45°", correct: false,
+                  why: "At ±45° the shear coupling is at its largest." },
+                { label: "0°", correct: true,
+                  why: "The fibers lie along the pull, so A16 = A26 = 0." },
+                { label: "−30°", correct: false,
+                  why: "Any angle other than 0° or ±90° couples stretch and shear." },
+            ],
+        },
+        {
+            id: "choice-90",
+            type: "choice",
+            prompt: "<p>Why are −90° and +90° the same ply?</p>",
+            options: [
+                { label: "The fibers point along the same line", correct: true,
+                  why: "A fiber has no front and back: −90° and +90° are one line." },
+                { label: "The ply is turned upside down", correct: false,
+                  why: "A turn of 180° about z gives the same line, not a flipped ply." },
+                { label: "Because \\(\\sin 90° = 1\\)", correct: false,
+                  why: "\\(\\sin(-90°) = -1\\), but the ply stiffness uses "
+                      + "\\(\\sin^2\\) and \\(\\cos\\sin\\) pairs that do not change." },
+            ],
+        },
+        {
+            id: "challenge-negative",
+            type: "challenge",
+            prompt: "<p>Make the ply balanced with a <strong>negative</strong> angle.</p>",
+            check: (state) => state.angle < 0 && isBalanced(state.angle),
+            hint: "<p>Only 0° and ±90° are balanced. Which one is negative?</p>",
+            done: "−90° is the same line as +90°, so it is balanced.",
+        },
+        {
+            id: "challenge-steep",
+            type: "challenge",
+            prompt: "<p>Turn the ply to an angle above +60° that is <strong>not</strong> "
+                + "balanced.</p>",
+            check: (state) => state.angle > 60 && !isBalanced(state.angle),
+            hint: "<p>Start at +60° and press + once.</p>",
+            done: (state) => `${formatAngle(state.angle)} is steep, but not 90°, `
+                + "so it still shears.",
+        },
+    ];
+
+    const store = createStore({ angle: START_ANGLE });
+
+    /** Draw the small stage. */
+    function show(state) {
+        const balanced = isBalanced(state.angle);
+        qs("#angle-view").textContent = formatAngle(state.angle);
+        qs("#angle-value").textContent = String(state.angle);
+        const pill = el("span", { className: `pill ${balanced ? "pill--yes" : "pill--no"}` },
+                        [icon(balanced ? "check" : "cross"),
+                         balanced ? "Balanced" : "Not balanced"]);
+        qs("#status").replaceChildren(pill);
+    }
+
+    qs("#angle-down").addEventListener("click", () => {
+        store.set({ angle: normalizeAngle(store.get().angle - ANGLE_STEP) });
+    });
+    qs("#angle-up").addEventListener("click", () => {
+        store.set({ angle: normalizeAngle(store.get().angle + ANGLE_STEP) });
+    });
+    store.subscribe(show);
+    show(store.get());
+
+    const lesson = initLesson({
+        stage: qs("#stage"),
+        onTry: (change) => store.set({ angle: normalizeAngle(Number(change.angle)) }),
+        getShareUrl: () => window.location.href,
+    });
+    mountExercises(qs("#exercises"), EXERCISES, { store, apply: lesson.tryChange });
+</script>
+</body>
+</html>
