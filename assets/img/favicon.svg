@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
+    <!-- Logo mark: edge view of a [0/90/0] laminate. The 0° plies show as
+         lines; the 90° ply shows as dots (fiber ends). -->
+    <title>Composites Playground</title>
+    <rect width="32" height="32" rx="7" fill="#00785A"/>
+    <rect x="6" y="8" width="20" height="3" rx="1.5" fill="#FFFFFF"/>
+    <circle cx="8" cy="16" r="1.75" fill="#FFFFFF"/>
+    <circle cx="13.33" cy="16" r="1.75" fill="#FFFFFF"/>
+    <circle cx="18.67" cy="16" r="1.75" fill="#FFFFFF"/>
+    <circle cx="24" cy="16" r="1.75" fill="#FFFFFF"/>
+    <rect x="6" y="21" width="20" height="3" rx="1.5" fill="#FFFFFF"/>
+</svg>

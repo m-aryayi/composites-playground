@@ -1,0 +1,76 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
+    <!-- Card drawing: three plies drawn apart (90°, 45°, and 0° from the
+         bottom up) and the dashed mid-plane. Each ply top is a unit square
+         (0 to 100) mapped to an isometric diamond by its transform. -->
+    <style>
+        .fibers line { vector-effect: non-scaling-stroke; stroke-width: 1; }
+        .dark line { stroke: #B9CCC3; stroke-opacity: 0.75; }
+        .light line { stroke: #E1F2EB; stroke-opacity: 0.9; }
+    </style>
+    <defs>
+        <clipPath id="ply" clipPathUnits="userSpaceOnUse">
+            <rect width="100" height="100"/>
+        </clipPath>
+    </defs>
+
+    <!-- Bottom ply: 90°. -->
+    <polygon points="90,132 160,162 160,170 90,140" fill="#26302B"/>
+    <polygon points="160,162 230,132 230,140 160,170" fill="#1D2622"/>
+    <g transform="matrix(0.7 -0.3 0.7 0.3 90 132)">
+        <rect width="100" height="100" fill="#3B4A44"/>
+        <g class="fibers dark" clip-path="url(#ply)">
+            <line x1="12.5" y1="0" x2="12.5" y2="100"/>
+            <line x1="25" y1="0" x2="25" y2="100"/>
+            <line x1="37.5" y1="0" x2="37.5" y2="100"/>
+            <line x1="50" y1="0" x2="50" y2="100"/>
+            <line x1="62.5" y1="0" x2="62.5" y2="100"/>
+            <line x1="75" y1="0" x2="75" y2="100"/>
+            <line x1="87.5" y1="0" x2="87.5" y2="100"/>
+        </g>
+    </g>
+
+    <!-- Mid-plane: through the middle of the middle ply. -->
+    <polygon points="160,54 258,96 160,138 62,96" fill="#0072B2" fill-opacity="0.12"
+             stroke="#0072B2" stroke-opacity="0.7" stroke-width="1.2"
+             stroke-dasharray="5 4"/>
+
+    <!-- Middle ply: 45°. -->
+    <polygon points="90,92 160,122 160,130 90,100" fill="#26302B"/>
+    <polygon points="160,122 230,92 230,100 160,130" fill="#1D2622"/>
+    <g transform="matrix(0.7 -0.3 0.7 0.3 90 92)">
+        <rect width="100" height="100" fill="#3B4A44"/>
+        <g class="fibers dark" clip-path="url(#ply)">
+            <line x1="-87.5" y1="0" x2="12.5" y2="100"/>
+            <line x1="-75" y1="0" x2="25" y2="100"/>
+            <line x1="-62.5" y1="0" x2="37.5" y2="100"/>
+            <line x1="-50" y1="0" x2="50" y2="100"/>
+            <line x1="-37.5" y1="0" x2="62.5" y2="100"/>
+            <line x1="-25" y1="0" x2="75" y2="100"/>
+            <line x1="-12.5" y1="0" x2="87.5" y2="100"/>
+            <line x1="0" y1="0" x2="100" y2="100"/>
+            <line x1="12.5" y1="0" x2="112.5" y2="100"/>
+            <line x1="25" y1="0" x2="125" y2="100"/>
+            <line x1="37.5" y1="0" x2="137.5" y2="100"/>
+            <line x1="50" y1="0" x2="150" y2="100"/>
+            <line x1="62.5" y1="0" x2="162.5" y2="100"/>
+            <line x1="75" y1="0" x2="175" y2="100"/>
+            <line x1="87.5" y1="0" x2="187.5" y2="100"/>
+        </g>
+    </g>
+
+    <!-- Top ply: 0°, selected (green). -->
+    <polygon points="90,52 160,82 160,90 90,60" fill="#00604A"/>
+    <polygon points="160,82 230,52 230,60 160,90" fill="#004D3B"/>
+    <g transform="matrix(0.7 -0.3 0.7 0.3 90 52)">
+        <rect width="100" height="100" fill="#00785A"/>
+        <g class="fibers light" clip-path="url(#ply)">
+            <line x1="0" y1="12.5" x2="100" y2="12.5"/>
+            <line x1="0" y1="25" x2="100" y2="25"/>
+            <line x1="0" y1="37.5" x2="100" y2="37.5"/>
+            <line x1="0" y1="50" x2="100" y2="50"/>
+            <line x1="0" y1="62.5" x2="100" y2="62.5"/>
+            <line x1="0" y1="75" x2="100" y2="75"/>
+            <line x1="0" y1="87.5" x2="100" y2="87.5"/>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 320 180">
+    <!-- Card drawing: an RVE block of matrix (orange) with fibers (gray)
+         along the depth. The front face is a cut across the fibers, so it
+         shows the fiber ends in a hexagonal pattern. The top and right
+         faces show the fibers that touch them as strips. -->
+    <defs>
+        <clipPath id="front">
+            <rect x="70" y="60" width="120" height="100"/>
+        </clipPath>
+    </defs>
+
+    <!-- Top face and the fiber strips on it (fibers at y = 58.04). -->
+    <polygon points="70,60 190,60 250,25 130,25" fill="#F2C25A"/>
+    <g fill="#E9EEF2">
+        <polygon points="73.28,60 86.72,60 146.72,25 133.28,25"/>
+        <polygon points="93.28,60 106.72,60 166.72,25 153.28,25"/>
+        <polygon points="113.28,60 126.72,60 186.72,25 173.28,25"/>
+        <polygon points="133.28,60 146.72,60 206.72,25 193.28,25"/>
+        <polygon points="153.28,60 166.72,60 226.72,25 213.28,25"/>
+        <polygon points="173.28,60 186.72,60 246.72,25 233.28,25"/>
+    </g>
+
+    <!-- Right face and the fiber strips on it (fibers at x = 190). -->
+    <polygon points="190,60 250,25 250,125 190,160" fill="#C98A00"/>
+    <g fill="#BCC6CE">
+        <polygon points="190,68.36 190,82.36 250,47.36 250,33.36"/>
+        <polygon points="190,103 190,117 250,82 250,68"/>
+        <polygon points="190,137.64 190,151.64 250,116.64 250,102.64"/>
+    </g>
+
+    <!-- Front face: matrix and fiber ends (radius 7, spacing 20). -->
+    <rect x="70" y="60" width="120" height="100" fill="#E69F00"/>
+    <g clip-path="url(#front)" fill="#DCE3EA" stroke="#9AA7B4" stroke-width="1">
+        <!-- Rows at y = 58.04 and 92.68: x = 80 to 180. -->
+        <circle cx="80" cy="58.04" r="7"/>
+        <circle cx="100" cy="58.04" r="7"/>
+        <circle cx="120" cy="58.04" r="7"/>
+        <circle cx="140" cy="58.04" r="7"/>
+        <circle cx="160" cy="58.04" r="7"/>
+        <circle cx="180" cy="58.04" r="7"/>
+        <circle cx="80" cy="92.68" r="7"/>
+        <circle cx="100" cy="92.68" r="7"/>
+        <circle cx="120" cy="92.68" r="7"/>
+        <circle cx="140" cy="92.68" r="7"/>
+        <circle cx="160" cy="92.68" r="7"/>
+        <circle cx="180" cy="92.68" r="7"/>
+        <!-- Rows at y = 75.36, 110, 144.64: x = 70 to 190. -->
+        <circle cx="70" cy="75.36" r="7"/>
+        <circle cx="90" cy="75.36" r="7"/>
+        <circle cx="110" cy="75.36" r="7"/>
+        <circle cx="130" cy="75.36" r="7"/>
+        <circle cx="150" cy="75.36" r="7"/>
+        <circle cx="170" cy="75.36" r="7"/>
+        <circle cx="190" cy="75.36" r="7"/>
+        <circle cx="70" cy="110" r="7"/>
+        <circle cx="90" cy="110" r="7"/>
+        <circle cx="110" cy="110" r="7"/>
+        <circle cx="130" cy="110" r="7"/>
+        <circle cx="150" cy="110" r="7"/>
+        <circle cx="170" cy="110" r="7"/>
+        <circle cx="190" cy="110" r="7"/>
+        <circle cx="70" cy="144.64" r="7"/>
+        <circle cx="90" cy="144.64" r="7"/>
+        <circle cx="110" cy="144.64" r="7"/>
+        <circle cx="130" cy="144.64" r="7"/>
+        <circle cx="150" cy="144.64" r="7"/>
+        <circle cx="170" cy="144.64" r="7"/>
+        <circle cx="190" cy="144.64" r="7"/>
+        <!-- Rows at y = 127.32 and 161.96: x = 80 to 180. -->
+        <circle cx="80" cy="127.32" r="7"/>
+        <circle cx="100" cy="127.32" r="7"/>
+        <circle cx="120" cy="127.32" r="7"/>
+        <circle cx="140" cy="127.32" r="7"/>
+        <circle cx="160" cy="127.32" r="7"/>
+        <circle cx="180" cy="127.32" r="7"/>
+        <circle cx="80" cy="161.96" r="7"/>
+        <circle cx="100" cy="161.96" r="7"/>
+        <circle cx="120" cy="161.96" r="7"/>
+        <circle cx="140" cy="161.96" r="7"/>
+        <circle cx="160" cy="161.96" r="7"/>
+        <circle cx="180" cy="161.96" r="7"/>
+    </g>
+
+    <!-- Block edges. -->
+    <path d="M70 60H190V160H70ZM70 60 130 25H250V125L190 160M190 60 250 25"
+          fill="none" stroke="#5A3E17" stroke-opacity="0.55" stroke-width="1"
+          stroke-linejoin="round"/>
+</svg>

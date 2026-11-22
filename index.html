@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Composites Playground</title>
+    <meta name="description"
+          content="Interactive lessons on the mechanics of fiber composites: stack plies, move sliders, and see the physics.">
+    <meta name="author" content="Mohammad Aryayi">
+    <meta name="theme-color" content="#00785A">
+    <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="assets/css/tokens.css">
+    <link rel="stylesheet" href="assets/css/base.css">
+    <link rel="stylesheet" href="assets/css/components.css">
+    <link rel="stylesheet" href="assets/css/site.css">
+</head>
+<body class="site">
+<a class="skip-link" href="#main">Skip to the lessons</a>
+
+<header class="site-header">
+    <div class="container site-header__inner">
+        <a class="brand" href="./">
+            <img src="assets/img/favicon.svg" alt="" width="28" height="28">
+            <span>Composites Playground</span>
+        </a>
+        <a class="site-header__link"
+           href="https://github.com/m-aryayi/composites-playground">
+            GitHub
+            <svg class="icon" aria-hidden="true">
+                <use href="assets/img/icons.svg#external"></use></svg>
+        </a>
+    </div>
+</header>
+
+<main id="main" class="container">
+    <section class="intro">
+        <h1>Learn composite mechanics by playing with it.</h1>
+        <p>Stack a ply, move a slider, and see the physics.</p>
+    </section>
+
+    <section aria-labelledby="lessons-title">
+        <h2 id="lessons-title" class="visually-hidden">Lessons</h2>
+        <ul class="lesson-grid">
+
+            <!-- Lesson card. In T1.9 it becomes <a class="card card--link ..."> -->
+            <li>
+                <article class="card lesson-card">
+                    <div class="lesson-card__art">
+                        <img src="assets/img/cards/laminate-symmetry.svg" alt=""
+                             width="320" height="180">
+                    </div>
+                    <div class="lesson-card__body">
+                        <span class="tag">Laminates · CLT</span>
+                        <h3>Is it symmetric?</h3>
+                        <p>Why some laminates curl when you pull them.</p>
+                        <div class="lesson-card__foot">
+                            <span class="pill">Coming soon</span>
+                        </div>
+                    </div>
+                </article>
+            </li>
+
+            <li>
+                <article class="card lesson-card">
+                    <div class="lesson-card__art">
+                        <img src="assets/img/cards/rve-homogenization.svg" alt=""
+                             width="320" height="180">
+                    </div>
+                    <div class="lesson-card__body">
+                        <span class="tag">Micromechanics</span>
+                        <h3>Two materials, one stiffness</h3>
+                        <p>How fibers and matrix act as one material.</p>
+                        <div class="lesson-card__foot">
+                            <span class="pill">Coming soon</span>
+                        </div>
+                    </div>
+                </article>
+            </li>
+
+        </ul>
+    </section>
+</main>
+
+<footer class="site-footer">
+    <div class="container">
+        <ul class="inline-list">
+            <li>© 2026 Mohammad Aryayi</li>
+            <li>Code: <a href="LICENSE">MIT</a></li>
+            <li>Text: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+            <li><a href="https://github.com/m-aryayi/composites-playground">Source on
+                GitHub</a></li>
+        </ul>
+    </div>
+</footer>
+</body>
+</html>

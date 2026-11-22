@@ -1,0 +1,627 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Style guide · Composites Playground</title>
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../../assets/css/tokens.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <style>
+        /* Layout of this test page only. */
+        .sg {
+            max-width: 72rem;
+            margin: 0 auto;
+            padding: var(--space-6) var(--space-4) var(--space-8);
+        }
+
+        .sg-head {
+            display: flex;
+            align-items: center;
+            gap: var(--space-3);
+            margin-bottom: var(--space-2);
+        }
+
+        .sg-head img {
+            width: 40px;
+            height: 40px;
+        }
+
+        .sg-section {
+            margin-top: var(--space-7);
+        }
+
+        .sg-section > h2 {
+            margin-bottom: var(--space-4);
+            padding-bottom: var(--space-2);
+            border-bottom: var(--border);
+        }
+
+        .sg-row {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--space-3);
+        }
+
+        .sg-row + .sg-row {
+            margin-top: var(--space-4);
+        }
+
+        .sg-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(11rem, 1fr));
+            gap: var(--space-3);
+        }
+
+        .sg-swatch {
+            overflow: hidden;
+            border: var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            font-size: var(--text-xs);
+        }
+
+        .sg-swatch > div:first-child {
+            height: 3.5rem;
+            border-bottom: var(--border);
+        }
+
+        .sg-swatch > div:last-child {
+            padding: var(--space-2) var(--space-3);
+        }
+
+        .sg-swatch code {
+            background: none;
+            padding: 0;
+        }
+
+        .sg-label {
+            color: var(--muted);
+            font-size: var(--text-xs);
+        }
+
+        .sg-icon {
+            display: grid;
+            justify-items: center;
+            gap: var(--space-1);
+            padding: var(--space-3);
+            border: var(--border);
+            border-radius: var(--radius-sm);
+            background: var(--surface);
+            color: var(--muted);
+            font-size: var(--text-xs);
+        }
+
+        .sg-icon .icon {
+            width: 24px;
+            height: 24px;
+            color: var(--ink);
+        }
+
+        .sg-space {
+            height: 12px;
+            border-radius: 3px;
+            background: var(--accent);
+        }
+
+        .sg-two {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(20rem, 1fr));
+            gap: var(--space-5);
+        }
+
+        .sg-ok {
+            color: var(--yes-ink);
+            font-weight: 700;
+        }
+
+        .sg-fail {
+            color: var(--no-ink);
+            font-weight: 700;
+        }
+
+        .sg-sample {
+            display: inline-block;
+            padding: 0 var(--space-2);
+            border-radius: 4px;
+            font-weight: 600;
+        }
+    </style>
+</head>
+<body>
+<main class="sg">
+
+    <header>
+        <div class="sg-head">
+            <img src="../../assets/img/favicon.svg" alt="">
+            <h1>Style guide</h1>
+        </div>
+        <p class="sg-label">Composites Playground · design tokens and components ·
+            press <kbd>Tab</kbd> to see the focus ring.</p>
+    </header>
+
+    <!-- Logo mark -->
+    <section class="sg-section">
+        <h2>Logo mark</h2>
+        <div class="sg-row">
+            <img src="../../assets/img/favicon.svg" alt="Logo mark, 16 px"
+                 width="16" height="16">
+            <img src="../../assets/img/favicon.svg" alt="Logo mark, 32 px"
+                 width="32" height="32">
+            <img src="../../assets/img/favicon.svg" alt="Logo mark, 64 px"
+                 width="64" height="64">
+            <img src="../../assets/img/favicon.svg" alt="Logo mark, 128 px"
+                 width="128" height="128">
+            <span class="sg-label">16, 32, 64, 128 px. Edge view of a [0/90/0]
+                laminate: 0° plies as lines, the 90° ply as fiber ends.</span>
+        </div>
+    </section>
+
+    <!-- Colors -->
+    <section class="sg-section">
+        <h2>Colors</h2>
+        <div class="sg-grid" id="swatches"></div>
+    </section>
+
+    <!-- Contrast -->
+    <section class="sg-section">
+        <h2>Contrast</h2>
+        <p class="sg-label">Text needs 4.5:1. Marks and control borders need 3:1.
+            The page calculates each ratio from the tokens.</p>
+        <table class="data-table" style="margin-top: var(--space-4)">
+            <thead>
+            <tr>
+                <th>Pair</th>
+                <th>Sample</th>
+                <th>Ratio</th>
+                <th>Needs</th>
+                <th>Result</th>
+            </tr>
+            </thead>
+            <tbody id="contrast"></tbody>
+        </table>
+    </section>
+
+    <!-- Type -->
+    <section class="sg-section">
+        <h2>Type</h2>
+        <div class="flow">
+            <h1>h1 · 36 px · Is it symmetric?</h1>
+            <h2>h2 · 26 px · Symmetry and [B]</h2>
+            <h3>h3 · 21 px · The stiffness of one ply</h3>
+            <h4>h4 · 17 px bold · Balance</h4>
+            <p style="max-width: var(--measure)">Body · 17 px · A laminate is a
+                stack of thin fiber plies. When the stack is the same above and
+                below the mid-plane, the coupling matrix [B] is zero, so a pull
+                does not bend it. This is a <a href="#">link</a>, this is
+                <strong>strong text</strong>, and this is <code>inline code</code>.
+            </p>
+            <p style="font-size: var(--text-sm)">Interface · 15 px · Add ply,
+                Delete, Mirror</p>
+            <p style="font-size: var(--text-xs)" class="sg-label">Caption · 13 px
+                · Kaw (2005), Table 2.1</p>
+            <p class="num">Tabular numbers: 181000.0 · 10300.0 · 7170.0 · 0.28</p>
+        </div>
+    </section>
+
+    <!-- Space and shape -->
+    <section class="sg-section">
+        <h2>Space and shape</h2>
+        <div class="sg-two">
+            <div class="flow" id="spaces" style="--flow-space: var(--space-2)"></div>
+            <div class="sg-row">
+                <div class="card" style="border-radius: var(--radius-sm)">8 px</div>
+                <div class="card">10 px</div>
+                <span class="pill">999 px</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Icons -->
+    <section class="sg-section">
+        <h2>Icons</h2>
+        <div class="sg-grid" id="icons"
+             style="grid-template-columns: repeat(auto-fill, minmax(6rem, 1fr))">
+        </div>
+    </section>
+
+    <!-- Buttons -->
+    <section class="sg-section">
+        <h2>Buttons</h2>
+        <div class="sg-row">
+            <button class="btn btn--primary" type="button">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#mirror"></use></svg>
+                Mirror it
+            </button>
+            <button class="btn" type="button">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#plus"></use></svg>
+                Add ply
+            </button>
+            <button class="btn" type="button">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#trash"></use></svg>
+                Delete
+            </button>
+            <button class="btn btn--quiet" type="button">Quiet</button>
+            <button class="btn btn--icon" type="button" aria-label="Copy share link">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#link"></use></svg>
+            </button>
+            <button class="btn btn--icon" type="button" aria-label="Save image">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#image"></use></svg>
+            </button>
+            <button class="btn" type="button" disabled>Disabled</button>
+        </div>
+    </section>
+
+    <!-- Switches, chips, tags, pills -->
+    <section class="sg-section">
+        <h2>Switch, chips, tags, and status</h2>
+        <div class="sg-row">
+            <span class="sg-label">Show</span>
+            <div class="segmented" role="radiogroup" aria-label="Show">
+                <button type="button" role="radio" aria-checked="false">Bend</button>
+                <button type="button" role="radio" aria-checked="false">Shear</button>
+                <button type="button" role="radio" aria-checked="true">Both</button>
+            </div>
+            <div class="segmented" role="radiogroup" aria-label="Bar chart">
+                <button type="button" role="radio" aria-checked="true">E/ρ</button>
+                <button type="button" role="radio" aria-checked="false">E</button>
+            </div>
+        </div>
+        <div class="sg-row">
+            <button class="chip" type="button">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#play"></use></svg>
+                Try [0/90]
+            </button>
+            <button class="chip" type="button">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#play"></use></svg>
+                Try [0/90]s
+            </button>
+            <span class="tag">Laminates · CLT</span>
+            <span class="tag">Micromechanics</span>
+        </div>
+        <div class="sg-row">
+            <span class="pill pill--yes">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#check"></use></svg>
+                Symmetric
+            </span>
+            <span class="pill pill--no">
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#cross"></use></svg>
+                Not balanced
+            </span>
+            <span class="pill">Not checked</span>
+        </div>
+    </section>
+
+    <!-- Cards -->
+    <section class="sg-section">
+        <h2>Cards</h2>
+        <div class="sg-two">
+            <a class="card card--link flow" href="#" style="--flow-space: var(--space-2)">
+                <span class="tag">Laminates · CLT</span>
+                <h3>Is it symmetric?</h3>
+                <p style="color: var(--muted)">Why some laminates curl when you
+                    pull them.</p>
+            </a>
+            <div class="card flow" style="--flow-space: var(--space-2)">
+                <h4>Plain card</h4>
+                <p style="color: var(--muted)">A white surface with a thin border.
+                    It holds a panel or an exercise.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Inputs -->
+    <section class="sg-section">
+        <h2>Inputs</h2>
+        <div class="sg-two">
+            <div class="flow">
+                <div class="field">
+                    <label class="field__label" for="sg-thickness">Ply thickness (mm)</label>
+                    <input class="input" id="sg-thickness" value="0.125" inputmode="decimal">
+                    <span class="field__hint">From 0.05 to 1 mm.</span>
+                </div>
+                <div class="field">
+                    <label class="field__label" for="sg-wrong">Answer (GPa)</label>
+                    <input class="input" id="sg-wrong" value="abc" aria-invalid="true"
+                           aria-describedby="sg-wrong-error">
+                    <span class="field__error" id="sg-wrong-error">"abc" is not a
+                        number.</span>
+                </div>
+                <div class="field">
+                    <label class="field__label" for="sg-fiber">Fiber</label>
+                    <select class="select" id="sg-fiber">
+                        <option>E-glass</option>
+                        <option>S-glass</option>
+                        <option selected>Carbon (graphite)</option>
+                        <option>Aramid (Kevlar 49)</option>
+                        <option>Boron</option>
+                        <option>Custom</option>
+                    </select>
+                </div>
+            </div>
+            <div class="flow">
+                <div class="field">
+                    <span class="field__label" id="sg-angle-label">Angle</span>
+                    <div class="stepper" role="group" aria-labelledby="sg-angle-label">
+                        <button class="stepper__btn" type="button"
+                                aria-label="Decrease the angle by 15°">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="../../assets/img/icons.svg#minus"></use></svg>
+                        </button>
+                        <span class="stepper__value">
+                            <input class="stepper__input" value="45"
+                                   inputmode="numeric" aria-label="Angle in degrees">
+                            <span class="stepper__unit">°</span>
+                        </span>
+                        <button class="stepper__btn" type="button"
+                                aria-label="Increase the angle by 15°">
+                            <svg class="icon" aria-hidden="true">
+                                <use href="../../assets/img/icons.svg#plus"></use></svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="slider-field">
+                    <label class="slider-field__label" for="sg-vf">V<sub>f</sub></label>
+                    <input class="range" id="sg-vf" type="range" min="0.05" max="0.9"
+                           step="0.01" value="0.6" style="--fill: 64.7%">
+                    <span class="slider-field__value">
+                        <input class="input input--compact" value="0.60"
+                               aria-label="Fiber volume fraction">
+                    </span>
+                </div>
+                <div class="slider-field">
+                    <label class="slider-field__label" for="sg-e1">E<sub>1</sub></label>
+                    <input class="range" id="sg-e1" type="range" min="5" max="500"
+                           step="0.1" value="230" style="--fill: 45.5%">
+                    <span class="slider-field__value">
+                        <input class="input input--compact" value="230.0"
+                               aria-label="E1 in GPa">
+                        GPa
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Matrix and table -->
+    <section class="sg-section">
+        <h2>Matrix and data table</h2>
+        <div class="sg-two">
+            <div class="flow">
+                <div>
+                    <span class="tag matrix-caption">[B] in N · not symmetric</span>
+                    <div class="matrix">
+                        <table aria-label="[B] in N">
+                            <tr><td class="is-nonzero">-1131</td><td class="is-zero">0</td>
+                                <td class="is-zero">0</td></tr>
+                            <tr><td class="is-zero">0</td><td class="is-nonzero">1131</td>
+                                <td class="is-zero">0</td></tr>
+                            <tr><td class="is-zero">0</td><td class="is-zero">0</td>
+                                <td class="is-zero">0</td></tr>
+                        </table>
+                    </div>
+                </div>
+                <div>
+                    <span class="tag matrix-caption">A16, A26 in N/mm · balanced</span>
+                    <div class="matrix">
+                        <table aria-label="A16 and A26 in N per mm">
+                            <tr><td class="is-zero">0</td><td class="is-zero">0</td></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <table class="data-table">
+                    <caption class="visually-hidden">Homogenized properties in GPa
+                    </caption>
+                    <thead>
+                    <tr>
+                        <th scope="col">GPa</th>
+                        <th scope="col">ROM</th>
+                        <th scope="col">Chamis</th>
+                        <th scope="col" class="is-selected">CCA</th>
+                        <th scope="col">MT</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr><th scope="row">E1 (along)</th><td>139.36</td><td>139.36</td>
+                        <td class="is-selected">139.40</td><td>139.40</td></tr>
+                    <tr><th scope="row">E2 = E3 (across)</th><td>8.45</td><td>9.72</td>
+                        <td class="is-selected">8.83</td><td>8.83</td></tr>
+                    <tr><th scope="row">G12 = G13</th><td>3.18</td><td>4.86</td>
+                        <td class="is-selected">4.24</td><td>4.24</td></tr>
+                    <tr><th scope="row">G23</th><td>–</td><td>3.55</td>
+                        <td class="is-selected">3.03</td><td>3.08</td></tr>
+                    </tbody>
+                </table>
+                <p class="sg-label" style="margin-top: var(--space-2)">Sample numbers
+                    for the look only.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Disclosure, note, code, toast -->
+    <section class="sg-section">
+        <h2>Panels and messages</h2>
+        <div class="sg-two">
+            <div class="flow">
+                <details class="disclosure">
+                    <summary>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                        Numbers: [B], A16, A26
+                    </summary>
+                    <div class="disclosure__body">The matrices go here.</div>
+                </details>
+                <details class="disclosure" open>
+                    <summary>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                        Show the steps
+                    </summary>
+                    <div class="disclosure__body">An open panel: the worked
+                        solution goes here.</div>
+                </details>
+                <div class="note">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#info"></use></svg>
+                    <p>-90° and +90° are the same fiber direction, so they give the
+                        same ply.</p>
+                </div>
+            </div>
+            <div class="flow">
+<pre class="code-block"><code>def abd_matrix(angles: list[float], thickness: float) -> np.ndarray:
+    """Return the 6x6 ABD matrix. Ply 1 is the top ply."""
+    n_plies = len(angles)
+    z = thickness * (np.arange(n_plies + 1) - n_plies / 2.0)</code></pre>
+                <div>
+                    <span class="toast" role="status">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#check"></use></svg>
+                        Link copied
+                    </span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<script type="module">
+    // Draw the swatches, the space scale, the icon list, and the contrast table.
+
+    const COLOR_TOKENS = [
+        "--bg", "--surface", "--surface-2", "--line", "--line-strong", "--ink",
+        "--muted", "--accent", "--accent-hover", "--accent-soft", "--yes-ink",
+        "--no", "--no-ink", "--no-soft", "--fiber", "--matrix", "--matrix-ink",
+        "--metal-1", "--metal-2",
+    ];
+    const SPACE_TOKENS = [
+        "--space-1", "--space-2", "--space-3", "--space-4", "--space-5",
+        "--space-6", "--space-7", "--space-8",
+    ];
+    const ICON_IDS = [
+        "check", "cross", "plus", "minus", "trash", "mirror", "link", "image",
+        "download", "rotate", "chevron", "info", "external", "play",
+    ];
+    const SPRITE = "../../assets/img/icons.svg";
+    // [text token, background token, minimum ratio, use]
+    const CONTRAST_PAIRS = [
+        ["--ink", "--bg", 4.5, "Body text on the page"],
+        ["--ink", "--surface", 4.5, "Body text on a card"],
+        ["--muted", "--surface", 4.5, "Secondary text on a card"],
+        ["--muted", "--bg", 4.5, "Secondary text on the page"],
+        ["--muted", "--surface-2", 4.5, "Secondary text in a field"],
+        ["--accent", "--surface", 4.5, "Link and active switch text"],
+        ["--accent-hover", "--surface", 4.5, "Link on hover"],
+        ["--surface", "--accent", 4.5, "Primary button text"],
+        ["--yes-ink", "--accent-soft", 4.5, "Yes pill and chip text"],
+        ["--no-ink", "--no-soft", 4.5, "No pill and non-zero cell text"],
+        ["--no-ink", "--surface", 4.5, "Error text"],
+        ["--fiber", "--surface", 4.5, "Fiber label"],
+        ["--matrix-ink", "--surface", 4.5, "Matrix label"],
+        ["--surface", "--ink", 4.5, "Toast text"],
+        ["--line-strong", "--surface", 3.0, "Control border"],
+        ["--accent", "--surface", 3.0, "Green mark or line"],
+        ["--no", "--surface", 3.0, "Vermillion mark or line"],
+        ["--fiber", "--surface", 3.0, "Fiber line or bar"],
+        ["--metal-2", "--surface", 3.0, "Steel bar"],
+    ];
+
+    const root = getComputedStyle(document.documentElement);
+
+    /** Return the value of a CSS variable. */
+    function token(name) {
+        return root.getPropertyValue(name).trim();
+    }
+
+    /** Return the relative luminance of a #RRGGBB color (WCAG 2.x). */
+    function luminance(hex) {
+        const channels = [1, 3, 5].map((i) => parseInt(hex.slice(i, i + 2), 16) / 255);
+        const [r, g, b] = channels.map((c) =>
+            c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4);
+        return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+    }
+
+    /** Return the contrast ratio of two #RRGGBB colors. */
+    function contrast(first, second) {
+        const [high, low] = [luminance(first), luminance(second)].sort((a, b) => b - a);
+        return (high + 0.05) / (low + 0.05);
+    }
+
+    /** Return a new element with a class and a text. */
+    function element(tag, className, text) {
+        const node = document.createElement(tag);
+        if (className) {
+            node.className = className;
+        }
+        if (text !== undefined) {
+            node.textContent = text;
+        }
+        return node;
+    }
+
+    const swatches = document.getElementById("swatches");
+    for (const name of COLOR_TOKENS) {
+        const swatch = element("div", "sg-swatch");
+        const color = element("div");
+        color.style.background = `var(${name})`;
+        const label = element("div");
+        label.append(element("code", "", name), element("br"),
+                     element("span", "sg-label", token(name)));
+        swatch.append(color, label);
+        swatches.append(swatch);
+    }
+
+    const spaces = document.getElementById("spaces");
+    for (const name of SPACE_TOKENS) {
+        const row = element("div", "sg-row");
+        const bar = element("div", "sg-space");
+        bar.style.width = `var(${name})`;
+        row.append(bar, element("span", "sg-label", `${name} · ${token(name)}`));
+        spaces.append(row);
+    }
+
+    const icons = document.getElementById("icons");
+    for (const id of ICON_IDS) {
+        const cell = element("div", "sg-icon");
+        cell.innerHTML = `<svg class="icon" aria-hidden="true">
+            <use href="${SPRITE}#${id}"></use></svg>`;
+        cell.append(element("span", "", id));
+        icons.append(cell);
+    }
+
+    const table = document.getElementById("contrast");
+    for (const [text, background, minimum, use] of CONTRAST_PAIRS) {
+        const ratio = contrast(token(text), token(background));
+        const passed = ratio >= minimum;
+        const row = element("tr");
+        const name = element("th");
+        name.scope = "row";
+        name.append(element("span", "", use), element("br"),
+                    element("span", "sg-label", `${text} on ${background}`));
+        const sample = element("td");
+        const chip = element("span", "sg-sample", "Aa 0.28");
+        chip.style.color = `var(${text})`;
+        chip.style.background = `var(${background})`;
+        sample.append(chip);
+        row.append(name, sample, element("td", "", `${ratio.toFixed(2)}:1`),
+                   element("td", "", `${minimum}:1`),
+                   element("td", passed ? "sg-ok" : "sg-fail",
+                           passed ? "✓ Pass" : "✕ Fail"));
+        table.append(row);
+    }
+</script>
+</body>
+</html>
