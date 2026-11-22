@@ -18,21 +18,21 @@
           content="https://m-aryayi.github.io/composites-playground/assets/img/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
+    <link rel="stylesheet" href="../../vendor/katex/dist/katex.min.css">
     <link rel="stylesheet" href="../../assets/css/tokens.css?v=2026-11-22b">
     <link rel="stylesheet" href="../../assets/css/base.css?v=2026-11-22b">
     <link rel="stylesheet" href="../../assets/css/components.css?v=2026-11-22b">
     <link rel="stylesheet" href="../../assets/css/site.css?v=2026-11-22b">
     <link rel="stylesheet" href="../../assets/css/lesson.css?v=2026-11-22b">
     <link rel="stylesheet" href="../../assets/css/exercises.css?v=2026-11-22b">
-    <!-- Library versions: the same block in each lesson page. -->
+    <!-- Libraries: local copies in vendor/ (versions in vendor/VERSIONS.txt). -->
     <script type="importmap">
     {
         "imports": {
-            "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
-            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/",
-            "katex": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.mjs",
-            "katex/auto-render": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/contrib/auto-render.mjs"
+            "three": "../../vendor/three/build/three.module.js",
+            "three/addons/": "../../vendor/three/examples/jsm/",
+            "katex": "../../vendor/katex/dist/katex.mjs",
+            "katex/auto-render": "../../vendor/katex/dist/contrib/auto-render.mjs"
         }
     }
     </script>
@@ -264,7 +264,7 @@
             <h3>2. The stiffness of one ply</h3>
             <p>In its own axes (1 along the fibers, 2 across them), a thin ply
                 follows Hooke's law with the reduced stiffness matrix
-                \([Q]\) (Kaw Eq. 2.93):</p>
+                \([Q]\):</p>
             <p>\[ [Q] = \begin{bmatrix} Q_{11} & Q_{12} & 0 \\ Q_{12} & Q_{22} & 0 \\
                 0 & 0 & Q_{66} \end{bmatrix} \]</p>
             <p>\[ Q_{11} = \frac{E_1}{1 - \nu_{12}\nu_{21}}, \qquad
@@ -272,13 +272,13 @@
             <p>\[ Q_{12} = \frac{\nu_{12} E_2}{1 - \nu_{12}\nu_{21}}, \qquad
                 Q_{66} = G_{12} \]</p>
             <p>\[ \nu_{21} = \nu_{12}\,\frac{E_2}{E_1} \]</p>
-            <p>Graphite/epoxy (Kaw Table 2.1) has \(E_1 = 181\) GPa,
+            <p>Graphite/epoxy (data from Kaw) has \(E_1 = 181\) GPa,
                 \(E_2 = 10.3\) GPa, \(\nu_{12} = 0.28\), and \(G_{12} = 7.17\) GPa.
                 Along the fibers, the ply is about 18 times stiffer than across
                 them.</p>
             <p>In the x-y axes of the laminate, a ply at the angle \(\theta\) has
-                the transformed stiffness \([\bar{Q}]\) (Kaw Eq. 2.104, here in
-                matrix form, with \(c = \cos\theta\) and \(s = \sin\theta\)):</p>
+                the transformed stiffness \([\bar{Q}]\) (here in matrix
+                form, with \(c = \cos\theta\) and \(s = \sin\theta\)):</p>
             <p>\[ [\bar{Q}] = [T_\varepsilon]^{\mathsf{T}} \, [Q] \, [T_\varepsilon] \]</p>
             <p>\[ [T_\varepsilon] = \begin{bmatrix} c^2 & s^2 & cs \\
                 s^2 & c^2 & -cs \\ -2cs & 2cs & c^2 - s^2 \end{bmatrix} \]</p>
@@ -294,8 +294,8 @@
 
             <h3>3. From plies to a laminate</h3>
             <p>Each ply k lies between the heights \(h_{k-1}\) (top) and \(h_k\)
-                (bottom), measured from the mid-plane (Kaw Eq. 4.20). The plies add
-                up to three matrices (Kaw Eq. 4.28):</p>
+                (bottom), measured from the mid-plane. The plies add up to three
+                matrices:</p>
             <p>\[ \begin{aligned}
                 A_{ij} &= \sum_k (\bar{Q}_{ij})_k \,(h_k - h_{k-1}) \\
                 B_{ij} &= \frac{1}{2} \sum_k (\bar{Q}_{ij})_k \,(h_k^2 - h_{k-1}^2) \\
@@ -303,7 +303,7 @@
                 \end{aligned} \]</p>
             <p>They connect the forces \(N\) and the moments \(M\) per unit width
                 with the mid-plane strains \(\varepsilon^0\) and the curvatures
-                \(\kappa\) (Kaw Eq. 4.29):</p>
+                \(\kappa\):</p>
             <p>\[ \begin{bmatrix} N \\ M \end{bmatrix} = \begin{bmatrix} A & B \\
                 B & D \end{bmatrix} \begin{bmatrix} \varepsilon^0 \\ \kappa
                 \end{bmatrix} \]</p>
@@ -315,7 +315,7 @@
             <h3>4. Symmetry and [B]</h3>
             <p>A laminate is symmetric if the plies above the mid-plane are the
                 mirror image of the plies below it: the same material, angle, and
-                thickness (Kaw Section 5.2.1).</p>
+                thickness.</p>
             <p>In \([B]\), the term \((h_k^2 - h_{k-1}^2)\) of a ply above the
                 mid-plane has the opposite sign of the term of its mirror ply below
                 it. In a symmetric stack the terms cancel, so \([B] = 0\). Then a
@@ -340,7 +340,7 @@
             <h3>5. Balance and A16, A26</h3>
             <p>A laminate is balanced if each ply at +θ has a ply at −θ of the same
                 material and thickness. The two plies do not need to be next to each
-                other. 0° and 90° plies need no partner (Kaw Section 5.2.5).</p>
+                other. 0° and 90° plies need no partner.</p>
             <p>\(\bar{Q}_{16}\) and \(\bar{Q}_{26}\) change sign with the angle:
                 \(\bar{Q}_{16}(-\theta) = -\bar{Q}_{16}(\theta)\). In \([A]\) the
                 height term \((h_k - h_{k-1})\) is only the ply thickness, so the
@@ -457,22 +457,10 @@ python laminate_symmetry.py</code></pre>
             <h2>References</h2>
             <ol>
                 <li>Kaw, A. K. (2005). <i>Mechanics of Composite Materials</i>
-                    (2nd ed.). CRC Press, Boca Raton.
-                    <ul>
-                        <li>Eq. 2.93: reduced stiffness \([Q]\); Eq. 2.104:
-                            transformed stiffness \([\bar{Q}]\).</li>
-                        <li>Table 2.1: graphite/epoxy ply data.</li>
-                        <li>Eq. 4.20, 4.28, 4.29: ply heights and the ABD
-                            matrix.</li>
-                        <li>Section 5.2.1: symmetric laminates; Section 5.2.5:
-                            balanced laminates.</li>
-                        <li>Example 4.2: the check case of the code
-                            ([0/30/−45], 5 mm plies).</li>
-                    </ul>
-                </li>
+                    (2nd ed.). CRC Press.</li>
             </ol>
             <p class="numbers-note">The model is tested against the Python app and
-                against Kaw Example 4.2. The figures on this page are drawn by the
+                against a worked example in Kaw. The figures on this page are drawn by the
                 model, not copied from the book.</p>
         </section>
     </div>

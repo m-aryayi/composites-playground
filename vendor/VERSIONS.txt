@@ -1,0 +1,16 @@
+Local copies of the libraries, so the site does not depend on a CDN.
+The files are unchanged copies from the npm packages (via cdn.jsdelivr.net).
+
+three   0.187.0   MIT license (three/LICENSE)
+    build/three.module.js, build/three.core.js
+    examples/jsm/controls/OrbitControls.js
+    examples/jsm/renderers/CSS2DRenderer.js
+    examples/jsm/lines/Line2.js, LineGeometry.js, LineMaterial.js,
+                       LineSegments2.js, LineSegmentsGeometry.js
+
+katex   0.19.1    MIT license (katex/LICENSE)
+    dist/katex.min.css, dist/katex.mjs, dist/contrib/auto-render.mjs
+    dist/fonts/*.woff2 (the browsers use woff2; the woff and ttf files are left out)
+
+To update a library: download the same files of the new version into this
+folder, change the version here, and run the page checks.

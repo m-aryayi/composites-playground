@@ -87,7 +87,7 @@ function grid(rows, cols, fn) {
 
 // ------------------------------------------- laminate mechanics (CLT)
 
-/** Return the 3x3 stiffness matrix Q of one ply in its fiber axes (Kaw Eq. 2.93). */
+/** Return the 3x3 stiffness matrix Q of one ply in its fiber axes (Kaw). */
 export function reducedStiffness(material) {
     const { E1: e1, E2: e2, nu12, G12: g12 } = material;
     const nu21 = nu12 * e2 / e1;
@@ -110,7 +110,7 @@ export function strainTransform(thetaDeg) {
     ];
 }
 
-/** Return the 6x6 ABD matrix. Ply 1 is the top ply (z = -h/2), Kaw Eq. 4.28. */
+/** Return the 6x6 ABD matrix. Ply 1 is the top ply (z = -h/2) (Kaw). */
 export function abdMatrix(angles, thickness, material = MATERIAL) {
     const nPlies = angles.length;
     const z = Array.from({ length: nPlies + 1 },
@@ -146,7 +146,7 @@ export function isCoupled(abd, thickness) {
     return bSize > COUPLING_TOLERANCE * aScale(abd) * thickness;
 }
 
-/** Return [strains, curvatures] of the mid-plane for a load (Kaw Eq. 4.29). */
+/** Return [strains, curvatures] of the mid-plane for a load (Kaw). */
 export function midplaneResponse(abd, load) {
     const response = solve(abd, [...load, 0.0, 0.0, 0.0]);
     return [response.slice(0, 3), response.slice(3, 6)];

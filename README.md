@@ -39,8 +39,5 @@ Start the local server as above, then open http://localhost:8000/tests/
 ## License
 
 Code: MIT (see [LICENSE](LICENSE)).
+Libraries in [vendor/](vendor/): three.js and KaTeX, both MIT (versions in [vendor/VERSIONS.txt](vendor/VERSIONS.txt)).
 Lesson text and figures: [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
-
-## Author
-
-Mohammad Aryayi

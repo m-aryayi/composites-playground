@@ -1,6 +1,6 @@
 /** Constants of the laminate lesson, the same as in python/laminate_symmetry.py. */
 
-// Graphite/epoxy ply in MPa and mm, from Kaw (2005), Table 2.1. All plies
+// Graphite/epoxy ply in MPa and mm, from Kaw (2005). All plies
 // have the same material and thickness, so only the angles matter.
 // Units: MPa and mm give [A] in N/mm, [B] in N, and [D] in N·mm.
 export const MATERIAL = Object.freeze({ E1: 181000.0, E2: 10300.0, nu12: 0.28,

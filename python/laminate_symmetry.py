@@ -21,7 +21,7 @@ APP_HINT = ("A laminate is a stack of thin fiber plies. "
             "Click a ply and change its fiber angle.")
 STACK_CAPTION = "PLY STACK   ·   top to bottom"
 
-# Graphite/epoxy ply in MPa and mm, from Kaw (2005), Table 2.1. All plies
+# Graphite/epoxy ply in MPa and mm, from Kaw (2005). All plies
 # have the same material and thickness, so only the angles matter.
 MATERIAL = {"E1": 181000.0, "E2": 10300.0, "nu12": 0.28, "G12": 7170.0}
 PLY_THICKNESS = 0.125
