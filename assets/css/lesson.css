@@ -1,0 +1,356 @@
+/* Lesson page: text column, sticky stage, section bar, labels, and equations. */
+
+.container--wide {
+    max-width: 96rem;
+}
+
+/* Header navigation of a lesson page. */
+
+.site-header__nav {
+    display: flex;
+    align-items: center;
+    gap: var(--space-5);
+}
+
+.icon--back {
+    transform: scaleX(-1);
+}
+
+/* Grid: head, stage, and body. The DOM order is head, stage, body, so the
+   stage comes after the title on a phone and next to the text on a desktop. */
+
+.lesson {
+    display: grid;
+    grid-template-areas: "head" "stage" "body";
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-5);
+    padding-top: var(--space-5);
+}
+
+.lesson__head {
+    grid-area: head;
+}
+
+.lesson__body {
+    grid-area: body;
+}
+
+.stage {
+    grid-area: stage;
+}
+
+.lesson__head,
+.lesson__body {
+    max-width: var(--measure);
+}
+
+@media (min-width: 720px) {
+    .lesson {
+        grid-template-areas: "head stage" "body stage";
+        grid-template-columns: minmax(0, 45fr) minmax(0, 55fr);
+        grid-template-rows: auto 1fr;
+        column-gap: var(--space-6);
+        row-gap: var(--space-4);
+        padding-top: var(--space-6);
+    }
+
+    .stage {
+        position: sticky;
+        top: var(--space-4);
+        align-self: start;
+        height: calc(100vh - 2 * var(--space-4));
+        height: calc(100dvh - 2 * var(--space-4));
+        min-height: 26rem;
+    }
+}
+
+@media (min-width: 1100px) {
+    .lesson {
+        grid-template-columns: minmax(0, 38fr) minmax(0, 62fr);
+        column-gap: var(--space-7);
+    }
+}
+
+/* Lesson head. */
+
+.lesson__head .tag {
+    display: block;
+    margin-bottom: var(--space-2);
+}
+
+.lesson__lead {
+    margin-top: var(--space-3);
+    color: var(--muted);
+    font-size: var(--text-lg);
+}
+
+/* Section bar: stays on top of the text column on a tablet and a desktop. */
+
+.section-nav {
+    position: sticky;
+    top: 0;
+    z-index: 2;
+    display: flex;
+    gap: var(--space-1);
+    margin-bottom: var(--space-2);
+    padding-block: var(--space-2);
+    overflow-x: auto;
+    border-bottom: var(--border);
+    background: var(--bg);
+    scrollbar-width: none;
+}
+
+.section-nav a {
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    text-decoration: none;
+    white-space: nowrap;
+}
+
+.section-nav a:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+}
+
+/* The current section: a filled pill, not only a color. */
+.section-nav a[aria-current="true"] {
+    background: var(--accent-soft);
+    color: var(--yes-ink);
+}
+
+.lesson-section {
+    padding-top: var(--space-6);
+    scroll-margin-top: 3.5rem;
+}
+
+.try-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+/* Stage: the live model. */
+
+.stage {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    border: var(--border);
+    border-radius: var(--radius);
+    background: var(--surface);
+}
+
+.stage__bar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-bottom: var(--border);
+}
+
+.stage__status {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+}
+
+.stage__actions {
+    display: flex;
+    gap: var(--space-1);
+    margin-left: auto;
+}
+
+.stage__say {
+    flex-basis: 100%;
+    color: var(--muted);
+    font-size: var(--text-sm);
+}
+
+.stage__views {
+    display: grid;
+    flex: 1;
+    grid-template-columns: repeat(var(--view-count, 1), minmax(0, 1fr));
+    grid-template-rows: minmax(0, 1fr);
+    min-height: 0;
+}
+
+.stage__view {
+    position: relative;
+    min-width: 0;
+    min-height: 0;
+    overflow: hidden;
+}
+
+/* The canvas and the label layer fill the view, outside the layout flow. */
+.stage__view > canvas,
+.label-layer {
+    position: absolute;
+    inset: 0;
+}
+
+.stage__view > canvas {
+    touch-action: none;
+}
+
+.label-layer {
+    pointer-events: none;
+}
+
+.stage__view-caption {
+    position: absolute;
+    top: var(--space-2);
+    left: var(--space-3);
+    z-index: 1;
+    pointer-events: none;
+}
+
+.stage__hint {
+    position: absolute;
+    right: var(--space-3);
+    bottom: var(--space-2);
+    z-index: 1;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--muted);
+    font-size: var(--text-xs);
+    pointer-events: none;
+}
+
+.stage__hint .icon {
+    width: 1em;
+    height: 1em;
+}
+
+.stage__controls {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2) var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    border-top: var(--border);
+}
+
+/* Fold button: only on a phone. */
+
+.stage__fold {
+    display: none;
+}
+
+.stage__fold .icon {
+    transform: rotate(-90deg);
+    transition: transform var(--duration) var(--ease);
+}
+
+/* Phone: the stage stays at the top of the screen and can fold. */
+
+@media (max-width: 719px) {
+    .stage {
+        position: sticky;
+        top: 0;
+        z-index: 3;
+        height: 55vh;
+        height: 55svh;
+        margin-inline: calc(-1 * var(--space-4));
+        border-inline: 0;
+        border-radius: 0;
+        box-shadow: var(--shadow-float);
+    }
+
+    .stage__fold {
+        display: inline-flex;
+    }
+
+    .section-nav {
+        position: static;
+    }
+
+    .lesson-section {
+        scroll-margin-top: calc(var(--stage-h, 0px) + var(--space-3));
+    }
+
+    .stage.is-folded {
+        height: auto;
+    }
+
+    .stage.is-folded .stage__views,
+    .stage.is-folded .stage__controls,
+    .stage.is-folded .stage__say {
+        display: none;
+    }
+
+    .stage.is-folded .stage__bar {
+        border-bottom: 0;
+        cursor: pointer;
+    }
+
+    .stage.is-folded .stage__fold .icon {
+        transform: rotate(90deg);
+    }
+}
+
+/* 3D labels: HTML buttons on 3D points. */
+
+.label3d {
+    padding: 2px 6px;
+    border: 0;
+    border-radius: 6px;
+    background: transparent;
+    color: var(--muted);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+    font-weight: 700;
+    pointer-events: auto;
+    cursor: pointer;
+}
+
+.label3d:hover {
+    background: var(--surface-2);
+    color: var(--ink);
+}
+
+/* The active label: green and underlined, not only a color. */
+.label3d.is-active {
+    color: var(--accent);
+    text-decoration: underline 2px;
+    text-underline-offset: 3px;
+}
+
+/* Toast region: fixed at the bottom center of the screen. */
+
+.toast-region {
+    position: fixed;
+    bottom: var(--space-5);
+    left: 50%;
+    z-index: 20;
+    transform: translateX(-50%);
+    pointer-events: none;
+}
+
+.toast-region .toast {
+    animation: toast-in var(--duration) var(--ease);
+}
+
+@keyframes toast-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+/* Equations (KaTeX). */
+
+.katex {
+    font-size: 1.08em;
+}
+
+.katex-display {
+    margin: var(--space-4) 0;
+    padding-block: var(--space-1);
+    overflow-x: auto;
+    overflow-y: hidden;
+}

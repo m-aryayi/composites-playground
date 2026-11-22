@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Lesson demo · Composites Playground</title>
+    <meta name="theme-color" content="#00785A">
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
+    <link rel="stylesheet" href="../../assets/css/tokens.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/site.css">
+    <link rel="stylesheet" href="../../assets/css/lesson.css">
+    <!-- Library versions: the same block in each lesson page. -->
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/",
+            "katex": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.mjs",
+            "katex/auto-render": "https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/contrib/auto-render.mjs"
+        }
+    }
+    </script>
+</head>
+<body class="site">
+<a class="skip-link" href="#main">Skip to the lesson</a>
+
+<header class="site-header">
+    <div class="container container--wide site-header__inner">
+        <a class="brand" href="../../">
+            <img src="../../assets/img/favicon.svg" alt="" width="28" height="28">
+            <span>Composites Playground</span>
+        </a>
+        <nav class="site-header__nav" aria-label="Site">
+            <a class="site-header__link" href="../../">
+                <svg class="icon icon--back" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                All lessons
+            </a>
+            <a class="site-header__link"
+               href="https://github.com/m-aryayi/composites-playground">
+                GitHub
+                <svg class="icon" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#external"></use></svg>
+            </a>
+        </nav>
+    </div>
+</header>
+
+<main id="main" class="lesson container container--wide">
+
+    <header class="lesson__head">
+        <span class="tag">Demo · test page of the lesson frame</span>
+        <h1>One ply, one angle</h1>
+        <p class="lesson__lead">Turn the ply and watch the status. Read on the
+            left, play on the right.</p>
+    </header>
+
+    <aside class="stage" id="stage" aria-label="Model">
+        <div class="stage__bar">
+            <div class="stage__status" id="status"></div>
+            <div class="stage__actions">
+                <button class="btn btn--icon btn--quiet" type="button"
+                        data-action="share" aria-label="Copy share link"
+                        title="Copy share link">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#link"></use></svg>
+                </button>
+                <button class="btn btn--icon btn--quiet stage__fold" type="button"
+                        aria-expanded="true" aria-controls="stage-views stage-controls"
+                        aria-label="Hide the model">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                </button>
+            </div>
+            <p class="stage__say" id="say" aria-live="polite"></p>
+        </div>
+        <div class="stage__views" id="stage-views">
+            <div class="stage__view" id="view-ply">
+                <span class="stage__view-caption tag">Ply</span>
+                <span class="stage__hint">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#rotate"></use></svg>
+                    Drag to rotate
+                </span>
+            </div>
+        </div>
+        <div class="stage__controls" id="stage-controls">
+            <span class="field__label" id="angle-label">Angle</span>
+            <div class="stepper" role="group" aria-labelledby="angle-label">
+                <button class="stepper__btn" id="angle-down" type="button"
+                        aria-label="Decrease the angle by 15°">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#minus"></use></svg>
+                </button>
+                <span class="stepper__value">
+                    <input class="stepper__input" id="angle-input" inputmode="numeric"
+                           aria-label="Angle in degrees">
+                    <span class="stepper__unit">°</span>
+                </span>
+                <button class="stepper__btn" id="angle-up" type="button"
+                        aria-label="Increase the angle by 15°">
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#plus"></use></svg>
+                </button>
+            </div>
+        </div>
+    </aside>
+
+    <div class="lesson__body">
+        <nav class="section-nav" aria-label="Lesson sections">
+            <a href="#start">Start</a>
+            <a href="#learn">Learn</a>
+            <a href="#practice">Practice</a>
+            <a href="#python">Python</a>
+            <a href="#references">References</a>
+        </nav>
+
+        <section class="lesson-section flow" id="start">
+            <h2>Start</h2>
+            <p>This page tests the frame of a lesson. It is not a real lesson.
+                The model shows one carbon/epoxy ply. The lines on its top show
+                the fiber direction.</p>
+            <p>Change the angle with the − and + buttons, or type a number. Drag
+                the model to rotate it. Scroll to zoom.</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"angle": 0}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try 0°
+                </button>
+                <button class="chip" type="button" data-try='{"angle": 45}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try +45°
+                </button>
+            </div>
+        </section>
+
+        <section class="lesson-section flow" id="learn">
+            <h2>Learn</h2>
+            <p>A ply is stiff along its fibers and soft across them. When the
+                fibers turn by an angle \(\theta\), the ply stiffness in the
+                x-y axes changes:</p>
+            <p>\[ [\bar{Q}] = [T_\varepsilon]^{\mathsf{T}}\,[Q]\,[T_\varepsilon] \]</p>
+            <p>At 0° and 90°, a pull along x only stretches the ply. At any other
+                angle, the pull also shears it, because \(\bar{Q}_{16} \neq 0\).
+                A single ply is balanced only at 0° or 90°.</p>
+            <p>This paragraph and the next ones are only here to make the page
+                long, so you can test the section bar and the sticky stage. Scroll
+                down and look at the bar on top of the text: it marks the section
+                that you read now.</p>
+            <p>The stage stays next to the text on a tablet and a desktop. On a
+                phone, it stays at the top of the screen. Use the arrow button
+                to fold it to a slim bar.</p>
+        </section>
+
+        <section class="lesson-section flow" id="practice">
+            <h2>Practice</h2>
+            <p>The exercise cards come in module M4. Here is one "Try it" button
+                in the middle of the text:</p>
+            <div class="try-row">
+                <button class="chip" type="button" data-try='{"angle": -30}'>
+                    <svg class="icon" aria-hidden="true">
+                        <use href="../../assets/img/icons.svg#play"></use></svg>
+                    Try −30°
+                </button>
+            </div>
+            <p>More filler text to make the page long enough for the scroll test.
+                A real lesson has two to four exercises of each type here.</p>
+        </section>
+
+        <section class="lesson-section flow" id="python">
+            <h2>Python</h2>
+            <p>Each lesson gives a Python script that computes the same numbers.</p>
+<pre class="code-block"><code>import numpy as np
+
+def strain_transform(theta_deg: float) -> np.ndarray:
+    """Return the matrix that turns global strains into fiber-axis strains."""
+    c = np.cos(np.radians(theta_deg))
+    s = np.sin(np.radians(theta_deg))
+    return np.array([[c * c, s * s, c * s],
+                     [s * s, c * c, -c * s],
+                     [-2.0 * c * s, 2.0 * c * s, c * c - s * s]])</code></pre>
+        </section>
+
+        <section class="lesson-section flow" id="references">
+            <h2>References</h2>
+            <ol>
+                <li>Kaw, A. K. (2005). <i>Mechanics of Composite Materials</i>
+                    (2nd ed.). CRC Press.</li>
+            </ol>
+            <p style="min-height: 40vh"></p>
+        </section>
+    </div>
+</main>
+
+<footer class="site-footer">
+    <div class="container container--wide">
+        <ul class="inline-list">
+            <li>© 2026 Mohammad Aryayi</li>
+            <li>Code: <a href="../../LICENSE">MIT</a></li>
+            <li>Text: <a href="https://creativecommons.org/licenses/by/4.0/">CC BY 4.0</a></li>
+        </ul>
+    </div>
+</footer>
+
+<script type="module">
+    // Demo stage: one ply whose fiber angle the user changes.
+    import {
+        BoxGeometry,
+        BufferGeometry,
+        Float32BufferAttribute,
+        LineBasicMaterial,
+        LineSegments,
+        Mesh,
+        MeshBasicMaterial,
+    } from "three";
+    import { el, icon, qs } from "../../assets/js/core/dom.js";
+    import { initLesson } from "../../assets/js/core/lesson.js";
+    import { renderMath } from "../../assets/js/core/math-render.js";
+    import { createStore } from "../../assets/js/core/store.js";
+    import {
+        bindQuery,
+        numberField,
+        readQuery,
+        shareUrl,
+    } from "../../assets/js/core/url-state.js";
+    import { createLabelLayer } from "../../assets/js/three/labels.js";
+    import { createView } from "../../assets/js/three/scene.js";
+
+    const ANGLE_STEP = 15;
+    const PLY_SIZE = 1;
+    const PLY_THICKNESS = 0.08;
+    const FIBER_SPACING = 0.07;
+    const FIBER_INSET = 0.03;
+    const FIBER_LIFT = 0.001;            // fibers just above the top face
+    const LABEL_POSITION = [-0.66, -0.66, 0];
+    const VIEW_SIZE = 1.9;
+    const COLORS = Object.freeze({
+        top: "#3B4A44",
+        front: "#26302B",               // face toward -y
+        right: "#1D2622",               // face toward +x
+        hidden: "#1D2622",
+        fiber: "#B9CCC3",
+    });
+    const SCHEMA = Object.freeze({ angle: numberField(0, -90, 90) });
+
+    /** Return the same fiber angle in [-90, 90] degrees. */
+    function normalizeAngle(angle) {
+        if (angle >= -90 && angle <= 90) {
+            return angle;
+        }
+        return ((((angle + 90) % 180) + 180) % 180) - 90;
+    }
+
+    /** Return a ply angle as text, with a sign except for 0 and 90. */
+    function formatAngle(angle) {
+        if (angle === 0 || angle === 90) {
+            return `${angle}°`;
+        }
+        return `${angle > 0 ? "+" : "−"}${Math.abs(angle)}°`;
+    }
+
+    /** Return true if one ply at this angle is balanced (0° or ±90°). */
+    function isBalanced(angle) {
+        return angle % 90 === 0;
+    }
+
+    /** Return the x, y, z points of the fiber line segments on the ply top. */
+    function fiberPoints(angle) {
+        const half = PLY_SIZE / 2 - FIBER_INSET;
+        const z = PLY_THICKNESS / 2 + FIBER_LIFT;
+        const theta = (angle * Math.PI) / 180;
+        const direction = [Math.cos(theta), Math.sin(theta)];
+        const normal = [-direction[1], direction[0]];
+        const count = Math.ceil((Math.SQRT2 * half) / FIBER_SPACING);
+        const points = [];
+        for (let j = -count; j <= count; j += 1) {
+            const point = normal.map((n) => j * FIBER_SPACING * n);
+            let low = -Infinity;
+            let high = Infinity;
+            let inside = true;
+            for (let i = 0; i < 2; i += 1) {
+                if (Math.abs(direction[i]) < 1e-12) {
+                    inside = inside && Math.abs(point[i]) <= half;
+                } else {
+                    const t1 = (-half - point[i]) / direction[i];
+                    const t2 = (half - point[i]) / direction[i];
+                    low = Math.max(low, Math.min(t1, t2));
+                    high = Math.min(high, Math.max(t1, t2));
+                }
+            }
+            if (inside && low < high) {
+                points.push(point[0] + low * direction[0], point[1] + low * direction[1], z,
+                            point[0] + high * direction[0], point[1] + high * direction[1], z);
+            }
+        }
+        return points;
+    }
+
+    /** Add the ply and its fiber lines to the view; return the fiber lines. */
+    function buildPly(view) {
+        const material = (color) => new MeshBasicMaterial({ color });
+        // BoxGeometry face order: +x, -x, +y, -y, +z, -z.
+        const faces = [COLORS.right, COLORS.hidden, COLORS.hidden, COLORS.front,
+                       COLORS.top, COLORS.hidden].map(material);
+        const ply = new Mesh(new BoxGeometry(PLY_SIZE, PLY_SIZE, PLY_THICKNESS), faces);
+        const fibers = new LineSegments(new BufferGeometry(),
+                                        new LineBasicMaterial({ color: COLORS.fiber }));
+        view.scene.add(ply, fibers);
+        return fibers;
+    }
+
+    /** Replace the fiber lines with the lines of a new angle. */
+    function setFibers(fibers, angle) {
+        const geometry = new BufferGeometry();
+        geometry.setAttribute("position", new Float32BufferAttribute(fiberPoints(angle), 3));
+        fibers.geometry.dispose();
+        fibers.geometry = geometry;
+    }
+
+    /** Return a status pill: icon + word + color. */
+    function statusPill(yes, text) {
+        return el("span", { className: `pill ${yes ? "pill--yes" : "pill--no"}` },
+                  [icon(yes ? "check" : "cross"), text]);
+    }
+
+    /** Show the status pill and the status sentence of a state. */
+    function showStatus(angle) {
+        const balanced = isBalanced(angle);
+        qs("#status").replaceChildren(
+            statusPill(balanced, balanced ? "Balanced" : "Not balanced"));
+        qs("#say").textContent = balanced
+            ? `One ply at ${formatAngle(angle)}: A16 = A26 = 0, so a pull does not shear it.`
+            : `One ply at ${formatAngle(angle)}: A16, A26 ≠ 0, so a pull also shears it.`;
+    }
+
+    const store = createStore(readQuery(SCHEMA));
+    bindQuery(store, SCHEMA);
+
+    const viewElement = qs("#view-ply");
+    const view = createView(viewElement, { viewSize: VIEW_SIZE });
+    const labels = createLabelLayer(view, viewElement);
+    const fibers = buildPly(view);
+    const input = qs("#angle-input");
+    const label = el("button", {
+        className: "label3d is-active",
+        attrs: { type: "button", "aria-label": "Edit the ply angle" },
+    });
+    labels.add(label, LABEL_POSITION);
+    label.addEventListener("click", () => input.focus());
+
+    qs("#angle-down").addEventListener("click", () => {
+        store.set({ angle: normalizeAngle(store.get().angle - ANGLE_STEP) });
+    });
+    qs("#angle-up").addEventListener("click", () => {
+        store.set({ angle: normalizeAngle(store.get().angle + ANGLE_STEP) });
+    });
+    input.addEventListener("change", () => {
+        const value = Number(input.value.replace(",", "."));
+        if (input.value.trim() !== "" && Number.isFinite(value)) {
+            store.set({ angle: normalizeAngle(Math.round(value)) });
+        }
+        input.value = String(store.get().angle);
+    });
+
+    /** Draw a state: fibers, label, number box, and status. */
+    function show(state) {
+        setFibers(fibers, state.angle);
+        label.textContent = formatAngle(state.angle);
+        input.value = String(state.angle);
+        showStatus(state.angle);
+        view.requestRender();
+    }
+
+    store.subscribe(show);
+    show(store.get());
+
+    initLesson({
+        stage: qs("#stage"),
+        onTry: (change) => store.set({ angle: normalizeAngle(Number(change.angle)) }),
+        getShareUrl: () => shareUrl(SCHEMA, store.get()),
+    });
+    renderMath(qs(".lesson__body"));
+</script>
+</body>
+</html>
