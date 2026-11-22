@@ -31,6 +31,13 @@ function differences(actual, expected, path, scale, found) {
         });
         return;
     }
+    // JSON has no NaN: null in the golden values means "NaN expected".
+    if (expected === null) {
+        if (!(actual === null || Number.isNaN(actual))) {
+            found.push(`${path}: ${actual} instead of NaN`);
+        }
+        return;
+    }
     if (typeof expected === "number") {
         const limit = ABSOLUTE_TOLERANCE + RELATIVE_TOLERANCE * scale;
         if (typeof actual !== "number" || !(Math.abs(actual - expected) <= limit)) {

@@ -10,7 +10,7 @@ Live site: https://m-aryayi.github.io/composites-playground/
 | Lesson | Topic | Status |
 |---|---|---|
 | [Is it symmetric?](https://m-aryayi.github.io/composites-playground/tools/laminate-symmetry/) | Laminates, classical lamination theory | Live |
-| Two materials, one stiffness | Micromechanics, RVE homogenization | Planned |
+| [Two materials, one stiffness](https://m-aryayi.github.io/composites-playground/tools/rve-homogenization/) | Micromechanics, RVE homogenization | Live |
 
 ## Run locally
 
@@ -27,6 +27,7 @@ Each lesson has a desktop app and a Jupyter notebook in `python/`.
 ```
 pip install -r python/requirements.txt
 python python/laminate_symmetry.py
+python python/rve_homogenization.py
 ```
 
 ## Tests

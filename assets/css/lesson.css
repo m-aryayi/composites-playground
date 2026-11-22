@@ -290,6 +290,102 @@
     .stage__say {
         font-size: var(--text-xs);
     }
+
+    .stage__status .pill {
+        font-size: var(--text-xs);
+    }
+
+    /* Labels that the controls do not need on a small screen (the controls
+       keep their accessible names). */
+    .stage__controls .field__label--optional {
+        display: none;
+    }
+
+    .stage__controls .stage__group {
+        flex: 1 1 9rem;
+    }
+
+    .stage__controls .stage__group .select {
+        width: 100%;
+    }
+
+    /* The views keep a usable size; the stage scrolls when it needs room. */
+    .stage__views {
+        min-height: 13rem;
+    }
+}
+
+@media (max-width: 719px) {
+    .stage {
+        overflow-y: auto;
+    }
+}
+
+/* A stage view that holds a panel (tabs, table, charts) instead of 3D. */
+
+.stage__panel {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-3) var(--space-4);
+    overflow: auto;
+}
+
+.stage__panel > [role="tabpanel"] {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: 14rem;
+}
+
+.stage__panel .data-table {
+    font-size: var(--text-xs);
+}
+
+.stage__panel .data-table th,
+.stage__panel .data-table td {
+    padding: var(--space-1) var(--space-2);
+}
+
+.panel-note {
+    color: var(--muted);
+    font-size: var(--text-xs);
+}
+
+.panel-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+}
+
+/* The slider fields of the "Edit values" panel. */
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr));
+    gap: var(--space-3) var(--space-6);
+}
+
+.values-grid h3 {
+    font-size: var(--text-sm);
+}
+
+.values-grid .slider-field + .slider-field,
+.values-grid h3 + .slider-field {
+    margin-top: var(--space-2);
+}
+
+.slider-field--wide {
+    grid-template-columns: auto minmax(8rem, 1fr) auto;
+    min-width: min(100%, 22rem);
+}
+
+.computed-value {
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
 }
 
 /* Numbers panel: opens below the controls and scrolls inside the stage. */

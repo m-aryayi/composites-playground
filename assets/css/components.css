@@ -104,8 +104,10 @@
     color: var(--ink);
 }
 
-/* The active part differs also without color: white, raised, and bold. */
-.segmented > button[aria-checked="true"] {
+/* The active part differs also without color: white, raised, and bold.
+   (aria-selected: the same look for tabs.) */
+.segmented > button[aria-checked="true"],
+.segmented > button[aria-selected="true"] {
     background: var(--surface);
     color: var(--accent);
     font-weight: 700;
@@ -258,7 +260,7 @@
 }
 
 .input--compact {
-    width: 5.5ch;
+    width: 7ch;
     min-height: 2rem;
     padding: 0 var(--space-2);
     text-align: right;

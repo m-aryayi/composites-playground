@@ -68,9 +68,10 @@
 
 <script type="module">
     import laminate from "./laminate-symmetry.test.js";
+    import rve from "./rve-homogenization.test.js";
     import { runSuites } from "./runner.js";
 
-    runSuites([laminate], document.getElementById("results"),
+    runSuites([laminate, rve], document.getElementById("results"),
               document.getElementById("summary"));
 </script>
 </body>
