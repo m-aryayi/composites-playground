@@ -54,8 +54,7 @@ export const EXERCISES = Object.freeze([
             { id: "double", label: "It doubles" },
             { id: "more", label: "It grows more than 2 times" },
         ],
-        setup: { fiber: "Carbon (graphite)", matrix: "Epoxy", vf: 0.6, model: "cca",
-                 tab: "curves" },
+        setup: { fiber: "Carbon (graphite)", matrix: "Epoxy", vf: 0.6, model: "cca" },
         answer: () => {
             const ratio = carbonWith("Epoxy", 0.6)[1] / carbonWith("Epoxy", 0.3)[1];
             if (Math.abs(ratio - 2) < 0.05) {
@@ -81,8 +80,8 @@ export const EXERCISES = Object.freeze([
             { id: "e2", label: "E2, across the fibers" },
             { id: "same", label: "Both grow the same" },
         ],
-        setup: { fiber: "Carbon (graphite)", matrix: "Aluminum", vf: 0.6, model: "cca",
-                 tab: "table" },
+        setup: { fiber: "Carbon (graphite)", matrix: "Aluminum", vf: 0.6,
+                 model: "cca" },
         answer: () => {
             const epoxy = carbonWith("Epoxy", 0.6);
             const aluminum = carbonWith("Aluminum", 0.6);
@@ -109,7 +108,7 @@ export const EXERCISES = Object.freeze([
             { id: "cca", label: "Composite cylinders" },
             { id: "mt", label: "Mori-Tanaka" },
         ],
-        setup: { fiber: "Carbon (graphite)", matrix: "Epoxy", vf: 0.6, tab: "table" },
+        setup: { fiber: "Carbon (graphite)", matrix: "Epoxy", vf: 0.6 },
         answer: (state) => {
             const { fiber, em, num, vf } = materialsOf(state);
             const e2s = allModels(fiber, em, num, vf).map((row) => row[1]);

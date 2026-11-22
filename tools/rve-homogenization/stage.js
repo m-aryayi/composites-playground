@@ -42,7 +42,6 @@ import { createBlockView } from "./view-block.js";
 
 const MODEL_KEYS = Object.freeze(["rom", "chamis", "cca", "mt"]);
 const BAR_VIEWS = Object.freeze(["specific", "modulus"]);
-const TABS = Object.freeze(["table", "curves", "bars"]);
 const FIBER_INPUTS = Object.freeze([...FIBER_KEYS, "rhoF"]);
 const MATRIX_INPUTS = Object.freeze(["em", "num", "rhoM"]);
 const NUMBER_KEYS = Object.freeze([...FIBER_INPUTS, ...MATRIX_INPUTS, "vf"]);
@@ -77,7 +76,6 @@ const SCHEMA = Object.freeze({
         numberField(DEFAULTS[key], INPUTS[key].low, INPUTS[key].high)])),
     model: choiceField("cca", MODEL_KEYS),
     bars: choiceField("specific", BAR_VIEWS),
-    tab: choiceField("table", TABS),
 });
 
 /** Return the values of a preset as a state change. */
@@ -111,8 +109,7 @@ function cleanChange(change, state) {
             clean[key] = inputValue(key, Math.min(Math.max(value, low), high));
         }
     }
-    for (const [key, choices] of [["model", MODEL_KEYS], ["bars", BAR_VIEWS],
-                                  ["tab", TABS]]) {
+    for (const [key, choices] of [["model", MODEL_KEYS], ["bars", BAR_VIEWS]]) {
         if (choices.includes(change[key])) {
             clean[key] = change[key];
         }
@@ -201,25 +198,13 @@ export function createStage(root = document) {
             box.value = inputNumber(key, store.get()[key]);
         });
     }
-    // Switches: data-model, data-bars, data-tab, data-view.
-    for (const key of ["model", "bars", "tab"]) {
+    // Switches: data-model and data-bars.
+    for (const key of ["model", "bars"]) {
         for (const button of qsa(`[data-${key}]`, root)) {
             button.addEventListener("click", () => {
                 apply({ [key]: button.dataset[key] });
             });
         }
-    }
-    /** Show one view in a narrow stage ("block" or "results"). */
-    function showView(chosen) {
-        for (const button of qsa("#view-switch button", root)) {
-            button.setAttribute("aria-checked", String(button.dataset.view === chosen));
-        }
-        for (const view of qsa(".stage__view", root)) {
-            view.classList.toggle("is-shown", view.dataset.view === chosen);
-        }
-    }
-    for (const button of qsa("#view-switch button", root)) {
-        button.addEventListener("click", () => showView(button.dataset.view));
     }
 
     /** Write the inputs: lists, sliders, number boxes, and G23. */
@@ -313,28 +298,16 @@ export function createStage(root = document) {
         showTable(models, selected);
         showCurves(state, props, selected);
         showBars(state, props);
-        for (const [attribute, key] of [["model", "model"], ["bars", "bars"]]) {
-            for (const button of qsa(`[data-${attribute}]`, root)) {
+        for (const key of ["model", "bars"]) {
+            for (const button of qsa(`[data-${key}]`, root)) {
                 button.setAttribute("aria-checked",
-                                    String(button.dataset[attribute] === state[key]));
+                                    String(button.dataset[key] === state[key]));
             }
-        }
-        for (const tab of qsa("[data-tab]", root)) {
-            const active = tab.dataset.tab === state.tab;
-            tab.setAttribute("aria-selected", String(active));
-            qs(`#${tab.getAttribute("aria-controls")}`, root).hidden = !active;
         }
         showInputs(state);
     }
 
-    store.subscribe((state, previous) => {
-        // A new result tab (a "Try it" button, an exercise) shows the results
-        // also in a narrow stage.
-        if (state.tab !== previous.tab) {
-            showView("results");
-        }
-        show(state);
-    });
+    store.subscribe(show);
     show(store.get());
     return Object.freeze({
         store,

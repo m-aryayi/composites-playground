@@ -321,6 +321,117 @@
     }
 }
 
+/* Full layout: the tool uses the whole width, the text follows below it, on
+   every screen. The tool is a grid of cells: inputs, 3D view, table, charts. */
+
+.lesson--full {
+    grid-template-areas: "head" "stage" "body";
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto;
+}
+
+.lesson--full .stage {
+    position: static;
+    height: auto;
+    min-height: 0;
+    margin-inline: 0;
+    overflow: visible;
+    border: var(--border);
+    border-radius: var(--radius);
+    box-shadow: none;
+}
+
+.tool-grid {
+    display: grid;
+    grid-template-areas: "inputs" "view" "table" "curves" "bars";
+    grid-template-columns: minmax(0, 1fr);
+    gap: 1px;
+    background: var(--line);
+}
+
+.tool-cell {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: var(--space-4);
+    background: var(--surface);
+}
+
+.tool-cell--inputs { grid-area: inputs; }
+.tool-cell--view { grid-area: view; }
+.tool-cell--table { grid-area: table; }
+.tool-cell--chart:nth-last-child(2) { grid-area: curves; }
+.tool-cell--chart:last-child { grid-area: bars; }
+
+.tool-cell--view {
+    min-height: 18rem;
+    padding: 0;
+}
+
+.tool-cell--chart {
+    min-height: 19rem;
+}
+
+/* The comparison also holds a switch and a legend above its plot. */
+.tool-cell--chart:last-child {
+    min-height: 23rem;
+}
+
+.tool-cell--table {
+    overflow-x: auto;
+}
+
+.tool-cell--table .data-table th,
+.tool-cell--table .data-table td {
+    padding: var(--space-1) var(--space-2);
+}
+
+.tool-field {
+    display: grid;
+    gap: var(--space-1);
+}
+
+/* A short name (Vf, E1, ν12): a narrow name column, a long slider. */
+.tool-cell .slider-field {
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+}
+
+.chart-stack {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: var(--space-2);
+    min-height: 0;
+}
+
+.values-list > * + * {
+    margin-top: var(--space-2);
+}
+
+.values-list h3 {
+    margin-top: var(--space-3);
+    font-size: var(--text-sm);
+}
+
+/* Medium: inputs next to the 3D view; the table under them; two charts. */
+@container stage (min-width: 44rem) {
+    .tool-grid {
+        grid-template-areas: "inputs view" "table table" "curves bars";
+        grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    }
+}
+
+/* Wide, as in the Python app: inputs, 3D view, and table on top; charts below. */
+@container stage (min-width: 68rem) {
+    .tool-grid {
+        grid-template-areas:
+            "inputs inputs view view view table table table"
+            "curves curves curves curves bars bars bars bars";
+        grid-template-columns: repeat(8, minmax(0, 1fr));
+    }
+}
+
 /* A stage view that holds a panel (tabs, table, charts) instead of 3D. */
 
 .stage__panel {

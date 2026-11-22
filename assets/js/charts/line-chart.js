@@ -11,13 +11,13 @@ import {
     watchSize,
 } from "./svg.js";
 
-const MARGIN = Object.freeze({ top: 14, right: 84, bottom: 42, left: 50 });
+const MARGIN = Object.freeze({ top: 14, right: 40, bottom: 50, left: 50 });
 const Y_TICK_COUNT = 4;
 const MARKER_RADIUS = 5;
 const LABEL_GAP = 8;                   // pixels from a line end to its label
 const TICK_GAP = 8;                    // pixels from an axis to its tick values
 const X_TICK_DROP = 18;                // pixels below the plot for the x values
-const NAME_INSET = 6;                  // pixels from the edge to an axis name
+const NAME_INSET = 12;                 // pixels from the edge to an axis name
 const Y_NAME_X = 12;
 
 /** Return the SVG path data of points [x, y] in pixels. */

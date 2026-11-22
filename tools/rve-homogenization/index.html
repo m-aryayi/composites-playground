@@ -63,7 +63,7 @@
     </div>
 </header>
 
-<main id="main" class="lesson container container--wide">
+<main id="main" class="lesson lesson--full container container--wide">
 
     <header class="lesson__head">
         <span class="tag">Micromechanics</span>
@@ -74,16 +74,9 @@
     </header>
 
     <!-- ===================================================== the stage -->
-    <aside class="stage" id="stage" aria-label="RVE model">
+    <section class="stage stage--full" id="stage" aria-label="RVE model">
         <div class="stage__bar">
             <div class="stage__status" id="status"></div>
-            <div class="segmented stage__switch" id="view-switch" role="radiogroup"
-                 aria-label="View">
-                <button type="button" role="radio" aria-checked="true"
-                        data-view="block">Block</button>
-                <button type="button" role="radio" aria-checked="false"
-                        data-view="results">Results</button>
-            </div>
             <div class="stage__actions">
                 <button class="btn btn--icon btn--quiet" type="button"
                         data-action="share" aria-label="Copy share link"
@@ -91,180 +84,165 @@
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#link"></use></svg>
                 </button>
-                <button class="btn btn--icon btn--quiet stage__fold" type="button"
-                        aria-expanded="true"
-                        aria-controls="stage-views stage-controls numbers"
-                        aria-label="Hide the model">
-                    <svg class="icon" aria-hidden="true">
-                        <use href="../../assets/img/icons.svg#chevron"></use></svg>
-                </button>
             </div>
             <p class="stage__say" id="say" aria-live="polite"></p>
         </div>
 
-        <div class="stage__views stage__views--two" id="stage-views">
-            <div class="stage__view is-shown" id="view-block" data-view="block">
-                <span class="stage__view-caption tag">RVE · hexagonal packing</span>
+        <div class="tool-grid">
+            <!-- Inputs: materials first. -->
+            <div class="tool-cell tool-cell--inputs">
+                <span class="tag">Fiber and matrix</span>
+                <div class="tool-field">
+                    <label class="field__label" for="fiber-select">Fiber</label>
+                    <select class="select" id="fiber-select"></select>
+                </div>
+                <div class="tool-field">
+                    <label class="field__label" for="matrix-select">Matrix</label>
+                    <select class="select" id="matrix-select"></select>
+                </div>
+                <div class="slider-field">
+                    <label class="slider-field__label" for="range-vf">V<sub>f</sub></label>
+                    <input class="range" id="range-vf" type="range" data-key="vf">
+                    <span class="slider-field__value">
+                        <input class="input input--compact" data-key="vf" inputmode="decimal"
+                               aria-label="Fiber volume fraction">
+                    </span>
+                </div>
+                <div class="tool-field">
+                    <span class="field__label" id="model-label">Model</span>
+                    <div class="segmented" role="radiogroup" aria-labelledby="model-label">
+                        <button type="button" role="radio" data-model="rom"
+                                title="Rule of mixtures">ROM</button>
+                        <button type="button" role="radio" data-model="chamis"
+                                title="Chamis">Chamis</button>
+                        <button type="button" role="radio" data-model="cca"
+                                title="Composite cylinders">CCA</button>
+                        <button type="button" role="radio" data-model="mt"
+                                title="Mori-Tanaka">MT</button>
+                    </div>
+                </div>
+                <details class="disclosure" id="numbers">
+                    <summary>
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                        Edit values
+                    </summary>
+                    <div class="disclosure__body values-list">
+                        <h3 style="color: var(--fiber)">Fiber (axis 1 along it)</h3>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-e1">E<sub>1</sub></label>
+                            <input class="range" id="range-e1" type="range" data-key="e1">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="e1" inputmode="decimal" aria-label="Fiber E1 in GPa">
+                                GPa</span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-e2">E<sub>2</sub></label>
+                            <input class="range" id="range-e2" type="range" data-key="e2">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="e2" inputmode="decimal" aria-label="Fiber E2 in GPa">
+                                GPa</span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-nu12">ν<sub>12</sub></label>
+                            <input class="range" id="range-nu12" type="range" data-key="nu12">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="nu12" inputmode="decimal" aria-label="Fiber ν12"></span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-nu23">ν<sub>23</sub></label>
+                            <input class="range" id="range-nu23" type="range" data-key="nu23">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="nu23" inputmode="decimal" aria-label="Fiber ν23"></span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-g12">G<sub>12</sub></label>
+                            <input class="range" id="range-g12" type="range" data-key="g12">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="g12" inputmode="decimal" aria-label="Fiber G12 in GPa">
+                                GPa</span>
+                        </div>
+                        <div class="slider-field">
+                            <span class="slider-field__label">G<sub>23</sub></span>
+                            <span class="panel-note">from E<sub>2</sub> and ν<sub>23</sub></span>
+                            <span class="computed-value" id="g23-value"></span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-rhoF">ρ</label>
+                            <input class="range" id="range-rhoF" type="range" data-key="rhoF">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="rhoF" inputmode="decimal"
+                                aria-label="Fiber density in g/cm³"> g/cm³</span>
+                        </div>
+                        <h3 style="color: var(--matrix-ink)">Matrix (isotropic)</h3>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-em">E</label>
+                            <input class="range" id="range-em" type="range" data-key="em">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="em" inputmode="decimal" aria-label="Matrix E in GPa">
+                                GPa</span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-num">ν</label>
+                            <input class="range" id="range-num" type="range" data-key="num">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="num" inputmode="decimal" aria-label="Matrix ν"></span>
+                        </div>
+                        <div class="slider-field">
+                            <label class="slider-field__label" for="range-rhoM">ρ</label>
+                            <input class="range" id="range-rhoM" type="range" data-key="rhoM">
+                            <span class="slider-field__value"><input class="input input--compact"
+                                data-key="rhoM" inputmode="decimal"
+                                aria-label="Matrix density in g/cm³"> g/cm³</span>
+                        </div>
+                        <p class="panel-note">A changed value turns the list into "Custom".
+                            The fiber E2 stays at or below E1.</p>
+                    </div>
+                </details>
+            </div>
+
+            <!-- The 3D block. -->
+            <div class="tool-cell tool-cell--view stage__view" id="view-block">
+                <span class="stage__view-caption tag">The RVE · hexagonal packing</span>
                 <span class="stage__hint">
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#rotate"></use></svg>
                     Drag to rotate
                 </span>
             </div>
-            <div class="stage__view stage__panel" id="view-results" data-view="results">
+
+            <!-- The four models. -->
+            <div class="tool-cell tool-cell--table">
+                <span class="tag">Homogenized properties</span>
+                <table class="data-table" id="results-table"
+                       aria-label="Homogenized properties, moduli in GPa"></table>
+                <p class="panel-note">Moduli in GPa. ROM: rule of mixtures · CCA:
+                    composite cylinders · MT: Mori-Tanaka. "–": the model gives no
+                    value.</p>
+            </div>
+
+            <!-- E1 and E2 against Vf. -->
+            <div class="tool-cell tool-cell--chart">
+                <span class="tag">E<sub>1</sub> and E<sub>2</sub> against V<sub>f</sub></span>
+                <p class="panel-note">The chosen model: E1 solid, E2 dashed; the circles
+                    show the present V<sub>f</sub>.</p>
+                <div class="chart-box" id="curves-chart"></div>
+            </div>
+
+            <!-- Compare with the fiber, the matrix, and two metals. -->
+            <div class="tool-cell tool-cell--chart">
                 <div class="panel-row">
-                    <div class="segmented" role="tablist" aria-label="Results">
-                        <button type="button" role="tab" id="tab-table" data-tab="table"
-                                aria-controls="panel-table">Table</button>
-                        <button type="button" role="tab" id="tab-curves"
-                                data-tab="curves" aria-controls="panel-curves">E vs
-                            V<sub>f</sub></button>
-                        <button type="button" role="tab" id="tab-bars" data-tab="bars"
-                                aria-controls="panel-bars">Bars</button>
+                    <span class="tag">Compare: fiber, composite, matrix, metals</span>
+                    <div class="segmented" role="radiogroup" aria-label="Compare">
+                        <button type="button" role="radio"
+                                data-bars="specific">E/ρ</button>
+                        <button type="button" role="radio" data-bars="modulus">E</button>
                     </div>
                 </div>
-                <div role="tabpanel" id="panel-table" aria-labelledby="tab-table">
-                    <table class="data-table" id="results-table"
-                           aria-label="Homogenized properties, moduli in GPa"></table>
-                    <p class="panel-note">ROM: rule of mixtures · CCA: composite
-                        cylinders · MT: Mori-Tanaka. "–": the model gives no value.</p>
-                </div>
-                <div role="tabpanel" id="panel-curves" aria-labelledby="tab-curves">
-                    <p class="panel-note">E1 (solid) and E2 (dashed) of the chosen model;
-                        the circles show the present V<sub>f</sub>.</p>
-                    <div class="chart-box" id="curves-chart"></div>
-                </div>
-                <div role="tabpanel" id="panel-bars" aria-labelledby="tab-bars">
-                    <div class="panel-row">
-                        <span class="panel-note">Fiber, composite, matrix, and two
-                            metals</span>
-                        <div class="segmented" role="radiogroup" aria-label="Bars show">
-                            <button type="button" role="radio"
-                                    data-bars="specific">E/ρ</button>
-                            <button type="button" role="radio" data-bars="modulus">E</button>
-                        </div>
-                    </div>
-                    <div class="chart-box" id="bars-chart"
-                         style="display: flex; flex-direction: column; gap: 8px"></div>
-                </div>
+                <div class="chart-stack" id="bars-chart"></div>
             </div>
         </div>
-
-        <div class="stage__controls" id="stage-controls">
-            <div class="stage__group">
-                <label class="field__label field__label--optional" for="fiber-select">Fiber</label>
-                <select class="select" id="fiber-select"></select>
-            </div>
-            <div class="stage__group">
-                <label class="field__label field__label--optional" for="matrix-select">Matrix</label>
-                <select class="select" id="matrix-select"></select>
-            </div>
-            <div class="slider-field slider-field--wide">
-                <label class="slider-field__label" for="range-vf">V<sub>f</sub></label>
-                <input class="range" id="range-vf" type="range" data-key="vf">
-                <span class="slider-field__value">
-                    <input class="input input--compact" data-key="vf" inputmode="decimal"
-                           aria-label="Fiber volume fraction">
-                </span>
-            </div>
-            <div class="stage__group">
-                <span class="field__label field__label--optional" id="model-label">Model</span>
-                <div class="segmented" role="radiogroup" aria-labelledby="model-label">
-                    <button type="button" role="radio" data-model="rom"
-                            title="Rule of mixtures">ROM</button>
-                    <button type="button" role="radio" data-model="chamis"
-                            title="Chamis">Chamis</button>
-                    <button type="button" role="radio" data-model="cca"
-                            title="Composite cylinders">CCA</button>
-                    <button type="button" role="radio" data-model="mt"
-                            title="Mori-Tanaka">MT</button>
-                </div>
-            </div>
-        </div>
-
-        <details class="disclosure stage__numbers" id="numbers">
-            <summary>
-                <svg class="icon" aria-hidden="true">
-                    <use href="../../assets/img/icons.svg#chevron"></use></svg>
-                Edit values: fiber and matrix
-            </summary>
-            <div class="disclosure__body values-grid">
-                <div>
-                    <h3 style="color: var(--fiber)">Fiber (axis 1 along it)</h3>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-e1">E<sub>1</sub></label>
-                        <input class="range" id="range-e1" type="range" data-key="e1">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="e1" inputmode="decimal" aria-label="Fiber E1 in GPa">
-                            GPa</span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-e2">E<sub>2</sub></label>
-                        <input class="range" id="range-e2" type="range" data-key="e2">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="e2" inputmode="decimal" aria-label="Fiber E2 in GPa">
-                            GPa</span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-nu12">ν<sub>12</sub></label>
-                        <input class="range" id="range-nu12" type="range" data-key="nu12">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="nu12" inputmode="decimal" aria-label="Fiber ν12"></span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-nu23">ν<sub>23</sub></label>
-                        <input class="range" id="range-nu23" type="range" data-key="nu23">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="nu23" inputmode="decimal" aria-label="Fiber ν23"></span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-g12">G<sub>12</sub></label>
-                        <input class="range" id="range-g12" type="range" data-key="g12">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="g12" inputmode="decimal" aria-label="Fiber G12 in GPa">
-                            GPa</span>
-                    </div>
-                    <div class="slider-field">
-                        <span class="slider-field__label">G<sub>23</sub></span>
-                        <span class="panel-note">from E<sub>2</sub> and ν<sub>23</sub></span>
-                        <span class="computed-value" id="g23-value"></span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-rhoF">ρ</label>
-                        <input class="range" id="range-rhoF" type="range" data-key="rhoF">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="rhoF" inputmode="decimal"
-                            aria-label="Fiber density in g/cm³"> g/cm³</span>
-                    </div>
-                </div>
-                <div>
-                    <h3 style="color: var(--matrix-ink)">Matrix (isotropic)</h3>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-em">E</label>
-                        <input class="range" id="range-em" type="range" data-key="em">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="em" inputmode="decimal" aria-label="Matrix E in GPa">
-                            GPa</span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-num">ν</label>
-                        <input class="range" id="range-num" type="range" data-key="num">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="num" inputmode="decimal" aria-label="Matrix ν"></span>
-                    </div>
-                    <div class="slider-field">
-                        <label class="slider-field__label" for="range-rhoM">ρ</label>
-                        <input class="range" id="range-rhoM" type="range" data-key="rhoM">
-                        <span class="slider-field__value"><input class="input input--compact"
-                            data-key="rhoM" inputmode="decimal"
-                            aria-label="Matrix density in g/cm³"> g/cm³</span>
-                    </div>
-                    <p class="panel-note">A changed value turns the list into "Custom".
-                        The fiber E2 stays at or below E1.</p>
-                </div>
-            </div>
-        </details>
-    </aside>
+    </section>
 
     <!-- ===================================================== the text -->
     <div class="lesson__body">
@@ -287,13 +265,13 @@
                 much less.</p>
             <div class="try-row">
                 <button class="chip" type="button"
-                        data-try='{"vf": 0.3, "tab": "curves"}'>
+                        data-try='{"vf": 0.3}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
                     Try V<sub>f</sub> = 0.3
                 </button>
                 <button class="chip" type="button"
-                        data-try='{"vf": 0.9, "tab": "curves"}'>
+                        data-try='{"vf": 0.9}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
                     Try V<sub>f</sub> = 0.9
@@ -307,8 +285,11 @@
                     0.05 to 0.90. Move the slider or type a value.</li>
                 <li><strong>Model</strong>: the model of the charts and the marked
                     column of the table. The table always shows all four.</li>
-                <li><strong>Results</strong>: the table, E against V<sub>f</sub>,
-                    and bars that compare with aluminum and steel.</li>
+                <li><strong>Results</strong>: the table of the four models, E against
+                    V<sub>f</sub>, and <strong>Compare</strong>: bars of the fiber,
+                    the composite, the matrix, aluminum, and steel.</li>
+                <li>A "Try it" button in this text sets the tool and scrolls back up
+                    to it.</li>
                 <li><strong>Edit values</strong>: set your own fiber or matrix
                     constants.</li>
             </ul>
@@ -380,10 +361,10 @@
                 \(G_{12}\), and \(K_{23}\) (Benveniste 1987); they differ a little in
                 \(G_{23}\), and so in \(E_2\).</p>
             <div class="try-row">
-                <button class="chip" type="button" data-try='{"tab": "table"}'>
+                <button class="chip" type="button" data-try='{}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
-                    Compare the four models
+                    See the four models in the table
                 </button>
             </div>
 
@@ -393,15 +374,21 @@
                 through the soft matrix, so the result depends on how the model
                 describes that path. The models differ there by 10 to 20 %.</p>
             <p>A stiffer matrix helps much more across the fibers than along them.</p>
+            <p>Look at carbon fibers in aluminum in the chart E<sub>1</sub> and
+                E<sub>2</sub> against V<sub>f</sub>:
+                \(E_2\) falls when \(V_f\) grows. A carbon fiber is stiff along its
+                axis (230 GPa) but soft across it (\(E_{f2} = 22\) GPa), softer than
+                aluminum (71 GPa). Across the fibers, more fiber then means a softer
+                composite.</p>
             <div class="try-row">
                 <button class="chip" type="button"
-                        data-try='{"matrix": "Aluminum", "tab": "table"}'>
+                        data-try='{"matrix": "Aluminum"}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
                     Try an aluminum matrix
                 </button>
                 <button class="chip" type="button"
-                        data-try='{"matrix": "Epoxy", "tab": "table"}'>
+                        data-try='{"matrix": "Epoxy"}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
                     Back to epoxy
@@ -417,7 +404,7 @@
                 <a href="../laminate-symmetry/">Is it symmetric?</a>).</p>
             <div class="try-row">
                 <button class="chip" type="button"
-                        data-try='{"tab": "bars", "bars": "specific"}'>
+                        data-try='{"bars": "specific"}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
                     Show E/ρ with the metals

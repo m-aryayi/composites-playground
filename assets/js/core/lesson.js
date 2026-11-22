@@ -72,6 +72,10 @@ export function initLesson({ stage, onTry, getShareUrl }) {
     for (const button of qsa("[data-try]")) {
         button.addEventListener("click", () => {
             tryChange(JSON.parse(button.dataset.try));
+            // A full-width tool is above the text, not next to it: show it.
+            if (stage.classList.contains("stage--full")) {
+                stage.scrollIntoView({ block: "start" });
+            }
         });
     }
     qs(".stage__fold", stage)?.addEventListener("click", () => {
