@@ -20,6 +20,12 @@ python -m http.server 8000
 
 Then open http://localhost:8000/
 
+## Tests
+
+The JavaScript physics is checked against the textbook examples and the
+reference values of the Python apps in `python/`.
+Start the local server as above, then open http://localhost:8000/tests/
+
 ## License
 
 Code: MIT (see [LICENSE](LICENSE)).

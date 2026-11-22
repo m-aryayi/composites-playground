@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tests · Composites Playground</title>
+    <meta name="theme-color" content="#00785A">
+    <link rel="icon" href="../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../assets/css/tokens.css">
+    <link rel="stylesheet" href="../assets/css/base.css">
+    <link rel="stylesheet" href="../assets/css/components.css">
+    <link rel="stylesheet" href="../assets/css/site.css">
+    <style>
+        /* Layout of the test page only. */
+        .tests {
+            padding-block: var(--space-6) var(--space-8);
+        }
+
+        .tests__head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+            margin-bottom: var(--space-5);
+        }
+
+        .tests__note {
+            margin-top: var(--space-2);
+            color: var(--muted);
+            font-size: var(--text-sm);
+        }
+
+        .test-group + .test-group {
+            margin-top: var(--space-4);
+        }
+
+        .test-group__head {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            justify-content: space-between;
+            gap: var(--space-3);
+        }
+
+        .test-failure {
+            margin-top: var(--space-4);
+        }
+
+        .test-failure pre {
+            margin-top: var(--space-2);
+            white-space: pre-wrap;
+        }
+    </style>
+</head>
+<body class="site">
+<main class="container tests">
+    <div class="tests__head">
+        <div>
+            <h1>Tests</h1>
+            <p class="tests__note">The JavaScript physics against the checks and the
+                golden values of the Python apps.</p>
+        </div>
+        <span class="pill" id="summary" role="status">Running…</span>
+    </div>
+    <div id="results"></div>
+</main>
+
+<script type="module">
+    import laminate from "./laminate-symmetry.test.js";
+    import { runSuites } from "./runner.js";
+
+    runSuites([laminate], document.getElementById("results"),
+              document.getElementById("summary"));
+</script>
+</body>
+</html>
