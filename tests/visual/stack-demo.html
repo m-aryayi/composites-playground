@@ -111,6 +111,7 @@
         }
         qs("#reset").addEventListener("click", () => stack.view.resetView());
         show(state);
+        window.demo = { stack, get state() { return state; } };   // for the tests
     }
 
     main();

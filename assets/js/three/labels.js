@@ -16,6 +16,8 @@ export function createLabelLayer(view, container) {
     return Object.freeze({
         /** Put an element at a 3D position (in the parent's axes). */
         add(element, position, parent = view.scene) {
+            // In the page at once (not at the next frame), so it can take the focus.
+            renderer.domElement.append(element);
             const label = new CSS2DObject(element);
             label.position.set(...position);
             parent.add(label);

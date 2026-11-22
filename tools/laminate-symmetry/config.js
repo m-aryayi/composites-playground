@@ -65,3 +65,36 @@ export const STACK_STYLE = Object.freeze({
     differColor: "#D55E00",         // mirror pair that differs: dashed
 });
 export const CLICK_TOLERANCE_PX = 5;    // a shorter move is a click, not a drag
+
+// ------------------------------------------------- web view of the plate
+
+export const VIEW_MODES = Object.freeze(["Bend", "Shear", "Both"]);
+export const DEFAULT_MODE = "Both";
+export const PLATE_VIEW = Object.freeze({
+    elevation: 24.0,
+    azimuth: -58.0,
+    viewSize: 1.6,                  // world units that fit up and down
+    viewWidth: 2.3,                 // and across: the plate and the arrows
+});
+// The Python app draws z with the matplotlib box aspect (1, 1, 0.55) over
+// the limits x: ±0.75 and z: ±0.45, so a plate height shows 0.917 times.
+export const PLATE_Z_SCALE = (0.55 * 1.5) / 0.9;
+export const PLATE_STYLE = Object.freeze({
+    // One-hue ramp (safe for color blindness), as sRGB 0 to 1:
+    // #E1F2EB (no move) to #00785A (largest move).
+    low: Object.freeze([225 / 255, 242 / 255, 235 / 255]),
+    high: Object.freeze([0 / 255, 120 / 255, 90 / 255]),
+    gridColor: "#FFFFFF",
+    gridOpacity: 0.75,
+    outlineColor: "#56635C",
+    outlineWidth: 1.5,              // pixels
+    dashSize: 0.04,
+    gapSize: 0.03,
+    arrowColor: "#00785A",
+    arrowLength: 0.24,              // as in the Python app
+    arrowGap: 0.1,
+    arrowHeadRatio: 0.4,
+    arrowRadius: 0.012,
+    arrowHeadRadius: 0.035,
+});
+export const SHAPE_CHANGE_MS = 350;     // 14 frames of 25 ms in the Python app

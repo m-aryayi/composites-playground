@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Plate demo · Composites Playground</title>
+    <meta name="theme-color" content="#00785A">
+    <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
+    <link rel="stylesheet" href="../../assets/css/tokens.css">
+    <link rel="stylesheet" href="../../assets/css/base.css">
+    <link rel="stylesheet" href="../../assets/css/components.css">
+    <link rel="stylesheet" href="../../assets/css/site.css">
+    <link rel="stylesheet" href="../../assets/css/lesson.css">
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.187.0/build/three.module.js",
+            "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.187.0/examples/jsm/"
+        }
+    }
+    </script>
+    <style>
+        /* Layout of this test page only. */
+        .demo {
+            padding-block: var(--space-6) var(--space-8);
+        }
+
+        .demo__controls {
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
+            gap: var(--space-2);
+            margin-block: var(--space-4);
+        }
+
+        .demo__frame {
+            display: grid;
+            height: min(70vh, 40rem);
+            padding: 0;
+            overflow: hidden;
+        }
+
+        .demo__readout {
+            margin-top: var(--space-3);
+            color: var(--muted);
+            font-size: var(--text-sm);
+        }
+    </style>
+</head>
+<body class="site">
+<main class="container demo">
+    <h1>Plate demo</h1>
+    <p class="demo__readout">Test page of the 3D plate (module T1.4). Compare with
+        the Python app: <code>.venv/Scripts/python.exe
+        python/laminate_symmetry.py</code></p>
+
+    <div class="demo__controls" id="stacks" role="group" aria-label="Test stacks"></div>
+    <div class="demo__controls">
+        <span class="field__label">Show</span>
+        <div class="segmented" id="modes" role="radiogroup" aria-label="Show"></div>
+    </div>
+
+    <div class="card demo__frame">
+        <div class="stage__view" id="view">
+            <span class="stage__hint">Drag to rotate · scroll to zoom</span>
+        </div>
+    </div>
+    <p class="demo__readout" id="readout" aria-live="polite"></p>
+</main>
+
+<script type="module">
+    // Plate demo: six test stacks and the Bend / Shear / Both switch.
+    import { el, qs, qsa } from "../../assets/js/core/dom.js";
+    import { DEFAULT_MODE, VIEW_MODES } from "../../tools/laminate-symmetry/config.js";
+    import { formatAngle } from "../../tools/laminate-symmetry/model.js";
+    import { createPlateView } from "../../tools/laminate-symmetry/view-plate.js";
+
+    const TEST_STACKS = Object.freeze([
+        [0, 45, 90],
+        [0, 90, 90, 0],
+        [0, 90],
+        [45, -45],
+        [0, 45, 90, 90, 45, 0],
+        [30],
+    ]);
+
+    /** Return a stack as short text, for example "[0/+45/90]". */
+    function stackName(angles) {
+        return `[${angles.map((a) => formatAngle(a).replace("°", "")).join("/")}]`;
+    }
+
+    /** Start the demo. */
+    function main() {
+        let state = { angles: TEST_STACKS[0], mode: DEFAULT_MODE };
+        const plate = createPlateView(qs("#view"));
+
+        /** Draw a state and write it below the view. */
+        function show(next, animate = true) {
+            state = next;
+            const label = plate.update(state, { animate });
+            for (const button of qsa("#modes button")) {
+                button.setAttribute("aria-checked", String(button.dataset.mode === state.mode));
+            }
+            qs("#readout").textContent = `Stack ${stackName(state.angles)} · `
+                + `show: ${state.mode} · pulled, it ${label}.`;
+        }
+
+        for (const angles of TEST_STACKS) {
+            const button = el("button", { className: "btn", text: stackName(angles),
+                                          attrs: { type: "button" } });
+            button.addEventListener("click", () => show({ ...state, angles }));
+            qs("#stacks").append(button);
+        }
+        for (const mode of VIEW_MODES) {
+            const button = el("button", { text: mode, dataset: { mode },
+                                          attrs: { type: "button", role: "radio" } });
+            button.addEventListener("click", () => show({ ...state, mode }));
+            qs("#modes").append(button);
+        }
+        show(state, false);
+        window.demo = { plate, get state() { return state; } };   // for the tests
+    }
+
+    main();
+</script>
+</body>
+</html>

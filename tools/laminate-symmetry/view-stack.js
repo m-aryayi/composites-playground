@@ -3,7 +3,6 @@
 import {
     BoxGeometry,
     BufferGeometry,
-    Color,
     DoubleSide,
     Float32BufferAttribute,
     Group,
@@ -15,11 +14,10 @@ import {
     Raycaster,
     Vector2,
 } from "three";
-import { Line2 } from "three/addons/lines/Line2.js";
-import { LineGeometry } from "three/addons/lines/LineGeometry.js";
-import { LineMaterial } from "three/addons/lines/LineMaterial.js";
 import { el } from "../../assets/js/core/dom.js";
 import { createLabelLayer } from "../../assets/js/three/labels.js";
+import { thickLine as sharedThickLine, updateLineResolution } from
+    "../../assets/js/three/lines.js";
 import { createView } from "../../assets/js/three/scene.js";
 import { CLICK_TOLERANCE_PX, STACK_STYLE, STACK_VIEW } from "./config.js";
 import {
@@ -45,20 +43,15 @@ function angleText(angle) {
     return formatAngle(angle).replace("-", "−");
 }
 
-/** Return a thick line (pixels wide) through 3D points; solid or dashed. */
+/** Return a thick line of the stack style through 3D points; solid or dashed. */
 function thickLine(points, color, dashed) {
-    const geometry = new LineGeometry();
-    geometry.setPositions(points.flat());
-    const material = new LineMaterial({
-        color: new Color(color),
-        linewidth: STACK_STYLE.lineWidth,
+    return sharedThickLine(points, {
+        color,
+        width: STACK_STYLE.lineWidth,
         dashed,
         dashSize: STACK_STYLE.dashSize,
         gapSize: STACK_STYLE.gapSize,
     });
-    const line = new Line2(geometry, material);
-    line.computeLineDistances();
-    return line;
 }
 
 /** Return one ply: a box with three face colors, and its fiber lines. */
@@ -152,17 +145,11 @@ export function createStackView(container, { onSelect }) {
         target: [shift * right[0], shift * right[1], 0],
     });
     const labels = createLabelLayer(view, container);
-    const resolution = new Vector2();
     let current = null;
 
     /** Set the pixel size of the thick lines (they need the view size). */
     function setLineResolution() {
-        view.renderer.getSize(resolution);
-        current?.group.traverse((object) => {
-            if (object.material instanceof LineMaterial) {
-                object.material.resolution.copy(resolution);
-            }
-        });
+        updateLineResolution(view, current?.group);
     }
     view.onResize(setLineResolution);
 
@@ -216,6 +203,8 @@ export function createStackView(container, { onSelect }) {
         });
         group.add(...buildMidPlane(), ...buildBrackets(angles, centers, right));
         view.scene.add(group);
+        // Positions now, not at the next frame: a click before it must hit.
+        group.updateMatrixWorld(true);
 
         const gap = STACK_STYLE.labelGap;
         const buttons = angles.map((_, k) => plyLabel(angles, k, selected));
@@ -245,7 +234,8 @@ export function createStackView(container, { onSelect }) {
         current = { group, plies, buttons, labels: [...placed, planeLabel] };
         setLineResolution();
         if (hadFocus) {
-            buttons[selected]?.focus();
+            // No scroll: the label has its screen place only after the next frame.
+            buttons[selected]?.focus({ preventScroll: true });
         }
         view.requestRender();
     }
