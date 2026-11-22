@@ -37,6 +37,7 @@ import {
     parseInput,
     propertyText,
     pyFixed,
+    shearModulus,
 } from "./model.js";
 import { createBlockView } from "./view-block.js";
 
@@ -207,7 +208,7 @@ export function createStage(root = document) {
         }
     }
 
-    /** Write the inputs: lists, sliders, number boxes, and G23. */
+    /** Write the inputs: lists, sliders, number boxes, and the two shear moduli. */
     function showInputs(state) {
         fiberSelect.value = presetName(FIBER_PRESETS, FIBER_INPUTS, state);
         matrixSelect.value = presetName(MATRIX_PRESETS, MATRIX_INPUTS, state);
@@ -224,7 +225,9 @@ export function createStage(root = document) {
             }
         }
         const g23 = fiberG23(materialsOf(state).fiber);
-        qs("#g23-value", root).textContent = `${pyFixed(g23, 1)} GPa`;
+        qs("#g23-value", root).textContent = pyFixed(g23, 1);
+        const gm = shearModulus(state.em, state.num);
+        qs("#gm-value", root).textContent = pyFixed(gm, 2);
     }
 
     /** Write the table of the four models; the selected column is marked. */
@@ -287,10 +290,13 @@ export function createStage(root = document) {
         const props = models[selected];
         const rho = barDensities(state.rhoF, state.rhoM, vf)[1];
         block.update(vf);
-        qs("#status", root).replaceChildren(
-            valuePill("E1", `${pyFixed(props[0], 1)} GPa`),
-            valuePill("E2", `${pyFixed(props[1], 2)} GPa`),
-            valuePill("ρ", `${pyFixed(rho, 2)} g/cm³`));
+        // The tool bar and the reading card show the same pills.
+        for (const status of qsa("[data-status]", root)) {
+            status.replaceChildren(
+                valuePill("E1", `${pyFixed(props[0], 1)} GPa`),
+                valuePill("E2", `${pyFixed(props[1], 2)} GPa`),
+                valuePill("ρ", `${pyFixed(rho, 2)} g/cm³`));
+        }
         qs("#say", root).textContent = `${MODEL_LONG_NAMES[selected]}: along `
             + `the fibers the composite is ${pyFixed(props[0] / em, 1)} × `
             + "as stiff as the matrix, "

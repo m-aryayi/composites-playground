@@ -19,13 +19,13 @@
     <meta name="twitter:card" content="summary_large_image">
     <link rel="icon" href="../../assets/img/favicon.svg" type="image/svg+xml">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.19.1/dist/katex.min.css">
-    <link rel="stylesheet" href="../../assets/css/tokens.css">
-    <link rel="stylesheet" href="../../assets/css/base.css">
-    <link rel="stylesheet" href="../../assets/css/components.css">
-    <link rel="stylesheet" href="../../assets/css/site.css">
-    <link rel="stylesheet" href="../../assets/css/lesson.css">
-    <link rel="stylesheet" href="../../assets/css/charts.css">
-    <link rel="stylesheet" href="../../assets/css/exercises.css">
+    <link rel="stylesheet" href="../../assets/css/tokens.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/base.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/components.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/site.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/lesson.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/charts.css?v=2026-11-22">
+    <link rel="stylesheet" href="../../assets/css/exercises.css?v=2026-11-22">
     <!-- Library versions: the same block in each lesson page. -->
     <script type="importmap">
     {
@@ -76,7 +76,7 @@
     <!-- ===================================================== the stage -->
     <section class="stage stage--full" id="stage" aria-label="RVE model">
         <div class="stage__bar">
-            <div class="stage__status" id="status"></div>
+            <div class="stage__status" id="status" data-status></div>
             <div class="stage__actions">
                 <button class="btn btn--icon btn--quiet" type="button"
                         data-action="share" aria-label="Copy share link"
@@ -89,69 +89,109 @@
         </div>
 
         <div class="tool-grid">
-            <!-- Inputs: materials first. -->
+            <!-- Inputs: the two materials side by side. -->
             <div class="tool-cell tool-cell--inputs">
-                <span class="tag">Fiber and matrix</span>
-                <div class="tool-field">
-                    <label class="field__label" for="fiber-select">Fiber</label>
-                    <select class="select" id="fiber-select"></select>
+                <div class="materials">
+                    <div class="material">
+                        <label class="material__name" for="fiber-select">
+                            <span class="swatch swatch--fiber" aria-hidden="true"></span>
+                            Fiber
+                        </label>
+                        <select class="select" id="fiber-select"></select>
+                        <div class="value-list" role="group" aria-label="Fiber values">
+                            <label class="value-row">
+                                <span class="value-row__name">E<sub>1</sub></span>
+                                <input class="input" data-key="e1" inputmode="decimal"
+                                       aria-label="Fiber E1 in GPa">
+                                <span class="value-row__unit">GPa</span>
+                            </label>
+                            <label class="value-row">
+                                <span class="value-row__name">E<sub>2</sub></span>
+                                <input class="input" data-key="e2" inputmode="decimal"
+                                       aria-label="Fiber E2 in GPa">
+                                <span class="value-row__unit">GPa</span>
+                            </label>
+                            <label class="value-row">
+                                <span class="value-row__name">G<sub>12</sub></span>
+                                <input class="input" data-key="g12" inputmode="decimal"
+                                       aria-label="Fiber G12 in GPa">
+                                <span class="value-row__unit">GPa</span>
+                            </label>
+                            <div class="value-row value-row--computed"
+                                 title="Computed from E2 and ν23">
+                                <span class="value-row__name">G<sub>23</sub></span>
+                                <span class="value-row__value" id="g23-value"></span>
+                                <span class="value-row__unit">GPa</span>
+                            </div>
+                            <label class="value-row">
+                                <span class="value-row__name">ν<sub>12</sub></span>
+                                <input class="input" data-key="nu12" inputmode="decimal"
+                                       aria-label="Fiber ν12">
+                                <span class="value-row__unit"></span>
+                            </label>
+                            <label class="value-row">
+                                <span class="value-row__name">ν<sub>23</sub></span>
+                                <input class="input" data-key="nu23" inputmode="decimal"
+                                       aria-label="Fiber ν23">
+                                <span class="value-row__unit"></span>
+                            </label>
+                            <label class="value-row">
+                                <span class="value-row__name">ρ</span>
+                                <input class="input" data-key="rhoF" inputmode="decimal"
+                                       aria-label="Fiber density in g/cm³">
+                                <span class="value-row__unit">g/cm³</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="material">
+                        <label class="material__name" for="matrix-select">
+                            <span class="swatch swatch--matrix" aria-hidden="true"></span>
+                            Matrix
+                        </label>
+                        <select class="select" id="matrix-select"></select>
+                        <div class="value-list" role="group" aria-label="Matrix values">
+                            <label class="value-row">
+                                <span class="value-row__name">E</span>
+                                <input class="input" data-key="em" inputmode="decimal"
+                                       aria-label="Matrix E in GPa">
+                                <span class="value-row__unit">GPa</span>
+                            </label>
+                            <div class="value-row value-row--computed"
+                                 title="Computed from E and ν">
+                                <span class="value-row__name">G</span>
+                                <span class="value-row__value" id="gm-value"></span>
+                                <span class="value-row__unit">GPa</span>
+                            </div>
+                            <label class="value-row">
+                                <span class="value-row__name">ν</span>
+                                <input class="input" data-key="num" inputmode="decimal"
+                                       aria-label="Matrix ν">
+                                <span class="value-row__unit"></span>
+                            </label>
+                            <label class="value-row">
+                                <span class="value-row__name">ρ</span>
+                                <input class="input" data-key="rhoM" inputmode="decimal"
+                                       aria-label="Matrix density in g/cm³">
+                                <span class="value-row__unit">g/cm³</span>
+                            </label>
+                        </div>
+                        <p class="panel-note material__note">Type a value to make
+                            your own material. Gray values are computed.</p>
+                    </div>
                 </div>
-                <div class="value-grid" role="group" aria-label="Fiber values">
-                    <label class="value-box">
-                        <span>E<sub>1</sub> <span class="value-box__unit">GPa</span></span>
-                        <input class="input" data-key="e1" inputmode="decimal"
-                               aria-label="Fiber E1 in GPa">
-                    </label>
-                    <label class="value-box">
-                        <span>E<sub>2</sub> <span class="value-box__unit">GPa</span></span>
-                        <input class="input" data-key="e2" inputmode="decimal"
-                               aria-label="Fiber E2 in GPa">
-                    </label>
-                    <label class="value-box">
-                        <span>G<sub>12</sub> <span class="value-box__unit">GPa</span></span>
-                        <input class="input" data-key="g12" inputmode="decimal"
-                               aria-label="Fiber G12 in GPa">
-                    </label>
-                    <label class="value-box">
-                        <span>ν<sub>12</sub></span>
-                        <input class="input" data-key="nu12" inputmode="decimal"
-                               aria-label="Fiber ν12">
-                    </label>
-                    <label class="value-box">
-                        <span>ν<sub>23</sub></span>
-                        <input class="input" data-key="nu23" inputmode="decimal"
-                               aria-label="Fiber ν23">
-                    </label>
-                    <label class="value-box">
-                        <span>ρ <span class="value-box__unit">g/cm³</span></span>
-                        <input class="input" data-key="rhoF" inputmode="decimal"
-                               aria-label="Fiber density in g/cm³">
-                    </label>
+            </div>
+
+            <!-- The 3D block, with the fiber volume fraction under it. -->
+            <div class="tool-cell tool-cell--view">
+                <div class="stage__view tool-view" id="view-block">
+                    <span class="stage__view-caption tag">The RVE · hexagonal packing</span>
+                    <span class="stage__hint">
+                        <svg class="icon" aria-hidden="true">
+                            <use href="../../assets/img/icons.svg#rotate"></use></svg>
+                        Drag to rotate
+                    </span>
                 </div>
-                <p class="panel-note">G<sub>23</sub> = <span class="computed-value"
-                    id="g23-value"></span>, from E<sub>2</sub> and ν<sub>23</sub>.</p>
-                <div class="tool-field">
-                    <label class="field__label" for="matrix-select">Matrix</label>
-                    <select class="select" id="matrix-select"></select>
-                </div>
-                <div class="value-grid" role="group" aria-label="Matrix values">
-                    <label class="value-box">
-                        <span>E <span class="value-box__unit">GPa</span></span>
-                        <input class="input" data-key="em" inputmode="decimal"
-                               aria-label="Matrix E in GPa">
-                    </label>
-                    <label class="value-box">
-                        <span>ν</span>
-                        <input class="input" data-key="num" inputmode="decimal"
-                               aria-label="Matrix ν">
-                    </label>
-                    <label class="value-box">
-                        <span>ρ <span class="value-box__unit">g/cm³</span></span>
-                        <input class="input" data-key="rhoM" inputmode="decimal"
-                               aria-label="Matrix density in g/cm³">
-                    </label>
-                </div>
-                <div class="slider-field">
+                <div class="slider-field vf-field">
                     <label class="slider-field__label" for="range-vf">V<sub>f</sub></label>
                     <input class="range" id="range-vf" type="range" data-key="vf">
                     <span class="slider-field__value">
@@ -159,18 +199,6 @@
                                aria-label="Fiber volume fraction">
                     </span>
                 </div>
-                <p class="panel-note">A changed value turns the list into "Custom".
-                    The fiber E<sub>2</sub> stays at or below E<sub>1</sub>.</p>
-            </div>
-
-            <!-- The 3D block. -->
-            <div class="tool-cell tool-cell--view stage__view" id="view-block">
-                <span class="stage__view-caption tag">The RVE · hexagonal packing</span>
-                <span class="stage__hint">
-                    <svg class="icon" aria-hidden="true">
-                        <use href="../../assets/img/icons.svg#rotate"></use></svg>
-                    Drag to rotate
-                </span>
             </div>
 
             <!-- The four models. -->
@@ -228,6 +256,36 @@
             <a href="#references">References</a>
         </nav>
 
+        <!-- A small copy of the main controls, next to the text (wide screens). -->
+        <aside class="reading-card" aria-label="Live model">
+            <span class="tag">Live model</span>
+            <div class="reading-card__status" data-status></div>
+            <div class="slider-field">
+                <span class="slider-field__label" aria-hidden="true">V<sub>f</sub></span>
+                <input class="range" type="range" data-key="vf"
+                       aria-label="Fiber volume fraction">
+                <span class="slider-field__value">
+                    <input class="input input--compact" data-key="vf" inputmode="decimal"
+                           aria-label="Fiber volume fraction">
+                </span>
+            </div>
+            <div class="segmented" role="radiogroup" aria-label="Model">
+                <button type="button" role="radio" data-model="rom"
+                        title="Rule of mixtures">ROM</button>
+                <button type="button" role="radio" data-model="chamis"
+                        title="Chamis">Chamis</button>
+                <button type="button" role="radio" data-model="cca"
+                        title="Composite cylinders">CCA</button>
+                <button type="button" role="radio" data-model="mt"
+                        title="Mori-Tanaka">MT</button>
+            </div>
+            <a class="reading-card__link" href="#stage">
+                <svg class="icon icon--up" aria-hidden="true">
+                    <use href="../../assets/img/icons.svg#chevron"></use></svg>
+                Back to the full tool
+            </a>
+        </aside>
+
         <!-- ------------------------------------------------------ Start -->
         <section class="lesson-section flow" id="start">
             <h2>Start</h2>
@@ -242,13 +300,13 @@
                         data-try='{"vf": 0.3}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
-                    Try V<sub>f</sub> = 0.3
+                    <span>Try V<sub>f</sub> = 0.3</span>
                 </button>
                 <button class="chip" type="button"
                         data-try='{"vf": 0.9}'>
                     <svg class="icon" aria-hidden="true">
                         <use href="../../assets/img/icons.svg#play"></use></svg>
-                    Try V<sub>f</sub> = 0.9
+                    <span>Try V<sub>f</sub> = 0.9</span>
                 </button>
             </div>
             <h3>How to use the model</h3>
