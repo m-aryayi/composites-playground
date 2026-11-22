@@ -405,13 +405,36 @@
     min-height: 0;
 }
 
-.values-list > * + * {
-    margin-top: var(--space-2);
+/* Small value boxes under a material list: a name above a short box. */
+.value-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-2);
 }
 
-.values-list h3 {
-    margin-top: var(--space-3);
-    font-size: var(--text-sm);
+.value-box {
+    display: grid;
+    gap: 2px;
+    min-width: 0;
+    font-size: var(--text-xs);
+    font-weight: 600;
+}
+
+.value-box__unit {
+    color: var(--muted);
+    font-weight: 400;
+}
+
+.value-box .input {
+    width: 100%;
+    min-width: 0;
+    min-height: 2rem;
+    padding: 0 var(--space-2);
+    text-align: right;
+}
+
+.panel-note .computed-value {
+    font-size: inherit;
 }
 
 /* Medium: inputs next to the 3D view; the table under them; two charts. */
@@ -472,7 +495,7 @@
     gap: var(--space-2);
 }
 
-/* The slider fields of the "Edit values" panel. */
+/* The slider fields of a values panel. */
 
 .values-grid {
     display: grid;

@@ -40,8 +40,8 @@ function ratioText(value) {
     return value.toFixed(2);
 }
 
-const KAW_GLASS = isotropicFiber(85.0, 0.20);      // Kaw T3.1
-const [KAW_EM, KAW_NUM] = [3.4, 0.30];             // Kaw T3.2
+const KAW_GLASS = isotropicFiber(85.0, 0.20);      // Kaw
+const [KAW_EM, KAW_NUM] = [3.4, 0.30];             // Kaw
 
 export const EXERCISES = Object.freeze([
     {
@@ -120,13 +120,13 @@ export const EXERCISES = Object.freeze([
     {
         id: "numeric-rom-e1",
         type: "numeric",
-        prompt: "<p>Glass/epoxy (Kaw Example): \\(E_f = 85\\) GPa, "
+        prompt: "<p>Glass/epoxy: \\(E_f = 85\\) GPa, "
             + "\\(E_m = 3.4\\) GPa, "
             + "\\(V_f = 0.70\\). Calculate \\(E_1\\) with the rule of mixtures.</p>",
         answer: ruleOfMixtures(KAW_GLASS, KAW_EM, KAW_NUM, 0.70)[0],
         unit: "GPa",
         solution: "<p>\\(E_1 = E_f V_f + E_m V_m = 85 \\cdot 0.70 + 3.4 \\cdot 0.30 "
-            + "= 60.52\\) GPa (Kaw Eq. 3.56; Kaw Table 3.5 gives 60.52 GPa).</p>",
+            + "= 60.52\\) GPa. Kaw gives the same value.</p>",
     },
     {
         id: "numeric-density",
@@ -136,7 +136,7 @@ export const EXERCISES = Object.freeze([
         answer: compositeDensity(2.5, 1.2, 0.70),
         unit: "g/cm³",
         solution: "<p>\\(\\rho_c = \\rho_f V_f + \\rho_m V_m = 2.5 \\cdot 0.70 + "
-            + "1.2 \\cdot 0.30 = 2.11\\) g/cm³ (Kaw Eq. 3.8, Example 3.1).</p>",
+            + "1.2 \\cdot 0.30 = 2.11\\) g/cm³.</p>",
     },
     {
         id: "numeric-specific",
@@ -162,11 +162,10 @@ export const EXERCISES = Object.freeze([
               why: "It treats fiber and matrix as parallel or series springs. That "
                   + "gives E1, E2, G12, and ν12, but nothing in the 2-3 plane." },
             { label: "Chamis", correct: false,
-              why: "Chamis gives G23 with the same √Vf form as G12 "
-                  + "(Chawla Table 10.2)." },
+              why: "Chamis gives G23 with the same √Vf form as G12." },
             { label: "Composite cylinders", correct: false,
               why: "The composite cylinders give G23 from the plane problem in the "
-                  + "2-3 plane (Christensen)." },
+                  + "2-3 plane." },
         ],
     },
     {

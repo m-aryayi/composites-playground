@@ -79,7 +79,7 @@ export function fiberG23(fiber) {
     return shearModulus(fiber.e2, fiber.nu23);
 }
 
-/** Return the fiber plane-strain bulk modulus K23 (Chawla T10.1). */
+/** Return the fiber plane-strain bulk modulus K23 (Chawla). */
 export function fiberBulkModulus(fiber) {
     return fiber.e2 / (2.0 * (1.0 - fiber.nu23
                               - 2.0 * fiber.nu12 ** 2 * fiber.e2 / fiber.e1));
@@ -101,7 +101,7 @@ export function stiffnessMatrix(fiber) {
     return compliance.map((_, i) => columns.map((column) => column[i]));
 }
 
-/** Return [K23, G23] from the stiffness matrix (Chawla T10.1). */
+/** Return [K23, G23] from the stiffness matrix (Chawla). */
 export function stiffnessModuli(fiber) {
     const c = stiffnessMatrix(fiber);
     return [(c[1][1] + c[1][2]) / 2.0, (c[1][1] - c[1][2]) / 2.0];
@@ -114,7 +114,7 @@ export function bulkFromConstants(e1, e2, nu12, g23) {
 
 // --------------------------- homogenization models: [E1, E2, G12, G23, ν12, ν23]
 
-/** Return the properties by the rule of mixtures (Kaw Eqs. 3.55-3.59; E2: Jacquet). */
+/** Return the properties by the rule of mixtures (Kaw; E2 with √Vf). */
 export function ruleOfMixtures(fiber, em, num, vf) {
     const vm = 1.0 - vf;
     const gm = shearModulus(em, num);
@@ -126,7 +126,7 @@ export function ruleOfMixtures(fiber, em, num, vf) {
     return [e1, e2, g12, Number.NaN, nu12, Number.NaN];
 }
 
-/** Return the properties by Chamis (1983), Chawla T10.2. */
+/** Return the properties by Chamis (Chawla). */
 export function chamis(fiber, em, num, vf) {
     const vm = 1.0 - vf;
     const gm = shearModulus(em, num);
@@ -140,7 +140,7 @@ export function chamis(fiber, em, num, vf) {
     return [e1, e2, g12, g23, nu12, nu23];
 }
 
-/** Return the properties by the composite cylinders (Hashin and Rosen; Christensen). */
+/** Return the properties by the composite cylinders (Kaw). */
 export function cca(fiber, em, num, vf) {
     const vm = 1.0 - vf;
     const gm = shearModulus(em, num);
@@ -151,7 +151,7 @@ export function cca(fiber, em, num, vf) {
     const nu12 = vf * nuf + vm * num
         + vf * vm * (nuf - num) * (1.0 / km - 1.0 / kf) / mix;
     const g12 = gm * (gf12 * (1.0 + vf) + gm * vm) / (gf12 * vm + gm * (1.0 + vf));
-    // G23: each phase is an isotropic plane with K23 and G23 (Christensen).
+    // G23: each phase is an isotropic plane with K23 and G23.
     const [etaM, etaF, mu] = [3.0 - 4.0 * num, 1.0 + 2.0 * gf23 / kf, gf23 / gm];
     const common = 3.0 * vf * vm ** 2 * (mu - 1.0) * (mu + etaF);
     const cube = (mu * etaM - etaF) * vf ** 3;
@@ -170,7 +170,7 @@ export function cca(fiber, em, num, vf) {
     return [e1, e2, g12, g23, nu12, nu23];
 }
 
-/** Return the properties by Mori-Tanaka, Abaimov (2016). */
+/** Return the properties by Mori-Tanaka. */
 export function moriTanaka(fiber, em, num, vf) {
     const vm = 1.0 - vf;
     const { e1: ef1, e2: ef2, nu12: nuf12, nu23: nuf23, g12: gf12 } = fiber;
@@ -218,7 +218,7 @@ export function barValues(fiber, em, props) {
             ...REFERENCE_METALS.map((metal) => [metal.e, metal.e])];
 }
 
-/** Return the composite density ρf Vf + ρm Vm (Kaw Eq. 3.8). */
+/** Return the composite density ρf Vf + ρm Vm (Kaw). */
 export function compositeDensity(rhoF, rhoM, vf) {
     return rhoF * vf + rhoM * (1.0 - vf);
 }

@@ -18,7 +18,6 @@ from mpl_toolkits.mplot3d.art3d import Poly3DCollection
 #   Kaw:    A. K. Kaw (2005), Mechanics of Composite Materials, 2nd ed., CRC.
 #   Chawla: K. K. Chawla (2012), Composite Materials: Science and
 #           Engineering, 3rd ed., Springer.
-#   T3.1 = Table 3.1, Fig. = Figure.
 
 
 class InputSpec(NamedTuple):
@@ -35,7 +34,7 @@ class Fiber(NamedTuple):
     """Elastic constants of a transversely isotropic fiber; axis 1 is along it.
 
     Five constants are independent. G23 follows from E2 and ν23 because the
-    2-3 plane is isotropic (Chawla T10.1).
+    2-3 plane is isotropic (Chawla).
     """
 
     e1: float
@@ -99,19 +98,19 @@ DEFAULT_VF = 0.60
 
 # Fiber list: (name, E1, E2, ν12, ν23, G12, ρ), moduli in GPa, ρ in g/cm³.
 # An isotropic fiber has E1 = E2, ν12 = ν23, and G12 = E / (2 (1 + ν)),
-# here rounded to 0.1 GPa. Sources: glass E and ρ Kaw T1.6, ν Kaw T3.1;
-# boron E and ν Kaw Fig. 3.10, ρ Chawla T2.11.
+# here rounded to 0.1 GPa. Sources: Kaw;
+# the boron density from Chawla.
 FIBER_PRESETS = (
     ("E-glass", 72.4, 72.4, 0.20, 0.20, 30.2, 2.54),              # Kaw
     ("S-glass", 85.5, 85.5, 0.20, 0.20, 35.6, 2.49),              # Kaw
-    ("Carbon (graphite)", 230.0, 22.0, 0.30, 0.35, 22.0, 1.80),   # Kaw T3.1
-    ("Aramid (Kevlar 49)", 124.0, 8.0, 0.36, 0.37, 3.0, 1.40),    # Kaw T3.1
+    ("Carbon (graphite)", 230.0, 22.0, 0.30, 0.35, 22.0, 1.80),   # Kaw
+    ("Aramid (Kevlar 49)", 124.0, 8.0, 0.36, 0.37, 3.0, 1.40),    # Kaw
     ("Boron", 414.0, 414.0, 0.20, 0.20, 172.5, 2.60))         # Kaw, Chawla
 # Matrix list: (name, E in GPa, ν, ρ in g/cm³). The matrix is isotropic.
-MATRIX_PRESETS = (("Epoxy", 3.4, 0.30, 1.20),               # Kaw T3.2
-                  ("Polyester", 3.0, 0.27, 1.25),           # Chawla T3.2, mid
-                  ("Polyamide", 3.5, 0.35, 1.20),           # Kaw T3.2
-                  ("Aluminum", 71.0, 0.30, 2.70))           # Kaw T3.2
+MATRIX_PRESETS = (("Epoxy", 3.4, 0.30, 1.20),               # Kaw
+                  ("Polyester", 3.0, 0.27, 1.25),           # Chawla
+                  ("Polyamide", 3.5, 0.35, 1.20),           # Kaw
+                  ("Aluminum", 71.0, 0.30, 2.70))           # Kaw
 MATERIAL_NAMES = ("Fiber", "Matrix")
 PRESETS = (FIBER_PRESETS, MATRIX_PRESETS)
 # The inputs of each material, in the order of its list values.
@@ -145,15 +144,15 @@ VF_TICK = 0.3                   # step of the Vf ticks
 
 # The bar chart: E along and across for the fiber, the composite, the
 # matrix, and two reference metals. A metal is isotropic: one E for both.
-# The buttons show E, or the specific modulus E/ρ (Kaw T1.1).
+# The buttons show E, or the specific modulus E/ρ (Kaw).
 BAR_GROUPS = (r"E$_\mathregular{1}$  along the fibers",
               r"E$_\mathregular{2}$ = E$_\mathregular{3}$  across the fibers")
-REFERENCE_METALS = (("Aluminum", 71.0, 2.70),   # E (GPa), ρ (g/cm³): Kaw T3.2
-                    ("Steel", 206.8, 7.80))     # Kaw T1.5
+REFERENCE_METALS = (("Aluminum", 71.0, 2.70),   # E (GPa), ρ (g/cm³): Kaw
+                    ("Steel", 206.8, 7.80))     # Kaw
 BAR_VIEWS = ("E/ρ", "E")
 SPECIFIC_VIEW = 0               # the start view
 BAR_VIEW_LABEL = "Show:"
-# E/ρ in GPa per g/cm³ (= MJ/kg); Kaw T1.1 uses GPa·m³/kg, 1000 times less.
+# E/ρ in GPa per g/cm³ (= MJ/kg); Kaw uses GPa·m³/kg, 1000 times less.
 BAR_Y_LABELS = ("E/ρ (GPa per g/cm³)", "E (GPa)")
 BAR_WIDTH = 0.145               # the step between two groups is 1
 BAR_STEP = 0.16                 # a small gap between two bars of one group
@@ -291,9 +290,9 @@ def fiber_g23(fiber: Fiber) -> float:
 def fiber_bulk_modulus(fiber: Fiber) -> float:
     """Return the fiber plane-strain bulk modulus K23 (no strain along axis 1).
 
-    K23 = (C22 + C23) / 2 (Chawla T10.1), so
+    K23 = (C22 + C23) / 2 (Chawla), so
     K23 = E2 / (2 (1 - ν23 - 2 ν12² E2 / E1)).
-    An isotropic fiber gives E / (2 (1 - 2ν)(1 + ν)) (Kaw Eq. 3.108).
+    An isotropic fiber gives E / (2 (1 - 2ν)(1 + ν)).
     """
     return fiber.e2 / (2.0 * (1.0 - fiber.nu23
                               - 2.0 * fiber.nu12 ** 2 * fiber.e2 / fiber.e1))
@@ -312,7 +311,7 @@ def stiffness_matrix(fiber: Fiber) -> np.ndarray:
 
 
 def stiffness_moduli(fiber: Fiber) -> tuple[float, float]:
-    """Return K23 and G23 from the stiffness matrix (Chawla T10.1)."""
+    """Return K23 and G23 from the stiffness matrix (Chawla)."""
     c = stiffness_matrix(fiber)
     return (c[1, 1] + c[1, 2]) / 2.0, (c[1, 1] - c[1, 2]) / 2.0
 
@@ -320,7 +319,7 @@ def stiffness_moduli(fiber: Fiber) -> tuple[float, float]:
 def bulk_from_constants(e1: float, e2: float, nu12: float, g23: float) -> float:
     """Return K23 from E1, E2, ν12, and G23 of a transversely isotropic material.
 
-    Chawla T10.1: E2 = 4 G23 K23 / (K23 + φ G23), φ = 1 + 4 K23 ν12² / E1,
+    Chawla: E2 = 4 G23 K23 / (K23 + φ G23), φ = 1 + 4 K23 ν12² / E1,
     solved for K23.
     """
     return e2 * g23 / (4.0 * g23 - e2 - 4.0 * e2 * g23 * nu12 ** 2 / e1)
@@ -336,7 +335,7 @@ def rule_of_mixtures(fiber: Fiber, em: float, num: float,
                      vf: float) -> tuple[float, ...]:
     """Return the properties by the rule of mixtures.
 
-    Kaw (2005), Eqs. 3.55-3.59; E2: Jacquet (2000).
+    Kaw (2005); E2: an improved form with √Vf.
     This approach gives no G23 and no ν23: they are NaN ("–" in the table).
     """
     vm = 1.0 - vf
@@ -351,7 +350,7 @@ def rule_of_mixtures(fiber: Fiber, em: float, num: float,
 
 def chamis(fiber: Fiber, em: float, num: float,
            vf: float) -> tuple[float, ...]:
-    """Return the properties by Chamis (1983), Chawla T10.2."""
+    """Return the properties by Chamis, from Chawla (2012)."""
     vm = 1.0 - vf
     gm = shear_modulus(em, num)
     root = np.sqrt(vf)
@@ -368,7 +367,7 @@ def cca(fiber: Fiber, em: float, num: float,
         vf: float) -> tuple[float, ...]:
     """Return the properties by the composite cylinder assemblage.
 
-    Hashin and Rosen (1964); G23: Christensen (1979); Kaw Eqs. 3.104-3.112.
+    Kaw (2005).
     The fiber Kf is the transversely isotropic K23, not the isotropic form.
     Only then CCA gives back the fiber at Vf = 1 and agrees with MT.
     """
@@ -382,7 +381,7 @@ def cca(fiber: Fiber, em: float, num: float,
     g12 = gm * (gf12 * (1.0 + vf) + gm * vm) / (gf12 * vm + gm * (1.0 + vf))
     # G23 is a plane problem in the 2-3 plane. There each phase is an
     # isotropic plane with K23 and G23, so η = 1 + 2 G23 / K23 (= 3 - 4ν for
-    # an isotropic phase, Kaw Eq. 3.112).
+    # an isotropic phase).
     eta_m, eta_f, mu = 3.0 - 4.0 * num, 1.0 + 2.0 * gf23 / kf, gf23 / gm
     common = 3.0 * vf * vm ** 2 * (mu - 1.0) * (mu + eta_f)
     cube = (mu * eta_m - eta_f) * vf ** 3
@@ -403,7 +402,7 @@ def cca(fiber: Fiber, em: float, num: float,
 
 def mori_tanaka(fiber: Fiber, em: float, num: float,
                 vf: float) -> tuple[float, ...]:
-    """Return the properties by Mori-Tanaka, Abaimov (2016)."""
+    """Return the properties by Mori-Tanaka."""
     vm = 1.0 - vf
     ef1, ef2, nuf12, nuf23, gf12 = fiber
     z1 = 1.0 / (-2.0 * vm * nuf12 ** 2 / ef1 + vm * (1.0 - nuf23) / ef2
@@ -455,7 +454,7 @@ def bar_values(fiber: Fiber, em: float, props: np.ndarray) -> np.ndarray:
 
 
 def composite_density(rho_f: float, rho_m: float, vf: float) -> float:
-    """Return the composite density ρf Vf + ρm Vm (Kaw Eq. 3.8)."""
+    """Return the composite density ρf Vf + ρm Vm (Kaw)."""
     return rho_f * vf + rho_m * (1.0 - vf)
 
 
@@ -724,9 +723,8 @@ def fiber_circle(center: np.ndarray) -> np.ndarray:
 def clip_to_block(points: np.ndarray) -> np.ndarray:
     """Return the part of a polygon (axis 2, axis 3) in the block cross section.
 
-    Sutherland and Hodgman (1974), "Reentrant polygon clipping",
-    Communications of the ACM 17(1): cut the polygon at each block edge in
-    turn. Keep the points inside; add a point where a side crosses the edge.
+    Sutherland-Hodgman clipping: cut the polygon at each block edge
+    in turn. Keep the points inside; add a point where a side crosses the edge.
     """
     width, height = block_size()
     # (axis, edge value, +1 if the inside is above the value, -1 if below)

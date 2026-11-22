@@ -96,9 +96,60 @@
                     <label class="field__label" for="fiber-select">Fiber</label>
                     <select class="select" id="fiber-select"></select>
                 </div>
+                <div class="value-grid" role="group" aria-label="Fiber values">
+                    <label class="value-box">
+                        <span>E<sub>1</sub> <span class="value-box__unit">GPa</span></span>
+                        <input class="input" data-key="e1" inputmode="decimal"
+                               aria-label="Fiber E1 in GPa">
+                    </label>
+                    <label class="value-box">
+                        <span>E<sub>2</sub> <span class="value-box__unit">GPa</span></span>
+                        <input class="input" data-key="e2" inputmode="decimal"
+                               aria-label="Fiber E2 in GPa">
+                    </label>
+                    <label class="value-box">
+                        <span>G<sub>12</sub> <span class="value-box__unit">GPa</span></span>
+                        <input class="input" data-key="g12" inputmode="decimal"
+                               aria-label="Fiber G12 in GPa">
+                    </label>
+                    <label class="value-box">
+                        <span>ν<sub>12</sub></span>
+                        <input class="input" data-key="nu12" inputmode="decimal"
+                               aria-label="Fiber ν12">
+                    </label>
+                    <label class="value-box">
+                        <span>ν<sub>23</sub></span>
+                        <input class="input" data-key="nu23" inputmode="decimal"
+                               aria-label="Fiber ν23">
+                    </label>
+                    <label class="value-box">
+                        <span>ρ <span class="value-box__unit">g/cm³</span></span>
+                        <input class="input" data-key="rhoF" inputmode="decimal"
+                               aria-label="Fiber density in g/cm³">
+                    </label>
+                </div>
+                <p class="panel-note">G<sub>23</sub> = <span class="computed-value"
+                    id="g23-value"></span>, from E<sub>2</sub> and ν<sub>23</sub>.</p>
                 <div class="tool-field">
                     <label class="field__label" for="matrix-select">Matrix</label>
                     <select class="select" id="matrix-select"></select>
+                </div>
+                <div class="value-grid" role="group" aria-label="Matrix values">
+                    <label class="value-box">
+                        <span>E <span class="value-box__unit">GPa</span></span>
+                        <input class="input" data-key="em" inputmode="decimal"
+                               aria-label="Matrix E in GPa">
+                    </label>
+                    <label class="value-box">
+                        <span>ν</span>
+                        <input class="input" data-key="num" inputmode="decimal"
+                               aria-label="Matrix ν">
+                    </label>
+                    <label class="value-box">
+                        <span>ρ <span class="value-box__unit">g/cm³</span></span>
+                        <input class="input" data-key="rhoM" inputmode="decimal"
+                               aria-label="Matrix density in g/cm³">
+                    </label>
                 </div>
                 <div class="slider-field">
                     <label class="slider-field__label" for="range-vf">V<sub>f</sub></label>
@@ -108,97 +159,8 @@
                                aria-label="Fiber volume fraction">
                     </span>
                 </div>
-                <div class="tool-field">
-                    <span class="field__label" id="model-label">Model</span>
-                    <div class="segmented" role="radiogroup" aria-labelledby="model-label">
-                        <button type="button" role="radio" data-model="rom"
-                                title="Rule of mixtures">ROM</button>
-                        <button type="button" role="radio" data-model="chamis"
-                                title="Chamis">Chamis</button>
-                        <button type="button" role="radio" data-model="cca"
-                                title="Composite cylinders">CCA</button>
-                        <button type="button" role="radio" data-model="mt"
-                                title="Mori-Tanaka">MT</button>
-                    </div>
-                </div>
-                <details class="disclosure" id="numbers">
-                    <summary>
-                        <svg class="icon" aria-hidden="true">
-                            <use href="../../assets/img/icons.svg#chevron"></use></svg>
-                        Edit values
-                    </summary>
-                    <div class="disclosure__body values-list">
-                        <h3 style="color: var(--fiber)">Fiber (axis 1 along it)</h3>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-e1">E<sub>1</sub></label>
-                            <input class="range" id="range-e1" type="range" data-key="e1">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="e1" inputmode="decimal" aria-label="Fiber E1 in GPa">
-                                GPa</span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-e2">E<sub>2</sub></label>
-                            <input class="range" id="range-e2" type="range" data-key="e2">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="e2" inputmode="decimal" aria-label="Fiber E2 in GPa">
-                                GPa</span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-nu12">ν<sub>12</sub></label>
-                            <input class="range" id="range-nu12" type="range" data-key="nu12">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="nu12" inputmode="decimal" aria-label="Fiber ν12"></span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-nu23">ν<sub>23</sub></label>
-                            <input class="range" id="range-nu23" type="range" data-key="nu23">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="nu23" inputmode="decimal" aria-label="Fiber ν23"></span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-g12">G<sub>12</sub></label>
-                            <input class="range" id="range-g12" type="range" data-key="g12">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="g12" inputmode="decimal" aria-label="Fiber G12 in GPa">
-                                GPa</span>
-                        </div>
-                        <div class="slider-field">
-                            <span class="slider-field__label">G<sub>23</sub></span>
-                            <span class="panel-note">from E<sub>2</sub> and ν<sub>23</sub></span>
-                            <span class="computed-value" id="g23-value"></span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-rhoF">ρ</label>
-                            <input class="range" id="range-rhoF" type="range" data-key="rhoF">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="rhoF" inputmode="decimal"
-                                aria-label="Fiber density in g/cm³"> g/cm³</span>
-                        </div>
-                        <h3 style="color: var(--matrix-ink)">Matrix (isotropic)</h3>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-em">E</label>
-                            <input class="range" id="range-em" type="range" data-key="em">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="em" inputmode="decimal" aria-label="Matrix E in GPa">
-                                GPa</span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-num">ν</label>
-                            <input class="range" id="range-num" type="range" data-key="num">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="num" inputmode="decimal" aria-label="Matrix ν"></span>
-                        </div>
-                        <div class="slider-field">
-                            <label class="slider-field__label" for="range-rhoM">ρ</label>
-                            <input class="range" id="range-rhoM" type="range" data-key="rhoM">
-                            <span class="slider-field__value"><input class="input input--compact"
-                                data-key="rhoM" inputmode="decimal"
-                                aria-label="Matrix density in g/cm³"> g/cm³</span>
-                        </div>
-                        <p class="panel-note">A changed value turns the list into "Custom".
-                            The fiber E2 stays at or below E1.</p>
-                    </div>
-                </details>
+                <p class="panel-note">A changed value turns the list into "Custom".
+                    The fiber E<sub>2</sub> stays at or below E<sub>1</sub>.</p>
             </div>
 
             <!-- The 3D block. -->
@@ -213,7 +175,19 @@
 
             <!-- The four models. -->
             <div class="tool-cell tool-cell--table">
-                <span class="tag">Homogenized properties</span>
+                <div class="panel-row">
+                    <span class="tag">Homogenized properties</span>
+                    <div class="segmented" role="radiogroup" aria-label="Model">
+                        <button type="button" role="radio" data-model="rom"
+                                title="Rule of mixtures">ROM</button>
+                        <button type="button" role="radio" data-model="chamis"
+                                title="Chamis">Chamis</button>
+                        <button type="button" role="radio" data-model="cca"
+                                title="Composite cylinders">CCA</button>
+                        <button type="button" role="radio" data-model="mt"
+                                title="Mori-Tanaka">MT</button>
+                    </div>
+                </div>
                 <table class="data-table" id="results-table"
                        aria-label="Homogenized properties, moduli in GPa"></table>
                 <p class="panel-note">Moduli in GPa. ROM: rule of mixtures · CCA:
@@ -280,18 +254,19 @@
             <h3>How to use the model</h3>
             <ul>
                 <li><strong>Fiber</strong> and <strong>Matrix</strong>: pick a
-                    material from the list (data from Kaw and Chawla).</li>
+                    material from the list (data from Kaw and Chawla). The small
+                    boxes below each list show its constants: type a value to set
+                    your own material.</li>
                 <li><strong>V<sub>f</sub></strong>: the fiber volume fraction, from
                     0.05 to 0.90. Move the slider or type a value.</li>
-                <li><strong>Model</strong>: the model of the charts and the marked
-                    column of the table. The table always shows all four.</li>
+                <li><strong>Model</strong> (above the table): the model of the
+                    charts and the marked column of the table. The table always shows
+                    all four.</li>
                 <li><strong>Results</strong>: the table of the four models, E against
                     V<sub>f</sub>, and <strong>Compare</strong>: bars of the fiber,
                     the composite, the matrix, aluminum, and steel.</li>
                 <li>A "Try it" button in this text sets the tool and scrolls back up
                     to it.</li>
-                <li><strong>Edit values</strong>: set your own fiber or matrix
-                    constants.</li>
             </ul>
         </section>
 
@@ -317,48 +292,45 @@
             <p>\[ V_f = \frac{2\pi r^2}{\sqrt{3}\,a^2} \]</p>
             <p>When the fibers touch (\(a = 2r\)), \(V_f = \pi / (2\sqrt{3}) \approx
                 0.907\). That is why the slider stops at 0.90. The density follows a
-                simple mix (Kaw Eq. 3.8):</p>
+                simple mix:</p>
             <p>\[ \rho_c = \rho_f V_f + \rho_m V_m \]</p>
 
             <h3>3. The rule of mixtures (ROM)</h3>
             <p>Along the fibers, fiber and matrix stretch together, like parallel
-                springs (Kaw Eq. 3.56). The major Poisson's ratio follows the same mix
-                (Kaw Eq. 3.59):</p>
+                springs. The major Poisson's ratio follows the same mix:</p>
             <p>\[ E_1 = E_{f1} V_f + E_m V_m \]</p>
             <p>\[ \nu_{12} = \nu_{f12} V_f + \nu_m V_m \]</p>
-            <p>In shear, they act like springs in a row (Kaw Eq. 3.55):</p>
+            <p>In shear, they act like springs in a row:</p>
             <p>\[ \frac{1}{G_{12}} = \frac{V_f}{G_{f12}} + \frac{V_m}{G_m} \]</p>
             <p>The same row rule for \(E_2\) gives too low values. This lesson uses an
-                improved form, with \(s = \sqrt{V_f}\) (Jacquet et al. 2000):</p>
+                improved form, with \(s = \sqrt{V_f}\):</p>
             <p>\[ \frac{1}{E_2} = \frac{s}{E_{f2}\,s + E_m (1 - s)} +
                 \frac{1 - s}{E_m} \]</p>
             <p>The rule of mixtures gives no \(G_{23}\) and no \(\nu_{23}\).</p>
 
             <h3>4. Chamis</h3>
-            <p>Chamis (1983) uses the square root of \(V_f\) for the properties
-                across the fibers (Chawla Table 10.2):</p>
+            <p>Chamis uses the square root of \(V_f\) for the properties
+                across the fibers:</p>
             <p>\[ E_2 = \frac{E_m}{1 - \sqrt{V_f}\,(1 - E_m / E_{f2})} \]</p>
             <p>\[ G_{12} = \frac{G_m}{1 - \sqrt{V_f}\,(1 - G_m / G_{f12})} \]</p>
             <p>\(G_{23}\) has the same form with \(G_{f23}\), and
                 \(\nu_{23} = E_2 / (2 G_{23}) - 1\).</p>
 
             <h3>5. Composite cylinders (CCA)</h3>
-            <p>Each fiber sits in a ring of matrix, and the rings fill the space
-                (Hashin and Rosen 1964). The theory of elasticity then gives exact
+            <p>Each fiber sits in a ring of matrix, and the rings fill the space.
+                The theory of elasticity then gives exact
                 values of \(E_1\), \(\nu_{12}\), \(G_{12}\), and the plane-strain bulk
-                modulus \(K_{23}\); \(G_{23}\) comes from Christensen (1979). For
+                modulus \(K_{23}\); a three-phase model gives \(G_{23}\). For
                 example:</p>
             <p>\[ G_{12} = G_m \,\frac{G_{f12}(1 + V_f) + G_m V_m}
                 {G_{f12} V_m + G_m (1 + V_f)} \]</p>
-            <p>Then \(E_2\) follows from \(K_{23}\) and \(G_{23}\) (Kaw Section 3.3.3,
-                Eqs. 3.104–3.112). The fiber enters with its own transversely isotropic
+            <p>Then \(E_2\) follows from \(K_{23}\) and \(G_{23}\). The fiber enters with its own transversely isotropic
                 \(K_{23}\), so CCA gives back the fiber at \(V_f = 1\).</p>
 
             <h3>6. Mori-Tanaka (MT)</h3>
-            <p>Each fiber feels the average strain of the matrix around it (Mori and
-                Tanaka 1973). For a unidirectional ply this gives closed formulas
-                (Abaimov et al. 2016). MT and CCA give the same \(E_1\), \(\nu_{12}\),
-                \(G_{12}\), and \(K_{23}\) (Benveniste 1987); they differ a little in
+            <p>Each fiber feels the average strain of the matrix around it.
+                For a unidirectional ply this gives closed formulas. MT and CCA give the same \(E_1\), \(\nu_{12}\),
+                \(G_{12}\), and \(K_{23}\); they differ a little in
                 \(G_{23}\), and so in \(E_2\).</p>
             <div class="try-row">
                 <button class="chip" type="button" data-try='{}'>
@@ -474,38 +446,18 @@ python rve_homogenization.py</code></pre>
             <h2>References</h2>
             <ol>
                 <li>Kaw, A. K. (2005). <i>Mechanics of Composite Materials</i>
-                    (2nd ed.). CRC Press. Eq. 3.8 (density), Eqs. 3.55, 3.56, 3.59
-                    (rule of mixtures), Section 3.3.3 and Eqs. 3.104–3.112 (elasticity
-                    approach), Tables 1.5, 1.6, 3.1, 3.2, 3.5, Fig. 3.10, and
-                    Example 3.1.</li>
+                    (2nd ed.). CRC Press.</li>
                 <li>Chawla, K. K. (2012). <i>Composite Materials: Science and
-                    Engineering</i> (3rd ed.). Springer. Tables 2.11, 3.2, 10.1, and
-                    10.2.</li>
-                <li>Hashin, Z., &amp; Rosen, B. W. (1964). The elastic moduli of
-                    fiber-reinforced materials. <i>Journal of Applied Mechanics</i>,
-                    31(2), 223–232.</li>
-                <li>Christensen, R. M. (1979). <i>Mechanics of Composite
-                    Materials</i>. Wiley.</li>
-                <li>Chamis, C. C. (1983). <i>Simplified composite micromechanics
-                    equations for hygral, thermal and mechanical properties</i>. NASA
-                    TM-83320.</li>
-                <li>Mori, T., &amp; Tanaka, K. (1973). Average stress in matrix and
-                    average elastic energy of materials with misfitting inclusions.
-                    <i>Acta Metallurgica</i>, 21(5), 571–574.</li>
-                <li>Benveniste, Y. (1987). A new approach to the application of
-                    Mori-Tanaka's theory in composite materials. <i>Mechanics of
-                    Materials</i>, 6(2), 147–157.</li>
-                <li>Abaimov, S. G., Khudyakova, A. A., &amp; Lomov, S. V. (2016). On
-                    the closed form expression of the Mori-Tanaka theory prediction for
-                    the engineering constants of a unidirectional fiber-reinforced ply.
-                    <i>Composite Structures</i>, 142, 1–6.</li>
-                <li>Jacquet, E., Trivaudey, F., &amp; Varchon, D. (2000). Calculation of
-                    the transverse modulus of a unidirectional composite material and
-                    of the modulus of an aggregate. <i>Composites Science and
-                    Technology</i>, 60(3), 345–350.</li>
+                    Engineering</i> (3rd ed.). Springer.</li>
+                <li>Laheri, V. (2024). <i>Advanced development and integration of
+                    constitutive polymer models within a directly embedded multiscale
+                    framework for virtual investigation of damage in unidirectional
+                    composites</i> [PhD thesis]. Ghent University.
+                    <a href="https://hdl.handle.net/1854/LU-01J7G9S7ZJK2G2HPS2ZZKNVNGZ"
+                    >hdl.handle.net/1854/LU-01J7G9S7ZJK2G2HPS2ZZKNVNGZ</a></li>
             </ol>
             <p class="panel-note">The model is tested against the Python app and
-                against Kaw Table 3.5 and Example 3.1. The figures on this page are
+                against the worked examples in Kaw. The figures on this page are
                 drawn by the model, not copied from the books.</p>
         </section>
     </div>

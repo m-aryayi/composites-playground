@@ -65,7 +65,7 @@ export function fiberCircle(center) {
 /**
  * Return the part of a polygon [axis 2, axis 3] inside the block cross section.
  *
- * Sutherland and Hodgman (1974): cut the polygon at each block edge in turn.
+ * Sutherland-Hodgman clipping: cut the polygon at each block edge in turn.
  */
 export function clipToBlock(points) {
     const [width, height] = blockSize();
